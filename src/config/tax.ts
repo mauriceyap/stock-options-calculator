@@ -20,7 +20,7 @@ export type StudentLoanRepaymentType =
 export interface IncomeTaxConfig {
   personalAllowance: number;
   personalAllowanceReductionThreshold: number;
-  personalAllowanceReducionRate: number;
+  personalAllowanceReductionRate: number;
 
   basicRate: number;
   basicRateLimit: number;
@@ -76,7 +76,7 @@ export const TAX_YEAR_CONFIGS: Record<TaxYear, TaxYearConfig> = {
     incomeTax: {
       personalAllowance: 12570,
       personalAllowanceReductionThreshold: 100000,
-      personalAllowanceReducionRate: 2,
+      personalAllowanceReductionRate: 2,
 
       basicRate: 0.2,
       basicRateLimit: 37700,
@@ -124,7 +124,7 @@ export const TAX_YEAR_CONFIGS: Record<TaxYear, TaxYearConfig> = {
     incomeTax: {
       personalAllowance: 12570,
       personalAllowanceReductionThreshold: 100000,
-      personalAllowanceReducionRate: 2,
+      personalAllowanceReductionRate: 2,
 
       basicRate: 0.2,
       basicRateLimit: 37700,

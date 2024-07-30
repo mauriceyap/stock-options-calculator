@@ -11,6 +11,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
+    "plugin:@cspell/recommended",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
@@ -76,6 +77,19 @@ module.exports = {
     "react-refresh/only-export-components": [
       "error",
       { allowConstantExport: true },
+    ],
+    "@cspell/spellchecker": [
+      "warn",
+      {
+        cspell: {
+          // God save the King!
+          language: "en-GB",
+          words: [
+            "badr", // Business Asset Disposal Relief
+            "hmrc", // HM Revenue & Customs
+          ],
+        },
+      },
     ],
   },
 };
