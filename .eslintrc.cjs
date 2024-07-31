@@ -87,6 +87,7 @@ module.exports = {
           words: [
             "badr", // Business Asset Disposal Relief
             "hmrc", // HM Revenue & Customs
+            "corepack",
           ],
         },
       },
