@@ -1,4 +1,4 @@
-import { Container, ContainerProps, CssBaseline } from "@mui/material";
+import { Container, ContainerProps, CssBaseline, Stack } from "@mui/material";
 
 import { Calculator } from "../calculator";
 import { Footer } from "../footer/Footer";
@@ -14,8 +14,10 @@ export const App = () => (
     <CssBaseline />
     <AppBar />
     <Container component="main" maxWidth="xl" sx={mainSx}>
-      <Preamble />
-      <Calculator />
+      <Stack spacing={2} py={2}>
+        <Preamble />
+        <Calculator />
+      </Stack>
     </Container>
     <Footer />
   </AppContextProvider>
