@@ -28,7 +28,7 @@ export const Footer = () => (
       <Box>
         <Typography paragraph color="text.secondary" variant="body2">
           <Link href="https://github.com/mauriceyap/stock-options-calculator">
-            View this project on GitHub
+            View and contribute to this project on GitHub
           </Link>{" "}
           <GitHub fontSize="inherit" />
         </Typography>
