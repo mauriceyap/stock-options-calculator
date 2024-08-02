@@ -5,9 +5,14 @@ export const fullInput: CalculatorInput = {
   taxationConfig: {
     otherIncome: 0,
     taxYear: "2023/24",
-    studentRepaymentLoanTypes: ["Plan 2", "Postgraduate"],
+    studentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": true,
+      "Plan 4": false,
+      Postgraduate: true,
+    },
   },
-  companyAllocationGrossGains: [
+  companies: [
     {
       name: "ChainBlock",
       allocations: [

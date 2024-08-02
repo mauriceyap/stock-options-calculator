@@ -17,14 +17,9 @@ import {
 const OUTPUT_DECIMAL_PLACES = 2;
 
 // The earliest time in the time series is the earliest vesting commencement.
-const getEarliestTimeSeriesDate = ({
-  companyAllocationGrossGains,
-}: CalculatorInput) => {
-  const vestingCommencementDateTimes = companyAllocationGrossGains.flatMap(
-    ({ allocations }) =>
-      allocations.map(({ vestingCommencement }) =>
-        vestingCommencement.getTime()
-      )
+const getEarliestTimeSeriesDate = ({ companies }: CalculatorInput) => {
+  const vestingCommencementDateTimes = companies.flatMap(({ allocations }) =>
+    allocations.map(({ vestingCommencement }) => vestingCommencement.getTime())
   );
   const earliestVestingCommencementDateTime = Math.min(
     ...vestingCommencementDateTimes
@@ -34,20 +29,17 @@ const getEarliestTimeSeriesDate = ({
 
 // The latest times in the time series is the latest predicted exit event or final date on which
 // shares vest.
-const getLatestTimeSeriesDate = ({
-  companyAllocationGrossGains,
-}: CalculatorInput) => {
-  const predictedExitEventDateTimes = companyAllocationGrossGains.map(
+const getLatestTimeSeriesDate = ({ companies }: CalculatorInput) => {
+  const predictedExitEventDateTimes = companies.map(
     ({ predictedExitEventDate }) => predictedExitEventDate.getTime()
   );
-  const finalVestingDateTimes = companyAllocationGrossGains.flatMap(
-    ({ allocations }) =>
-      allocations.map(({ vestingCommencement, vestingPeriodMonths }) =>
-        new Date(
-          vestingCommencement.getFullYear(),
-          vestingCommencement.getMonth() + vestingPeriodMonths
-        ).getTime()
-      )
+  const finalVestingDateTimes = companies.flatMap(({ allocations }) =>
+    allocations.map(({ vestingCommencement, vestingPeriodMonths }) =>
+      new Date(
+        vestingCommencement.getFullYear(),
+        vestingCommencement.getMonth() + vestingPeriodMonths
+      ).getTime()
+    )
   );
   return new Date(
     Math.max(...predictedExitEventDateTimes, ...finalVestingDateTimes)
@@ -86,7 +78,7 @@ const createAddToMonthlyCalculation = (timeSeries: CalculatedTimeSeries) => {
 export const calculate = (
   calculatorInput: CalculatorInput
 ): CalculatorOutput => {
-  const { companyAllocationGrossGains, taxationConfig } = calculatorInput;
+  const { companies, taxationConfig } = calculatorInput;
 
   const totals = {
     grossGain: { low: 0, medium: 0, high: 0 },
@@ -98,21 +90,16 @@ export const calculate = (
   };
 
   // Return empty time series if there are no share allocations
-  if (
-    !companyAllocationGrossGains.some(
-      ({ allocations }) => allocations.length > 0
-    )
-  ) {
+  if (!companies.some(({ allocations }) => allocations.length > 0)) {
     return { timeSeries: [], totals };
   }
 
   // Initialise the time series.
   const earliestTimeseriesDate = getEarliestTimeSeriesDate(calculatorInput);
   const latestTimeseriesDate = getLatestTimeSeriesDate(calculatorInput);
-  const companiesAllocationsShareSchemes: ShareScheme[][] =
-    companyAllocationGrossGains.map(({ allocations }) =>
-      allocations.map(({ shareScheme }) => shareScheme)
-    );
+  const companiesAllocationsShareSchemes: ShareScheme[][] = companies.map(
+    ({ allocations }) => allocations.map(({ shareScheme }) => shareScheme)
+  );
   const timeSeries: CalculatedTimeSeries = initialiseTimeSeries(
     earliestTimeseriesDate,
     latestTimeseriesDate,
@@ -122,7 +109,7 @@ export const calculate = (
   const addToMonthlyCalculation = createAddToMonthlyCalculation(timeSeries);
 
   // Add all allocations' gross gains per month to the time series
-  companyAllocationGrossGains.forEach(
+  companies.forEach(
     (
       {
         allocations,

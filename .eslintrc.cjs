@@ -78,6 +78,10 @@ module.exports = {
       "error",
       { allowConstantExport: true },
     ],
+    "@typescript-eslint/restrict-template-expressions": [
+      "error",
+      { allowNumber: true },
+    ],
     "@cspell/spellchecker": [
       "warn",
       {

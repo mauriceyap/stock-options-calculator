@@ -55,7 +55,7 @@ export interface TaxationConfigInput {
   otherIncome: number;
   // The types of student loan which the user expects to be repaying at the
   // time of exercising stock options
-  studentRepaymentLoanTypes: StudentLoanRepaymentType[];
+  studentRepaymentLoanTypes: Record<StudentLoanRepaymentType, boolean>;
   // The tax year for the rates to use for calculating deduction amounts and net
   // gains
   taxYear: TaxYear;
@@ -63,7 +63,7 @@ export interface TaxationConfigInput {
 
 export interface CalculatorInput {
   // A list of companies from which the user has allocations of stock options
-  companyAllocationGrossGains: CompanyInput[];
+  companies: CompanyInput[];
   // Configuration for the user's tax status at the time of exercising their
   // stock options
   taxationConfig: TaxationConfigInput;

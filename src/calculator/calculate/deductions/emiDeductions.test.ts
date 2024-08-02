@@ -12,7 +12,7 @@ const COMPARISON_DECIMAL_PLACES = 4;
 interface TestCase {
   inputGrossGain: number;
   inputOtherIncome: number;
-  inputStudentRepaymentLoanTypes: StudentLoanRepaymentType[];
+  inputStudentRepaymentLoanTypes: Record<StudentLoanRepaymentType, boolean>;
   expectedCapitalGainsTaxPayable: number;
 }
 
@@ -21,7 +21,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: -1,
     inputOtherIncome: -1,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 0,
   },
 
@@ -29,7 +34,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 0,
     inputOtherIncome: 0,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 0,
   },
 
@@ -37,7 +47,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 6000,
     inputOtherIncome: 0,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 0,
   },
 
@@ -45,7 +60,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 6001,
     inputOtherIncome: 0,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 0.1,
   },
 
@@ -53,7 +73,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 1006000,
     inputOtherIncome: 0,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 100000,
   },
 
@@ -61,12 +86,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 1006000,
     inputOtherIncome: 1000000,
-    inputStudentRepaymentLoanTypes: [
-      "Plan 1",
-      "Plan 2",
-      "Plan 4",
-      "Postgraduate",
-    ],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": true,
+      "Plan 2": true,
+      "Plan 4": true,
+      Postgraduate: true,
+    },
     expectedCapitalGainsTaxPayable: 100000,
   },
 
@@ -74,7 +99,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 1006010,
     inputOtherIncome: 0,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 100001,
   },
 
@@ -82,7 +112,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 1006010,
     inputOtherIncome: 37700,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 100001,
   },
 
@@ -90,7 +125,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 1006010,
     inputOtherIncome: 37701,
-    inputStudentRepaymentLoanTypes: [],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
     expectedCapitalGainsTaxPayable: 100002,
   },
 
@@ -99,12 +139,12 @@ const testCases: TestCase[] = [
   {
     inputGrossGain: 1006010,
     inputOtherIncome: 37701,
-    inputStudentRepaymentLoanTypes: [
-      "Plan 1",
-      "Plan 2",
-      "Plan 4",
-      "Postgraduate",
-    ],
+    inputStudentRepaymentLoanTypes: {
+      "Plan 1": true,
+      "Plan 2": true,
+      "Plan 4": true,
+      Postgraduate: true,
+    },
     expectedCapitalGainsTaxPayable: 100002,
   },
 ];

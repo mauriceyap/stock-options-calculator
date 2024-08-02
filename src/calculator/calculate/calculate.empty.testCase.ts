@@ -5,9 +5,14 @@ export const emptyInput: CalculatorInput = {
   taxationConfig: {
     otherIncome: 0,
     taxYear: "2023/24",
-    studentRepaymentLoanTypes: [],
+    studentRepaymentLoanTypes: {
+      "Plan 1": false,
+      "Plan 2": false,
+      "Plan 4": false,
+      Postgraduate: false,
+    },
   },
-  companyAllocationGrossGains: [],
+  companies: [],
 };
 
 export const emptyExpected: CalculatorOutput = {
