@@ -14,7 +14,7 @@ export const AppBar = () => {
   return (
     <MuiAppBar position="sticky">
       <Toolbar variant="dense">
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" flexGrow={1}>
           Stock options calculator
         </Typography>
         <IconButton

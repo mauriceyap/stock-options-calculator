@@ -1,5 +1,4 @@
-import { ThemeProvider } from "@emotion/react";
-import { useMediaQuery } from "@mui/material";
+import { ThemeProvider, useMediaQuery } from "@mui/material";
 import { ReactNode, Reducer, useCallback, useMemo, useReducer } from "react";
 
 import { darkTheme, lightTheme } from "../../themes";
