@@ -78,12 +78,20 @@ module.exports = {
       "error",
       { allowConstantExport: true },
     ],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
     "@typescript-eslint/restrict-template-expressions": [
       "error",
       { allowNumber: true },
     ],
     "@cspell/spellchecker": [
-      "warn",
+      "error",
       {
         cspell: {
           // God save the King!
