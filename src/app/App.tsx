@@ -10,8 +10,8 @@ import { Calculator } from "../calculator";
 import { Footer } from "../footer/Footer";
 
 import { AppContextProvider } from "./AppContextProvider";
+import { Header } from "./Header";
 import { NavBar } from "./NavBar";
-import { Preamble } from "./Preamble";
 
 const HeaderBackground = styled("header")(({ theme }) => ({
   backgroundColor:
@@ -40,7 +40,7 @@ export const App = () => (
     <HeaderBackground>
       <NavBar />
       <HeaderContainer maxWidth="xl">
-        <Preamble />
+        <Header />
       </HeaderContainer>
     </HeaderBackground>
     <MainContainer component="main" maxWidth="xl">
