@@ -376,8 +376,7 @@ export const calculate = (
   // Calculate annual net gains
   timeSeries.forEach(([, calculatedDataPoint], i) => {
     if (timeSeries[i + 12]) {
-      Object.keys(calculatedDataPoint.cumulativeGrossGain).forEach((k) => {
-        const predictionLevel = k as keyof PredictedDataPoint;
+      PREDICTION_LEVELS.forEach((predictionLevel) => {
         calculatedDataPoint.annualNetGain[predictionLevel] =
           timeSeries[i + 12][1].cumulativeNetGain[predictionLevel] -
           calculatedDataPoint.cumulativeNetGain[predictionLevel];

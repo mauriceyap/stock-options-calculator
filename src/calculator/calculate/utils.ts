@@ -1,4 +1,5 @@
 import { ShareScheme } from "../shareSchemes";
+import { PREDICTION_LEVELS } from "../types";
 import {
   CalculatedDataPoint,
   CalculatorOutput,
@@ -15,8 +16,7 @@ const roundPredictedDataPointToDP = (
   predictedDataPoint: PredictedDataPoint,
   decimalPlaces: number
 ): PredictedDataPoint => {
-  Object.keys(predictedDataPoint).forEach((_level) => {
-    const level = _level as keyof PredictedDataPoint;
+  PREDICTION_LEVELS.forEach((level) => {
     predictedDataPoint[level] = roundToDP(
       predictedDataPoint[level],
       decimalPlaces
@@ -142,8 +142,7 @@ export const addToPredictedDataPoint = (
   base: PredictedDataPoint,
   toAdd: PredictedDataPoint
 ): PredictedDataPoint => {
-  Object.keys(base).forEach((_level) => {
-    const level = _level as keyof PredictedDataPoint;
+  PREDICTION_LEVELS.forEach((level) => {
     base[level] += toAdd[level];
   });
   return base;
