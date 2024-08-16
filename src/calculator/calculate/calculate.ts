@@ -1,4 +1,5 @@
 import { SHARE_SCHEMES, ShareScheme } from "../shareSchemes";
+import { PREDICTION_LEVELS } from "../types";
 import { CalculatorInput } from "../types/inputs";
 import {
   CalculatedTimeSeries,
@@ -14,8 +15,6 @@ import {
   roundCalculatorOutputToDP,
 } from "./utils";
 
-const OUTPUT_DECIMAL_PLACES = 2;
-
 // The earliest time in the time series is the earliest vesting commencement.
 const getEarliestTimeSeriesDate = ({ companies }: CalculatorInput) => {
   const vestingCommencementDateTimes = companies.flatMap(({ allocations }) =>
@@ -28,8 +27,11 @@ const getEarliestTimeSeriesDate = ({ companies }: CalculatorInput) => {
 };
 
 // The latest times in the time series is the latest predicted exit event or final date on which
-// shares vest.
-const getLatestTimeSeriesDate = ({ companies }: CalculatorInput) => {
+// shares vest, plus the given number of buffer months.
+const getLatestTimeSeriesDate = (
+  { companies }: CalculatorInput,
+  bufferMonths: number
+) => {
   const predictedExitEventDateTimes = companies.map(
     ({ predictedExitEventDate }) => predictedExitEventDate.getTime()
   );
@@ -41,9 +43,12 @@ const getLatestTimeSeriesDate = ({ companies }: CalculatorInput) => {
       ).getTime()
     )
   );
-  return new Date(
+
+  const latestDate = new Date(
     Math.max(...predictedExitEventDateTimes, ...finalVestingDateTimes)
   );
+  latestDate.setMonth(latestDate.getMonth() + bufferMonths);
+  return latestDate;
 };
 
 const createAddToMonthlyCalculation = (timeSeries: CalculatedTimeSeries) => {
@@ -75,10 +80,25 @@ const createAddToMonthlyCalculation = (timeSeries: CalculatedTimeSeries) => {
   };
 };
 
+export interface CalculateOptions {
+  latestTimeseriesDateBufferMonths?: number;
+  outputDecimalPlaces?: number;
+}
+
+const DEFAULT_CALCULATE_OPTIONS = {
+  latestTimeseriesDateBufferMonths: 0,
+  outputDecimalPlaces: 2,
+} as const;
+
 export const calculate = (
-  calculatorInput: CalculatorInput
+  calculatorInput: CalculatorInput,
+  options: CalculateOptions = DEFAULT_CALCULATE_OPTIONS
 ): CalculatorOutput => {
   const { companies, taxationConfig } = calculatorInput;
+  const {
+    latestTimeseriesDateBufferMonths = DEFAULT_CALCULATE_OPTIONS.latestTimeseriesDateBufferMonths,
+    outputDecimalPlaces = DEFAULT_CALCULATE_OPTIONS.outputDecimalPlaces,
+  } = options;
 
   const totals = {
     grossGain: { low: 0, medium: 0, high: 0 },
@@ -96,7 +116,10 @@ export const calculate = (
 
   // Initialise the time series.
   const earliestTimeseriesDate = getEarliestTimeSeriesDate(calculatorInput);
-  const latestTimeseriesDate = getLatestTimeSeriesDate(calculatorInput);
+  const latestTimeseriesDate = getLatestTimeSeriesDate(
+    calculatorInput,
+    latestTimeseriesDateBufferMonths
+  );
   const companiesAllocationsShareSchemes: ShareScheme[][] = companies.map(
     ({ allocations }) => allocations.map(({ shareScheme }) => shareScheme)
   );
@@ -164,7 +187,11 @@ export const calculate = (
           }
 
           // Options vesting at exit
-          if (predictedExitEventDate <= expiry && optionsVestingAtExit > 0) {
+          if (
+            predictedExitEventDate <= expiry &&
+            (!leavingDate || predictedExitEventDate <= leavingDate) &&
+            optionsVestingAtExit > 0
+          ) {
             addToMonthlyCalculation(
               predictedExitEventDate,
               companyIndex,
@@ -287,36 +314,43 @@ export const calculate = (
   // Calculate deductions and net cumulative values per month
   timeSeries.forEach(([, calculatedDataPoint]) => {
     SHARE_SCHEMES.forEach((shareScheme) => {
-      Object.keys(calculatedDataPoint.cumulativeGrossGain).forEach((k) => {
-        const predictionLevel = k as keyof PredictedDataPoint;
+      PREDICTION_LEVELS.forEach((predictionLevel) => {
         const {
           incomeTaxPayable,
           employeeNationalInsurancePayable,
           capitalGainsTaxPayable,
           studentLoanRepaymentsPayable,
         } = calculateDeductionsForShareScheme[shareScheme](
-          calculatedDataPoint.cumulativeGrossGain[predictionLevel],
+          calculatedDataPoint.cumulativeGrossGainByShareScheme[shareScheme][
+            predictionLevel
+          ],
           taxationConfig
         );
 
-        calculatedDataPoint.cumulativeIncomeTaxPayable[predictionLevel] =
+        calculatedDataPoint.cumulativeIncomeTaxPayable[predictionLevel] +=
           incomeTaxPayable;
         calculatedDataPoint.cumulativeEmployeeNationalInsurancePayable[
           predictionLevel
-        ] = employeeNationalInsurancePayable;
-        calculatedDataPoint.cumulativeCapitalGainsTaxPayable[predictionLevel] =
+        ] += employeeNationalInsurancePayable;
+        calculatedDataPoint.cumulativeCapitalGainsTaxPayable[predictionLevel] +=
           capitalGainsTaxPayable;
         calculatedDataPoint.cumulativeStudentLoanRepaymentsPayable[
           predictionLevel
-        ] = studentLoanRepaymentsPayable;
-
-        calculatedDataPoint.cumulativeNetGain[predictionLevel] =
-          calculatedDataPoint.cumulativeGrossGain[predictionLevel] -
-          incomeTaxPayable -
-          employeeNationalInsurancePayable -
-          capitalGainsTaxPayable -
-          studentLoanRepaymentsPayable;
+        ] += studentLoanRepaymentsPayable;
       });
+    });
+
+    PREDICTION_LEVELS.forEach((predictionLevel) => {
+      calculatedDataPoint.cumulativeNetGain[predictionLevel] =
+        calculatedDataPoint.cumulativeGrossGain[predictionLevel] -
+        calculatedDataPoint.cumulativeIncomeTaxPayable[predictionLevel] -
+        calculatedDataPoint.cumulativeEmployeeNationalInsurancePayable[
+          predictionLevel
+        ] -
+        calculatedDataPoint.cumulativeCapitalGainsTaxPayable[predictionLevel] -
+        calculatedDataPoint.cumulativeStudentLoanRepaymentsPayable[
+          predictionLevel
+        ];
     });
   });
 
@@ -384,6 +418,6 @@ export const calculate = (
         },
       },
     },
-    OUTPUT_DECIMAL_PLACES
+    outputDecimalPlaces
   );
 };

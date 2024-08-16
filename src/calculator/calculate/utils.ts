@@ -15,12 +15,13 @@ const roundPredictedDataPointToDP = (
   predictedDataPoint: PredictedDataPoint,
   decimalPlaces: number
 ): PredictedDataPoint => {
-  predictedDataPoint.low = roundToDP(predictedDataPoint.low, decimalPlaces);
-  predictedDataPoint.medium = roundToDP(
-    predictedDataPoint.medium,
-    decimalPlaces
-  );
-  predictedDataPoint.high = roundToDP(predictedDataPoint.high, decimalPlaces);
+  Object.keys(predictedDataPoint).forEach((_level) => {
+    const level = _level as keyof PredictedDataPoint;
+    predictedDataPoint[level] = roundToDP(
+      predictedDataPoint[level],
+      decimalPlaces
+    );
+  });
   return predictedDataPoint;
 };
 
@@ -141,8 +142,9 @@ export const addToPredictedDataPoint = (
   base: PredictedDataPoint,
   toAdd: PredictedDataPoint
 ): PredictedDataPoint => {
-  base.low += toAdd.low;
-  base.medium += toAdd.medium;
-  base.high += toAdd.high;
+  Object.keys(base).forEach((_level) => {
+    const level = _level as keyof PredictedDataPoint;
+    base[level] += toAdd[level];
+  });
   return base;
 };
