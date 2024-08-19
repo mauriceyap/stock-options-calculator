@@ -1,4 +1,4 @@
-import { ShareScheme } from "../shareSchemes";
+import { SHARE_SCHEMES } from "../shareSchemes";
 import { PREDICTION_LEVELS } from "../types";
 import {
   CalculatedDataPoint,
@@ -37,9 +37,9 @@ const roundCalculatedDataPointToDP = (
     }
   );
 
-  Object.keys(calculatedDataPoint.totalGrossGainByShareScheme).forEach((k) => {
+  SHARE_SCHEMES.forEach((k) => {
     roundPredictedDataPointToDP(
-      calculatedDataPoint.totalGrossGainByShareScheme[k as ShareScheme],
+      calculatedDataPoint.totalGrossGainByShareScheme[k],
       decimalPlaces
     );
   });
@@ -49,14 +49,12 @@ const roundCalculatedDataPointToDP = (
     decimalPlaces
   );
 
-  Object.keys(calculatedDataPoint.cumulativeGrossGainByShareScheme).forEach(
-    (k) => {
-      roundPredictedDataPointToDP(
-        calculatedDataPoint.cumulativeGrossGainByShareScheme[k as ShareScheme],
-        decimalPlaces
-      );
-    }
-  );
+  SHARE_SCHEMES.forEach((k) => {
+    roundPredictedDataPointToDP(
+      calculatedDataPoint.cumulativeGrossGainByShareScheme[k],
+      decimalPlaces
+    );
+  });
 
   roundPredictedDataPointToDP(
     calculatedDataPoint.cumulativeGrossGain,
@@ -88,9 +86,9 @@ const roundCalculatedDataPointToDP = (
     decimalPlaces
   );
 
-  Object.keys(calculatedDataPoint.annualGrossGainByShareScheme).forEach((k) => {
+  SHARE_SCHEMES.forEach((k) => {
     roundPredictedDataPointToDP(
-      calculatedDataPoint.annualGrossGainByShareScheme[k as ShareScheme],
+      calculatedDataPoint.annualGrossGainByShareScheme[k],
       decimalPlaces
     );
   });

@@ -1,4 +1,4 @@
-import { StudentLoanRepaymentType } from "../../../config/tax";
+import { STUDENT_LOAN_REPAYMENT_TYPES } from "../../../config/tax";
 
 import { TaxationConfigInput } from "../../types/inputs";
 
@@ -15,15 +15,11 @@ export const calculateNonTaxFavouredDeductions = (
   const { otherIncome, taxYear, studentRepaymentLoanTypes } = taxationConfig;
 
   const totalStudentLoanRepaymentsPayable = (grossIncome: number) =>
-    Object.entries(studentRepaymentLoanTypes).reduce(
-      (acc, [repaymentType, typePayable]) =>
-        typePayable
+    STUDENT_LOAN_REPAYMENT_TYPES.reduce(
+      (acc, repaymentType) =>
+        studentRepaymentLoanTypes[repaymentType]
           ? acc +
-            studentLoanRepaymentsPayable(
-              grossIncome,
-              repaymentType as StudentLoanRepaymentType,
-              taxYear
-            )
+            studentLoanRepaymentsPayable(grossIncome, repaymentType, taxYear)
           : acc,
       0
     );
