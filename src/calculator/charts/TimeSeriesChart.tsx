@@ -1,11 +1,13 @@
 import {
   Checkbox,
+  debounce,
   FormControl,
   FormControlLabel,
   FormGroup,
   FormHelperText,
   FormLabel,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   styled,
@@ -23,7 +25,7 @@ import {
   axisClasses,
 } from "@mui/x-charts";
 import dayjs from "dayjs";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
 
@@ -47,6 +49,7 @@ import {
   INCOME_TAX_COLOUR,
   STUDENT_LOAN_REPAYMENTS_COLOUR,
 } from "./chartColours";
+import { LOADING_DEBOUNCE_MS } from "./display";
 
 const now = new Date();
 
@@ -122,8 +125,10 @@ export interface TimeSeriesChartProps {
   timeSeries: CalculatedTimeSeries;
 }
 
-// TODO: add a visual indication of the loading state
-export const TimeSeriesChart = ({ timeSeries }: TimeSeriesChartProps) => {
+export const TimeSeriesChart = ({
+  timeSeries,
+  loading,
+}: TimeSeriesChartProps) => {
   const [gainType, setGainType] = useState<GainType>("net");
   const [predictionLevelsToDisplay, setPredictionLevelsToDisplay] = useState<
     Record<PredictionLevel, boolean>
@@ -211,6 +216,15 @@ export const TimeSeriesChart = ({ timeSeries }: TimeSeriesChartProps) => {
     showDeductionBreakdown,
   ]);
 
+  const [debouncedLoading, _setDebouncedLoading] = useState(loading);
+  const setDebouncedLoading = useMemo(
+    () => debounce(_setDebouncedLoading, LOADING_DEBOUNCE_MS),
+    []
+  );
+  useEffect(() => {
+    setDebouncedLoading(loading);
+  }, [setDebouncedLoading, loading]);
+
   return (
     <div>
       <InputsContainer>
@@ -287,6 +301,7 @@ export const TimeSeriesChart = ({ timeSeries }: TimeSeriesChartProps) => {
         </FormGroup>
       </InputsContainer>
       <ChartOuterContainer>
+        {debouncedLoading && <LinearProgress variant="indeterminate" />}
         <StyledResponsiveChartContainer
           xAxis={[
             {
@@ -314,6 +329,7 @@ export const TimeSeriesChart = ({ timeSeries }: TimeSeriesChartProps) => {
           <ChartsYAxis position="left" label="Gain" axisId="gains" />
           <ChartsTooltip trigger="axis" />
         </StyledResponsiveChartContainer>
+        {debouncedLoading && <LinearProgress variant="indeterminate" />}
       </ChartOuterContainer>
     </div>
   );

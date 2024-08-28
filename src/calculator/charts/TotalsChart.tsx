@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { debounce, LinearProgress, styled } from "@mui/material";
 import { BarChart, BarChartProps } from "@mui/x-charts";
 import { SeriesValueFormatter } from "@mui/x-charts/internals";
 
@@ -16,6 +16,8 @@ import {
   NET_GAIN_DEFAULT_COLOUR,
   STUDENT_LOAN_REPAYMENTS_COLOUR,
 } from "./chartColours";
+import { useEffect, useMemo, useState } from "react";
+import { LOADING_DEBOUNCE_MS } from "./display";
 
 const ChartOuterContainer = styled("div")({
   display: "flex",
@@ -38,8 +40,7 @@ export interface TotalsChartProps {
   totals: CalculatedTotals;
 }
 
-// TODO: add a visual indication of the loading state
-export const TotalsChart = ({ totals }: TotalsChartProps) => {
+export const TotalsChart = ({ totals, loading }: TotalsChartProps) => {
   const dataset: BarChartProps["dataset"] = PREDICTION_LEVELS.map(
     (predictionLevel) => ({
       netGain: totals.netGain[predictionLevel],
@@ -58,6 +59,15 @@ export const TotalsChart = ({ totals }: TotalsChartProps) => {
 
   const valueFormatter: SeriesValueFormatter<number | null> = (v) =>
     formatGBP(v ?? 0, true);
+
+  const [debouncedLoading, _setDebouncedLoading] = useState(loading);
+  const setDebouncedLoading = useMemo(
+    () => debounce(_setDebouncedLoading, LOADING_DEBOUNCE_MS),
+    []
+  );
+  useEffect(() => {
+    setDebouncedLoading(loading);
+  }, [setDebouncedLoading, loading]);
 
   const series: BarChartProps["series"] = [
     {
@@ -100,6 +110,7 @@ export const TotalsChart = ({ totals }: TotalsChartProps) => {
   return (
     <ChartOuterContainer>
       <ChartContainer>
+        {debouncedLoading && <LinearProgress variant="indeterminate" />}
         <BarChart
           dataset={dataset}
           margin={{ left: 80, top: remToPx(7) }}
@@ -125,6 +136,7 @@ export const TotalsChart = ({ totals }: TotalsChartProps) => {
           ]}
           series={series}
         />
+        {debouncedLoading && <LinearProgress variant="indeterminate" />}
       </ChartContainer>
     </ChartOuterContainer>
   );
