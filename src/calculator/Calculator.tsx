@@ -64,7 +64,7 @@ export const Calculator = () => {
     formState: { errors, isDirty, isValid },
   } = useForm<CalculatorInput>({
     defaultValues,
-    mode: "onBlur",
+    mode: "onSubmit",
     resolver: yupResolver(schema),
   });
 
@@ -83,11 +83,9 @@ export const Calculator = () => {
 
   useEffect(() => {
     void (async () => {
-      if (isValid) {
-        await debouncedSubmit();
-      }
+      await debouncedSubmit();
     })();
-  }, [isValid, debouncedSubmit, values]);
+  }, [debouncedSubmit, values]);
 
   const {
     fields: companiesFields,
