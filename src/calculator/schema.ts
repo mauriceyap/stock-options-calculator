@@ -10,11 +10,16 @@ import {
   TaxationConfigInput,
 } from "./types/inputs";
 
+const MESSAGE_AT_LEAST_ZERO = "This must be at least zero.";
+
 // TODO: error messages
 // TODO: validate things like leaving is after joining, high > medium > low etc.
 
 export const taxationConfigSchema = yup.object<TaxationConfigInput>().shape({
-  otherIncome: yup.number().min(0).required(),
+  otherIncome: yup
+    .number()
+    .min(0, MESSAGE_AT_LEAST_ZERO)
+    .required("Other taxable income is required."),
   studentRepaymentLoanTypes: yup
     .object<Record<StudentLoanRepaymentType, boolean>>()
     .shape({
@@ -29,13 +34,16 @@ export const taxationConfigSchema = yup.object<TaxationConfigInput>().shape({
 
 export const allocationInputSchema = yup.object<AllocationInput>().shape({
   vestingCommencement: yup.date().required(),
-  totalOptions: yup.number().min(0).required(),
+  totalOptions: yup.number().min(0, MESSAGE_AT_LEAST_ZERO).required(),
   expiry: yup.date().required(),
-  optionsImmediateVesting: yup.number().min(0).required(),
-  optionsVestingAtExit: yup.number().min(0).required(),
-  vestingPeriodMonths: yup.number().min(0).required(),
-  vestingCliffMonths: yup.number().min(0).required(),
-  strikePrice: yup.number().min(0).required(),
+  optionsImmediateVesting: yup
+    .number()
+    .min(0, MESSAGE_AT_LEAST_ZERO)
+    .required(),
+  optionsVestingAtExit: yup.number().min(0, MESSAGE_AT_LEAST_ZERO).required(),
+  vestingPeriodMonths: yup.number().min(0, MESSAGE_AT_LEAST_ZERO).required(),
+  vestingCliffMonths: yup.number().min(0, MESSAGE_AT_LEAST_ZERO).required(),
+  strikePrice: yup.number().min(0, MESSAGE_AT_LEAST_ZERO).required(),
   shareScheme: yup.string<ShareScheme>().oneOf(SHARE_SCHEMES).required(),
 });
 
@@ -44,9 +52,18 @@ export const companyInputSchema = yup.object<CompanyInput>().shape({
   allocations: yup.array(allocationInputSchema).required(),
   leavingDate: yup.date().required().nullable(),
   predictedExitEventDate: yup.date().required(),
-  predictedExitEventSharePriceLow: yup.number().min(0).required(),
-  predictedExitEventSharePriceMedium: yup.number().min(0).required(),
-  predictedExitEventSharePriceHigh: yup.number().min(0).required(),
+  predictedExitEventSharePriceLow: yup
+    .number()
+    .min(0, MESSAGE_AT_LEAST_ZERO)
+    .required(),
+  predictedExitEventSharePriceMedium: yup
+    .number()
+    .min(0, MESSAGE_AT_LEAST_ZERO)
+    .required(),
+  predictedExitEventSharePriceHigh: yup
+    .number()
+    .min(0, MESSAGE_AT_LEAST_ZERO)
+    .required(),
 });
 
 export const schema = yup
