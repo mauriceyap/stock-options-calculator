@@ -6,10 +6,11 @@ export const fullInput: CalculatorInput = {
     otherIncome: 0,
     taxYear: "2023/24",
     studentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": true,
-      "Plan 4": false,
-      Postgraduate: true,
+      plan1: false,
+      plan2: true,
+      plan4: false,
+      plan5: false,
+      postgraduate: true,
     },
   },
   companies: [

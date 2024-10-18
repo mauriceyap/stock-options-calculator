@@ -6,10 +6,11 @@ export const singleAllocationInput: CalculatorInput = {
     otherIncome: 0,
     taxYear: "2023/24",
     studentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
   },
   companies: [

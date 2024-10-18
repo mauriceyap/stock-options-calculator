@@ -9,10 +9,11 @@ export const TAX_YEARS = ["2023/24", "2022/23"] as const;
 export type TaxYear = (typeof TAX_YEARS)[number];
 
 export const STUDENT_LOAN_REPAYMENT_TYPES = [
-  "Plan 1",
-  "Plan 2",
-  "Plan 4",
-  "Postgraduate",
+  "plan1",
+  "plan2",
+  "plan4",
+  "plan5",
+  "postgraduate",
 ] as const;
 export type StudentLoanRepaymentType =
   (typeof STUDENT_LOAN_REPAYMENT_TYPES)[number];
@@ -101,19 +102,23 @@ export const TAX_YEAR_CONFIGS: Record<TaxYear, TaxYearConfig> = {
       businessAssetDisposalReliefLimit: 1000000,
     },
     studentLoanRepayments: {
-      "Plan 1": {
+      plan1: {
         threshold: 22015,
         rate: 0.09,
       },
-      "Plan 2": {
+      plan2: {
         threshold: 27295,
         rate: 0.09,
       },
-      "Plan 4": {
+      plan4: {
         threshold: 27660,
         rate: 0.09,
       },
-      Postgraduate: {
+      plan5: {
+        threshold: 25000,
+        rate: 0.09,
+      },
+      postgraduate: {
         threshold: 21000,
         rate: 0.06,
       },
@@ -149,19 +154,23 @@ export const TAX_YEAR_CONFIGS: Record<TaxYear, TaxYearConfig> = {
       businessAssetDisposalReliefLimit: 1000000,
     },
     studentLoanRepayments: {
-      "Plan 1": {
+      plan1: {
         threshold: 20195,
         rate: 0.09,
       },
-      "Plan 2": {
+      plan2: {
         threshold: 27295,
         rate: 0.09,
       },
-      "Plan 4": {
+      plan4: {
         threshold: 27660,
         rate: 0.09,
       },
-      Postgraduate: {
+      plan5: {
+        threshold: 25000,
+        rate: 0.09,
+      },
+      postgraduate: {
         threshold: 21000,
         rate: 0.06,
       },

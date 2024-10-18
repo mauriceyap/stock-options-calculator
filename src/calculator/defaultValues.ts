@@ -31,12 +31,13 @@ export const defaultCompanyInputValues: CompanyInput = {
 export const defaultValues: CalculatorInput = {
   companies: [defaultCompanyInputValues],
   taxationConfig: {
-    otherIncome: 0,
+    otherIncome: 25000,
     studentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     taxYear: "2023/24",
   },

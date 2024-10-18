@@ -23,10 +23,11 @@ const testCases: TestCase[] = [
     inputGrossGain: -1,
     inputOtherIncome: -1,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 0,
@@ -41,10 +42,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 0,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 0,
@@ -59,10 +61,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 0,
     inputOtherIncome: 1000000,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": true,
-      "Plan 2": true,
-      "Plan 4": true,
-      Postgraduate: true,
+      plan1: true,
+      plan2: true,
+      plan4: true,
+      plan5: false,
+      postgraduate: true,
     },
     expectedDeductions: {
       incomeTaxPayable: 0,
@@ -77,10 +80,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 12570,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 0,
@@ -95,10 +99,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 12571,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 0.2,
@@ -113,10 +118,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 12576,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 1.2,
@@ -131,10 +137,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 12577,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 1.4,
@@ -144,15 +151,16 @@ const testCases: TestCase[] = [
     },
   },
 
-  // No other income, gross gains at the threshold for Plan 1 student loan repayments
+  // No other income, gross gains at the threshold for plan1 student loan repayments
   {
     inputGrossGain: 22015,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": true,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: true,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 1889,
@@ -162,15 +170,16 @@ const testCases: TestCase[] = [
     },
   },
 
-  // No other income, gross gains at just above the threshold for Plan 1 student loan repayments
+  // No other income, gross gains at just above the threshold for plan1 student loan repayments
   {
     inputGrossGain: 22016,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": true,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: true,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 1889.2,
@@ -185,10 +194,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 50268,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 7539.6,
@@ -203,10 +213,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 50269,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 7539.8,
@@ -221,10 +232,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 50270,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 7540,
@@ -239,10 +251,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 50271,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 7540.4,
@@ -257,10 +270,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 100000,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 27432,
@@ -275,10 +289,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 100001,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 27432.6,
@@ -293,10 +308,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 125240,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 42561,
@@ -311,10 +327,11 @@ const testCases: TestCase[] = [
     inputGrossGain: 125241,
     inputOtherIncome: 0,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: false,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 42561.45,
@@ -324,16 +341,17 @@ const testCases: TestCase[] = [
     },
   },
 
-  // Income at basic rate income tax level, primary rate employee NICs, above Plan 2
+  // Income at basic rate income tax level, primary rate employee NICs, above plan2
   // student loan repayment thresholds, gross gains incur correct deductions
   {
     inputGrossGain: 1,
     inputOtherIncome: 40000,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": true,
-      "Plan 4": false,
-      Postgraduate: false,
+      plan1: false,
+      plan2: true,
+      plan4: false,
+      plan5: false,
+      postgraduate: false,
     },
     expectedDeductions: {
       incomeTaxPayable: 0.2,
@@ -344,16 +362,17 @@ const testCases: TestCase[] = [
   },
 
   // Income at "60% trap" income tax level (i.e. higher rate and in the personal allowance deduction
-  // band), reduced rate employee NICs, above Plan 4 and Postgraduate student loan repayment
+  // band), reduced rate employee NICs, above plan4 and postgraduate student loan repayment
   // thresholds, gross gains incur correct deductions
   {
     inputGrossGain: 1,
     inputOtherIncome: 100000,
     inputStudentRepaymentLoanTypes: {
-      "Plan 1": false,
-      "Plan 2": false,
-      "Plan 4": true,
-      Postgraduate: true,
+      plan1: false,
+      plan2: false,
+      plan4: true,
+      plan5: false,
+      postgraduate: true,
     },
     expectedDeductions: {
       incomeTaxPayable: 0.6,

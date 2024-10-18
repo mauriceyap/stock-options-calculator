@@ -7,7 +7,6 @@ import { roundToDP } from "../utils";
 
 import { studentLoanRepaymentsPayable } from "./studentLoanRepayments";
 
-
 const COMPARISON_DECIMAL_PLACES = 4;
 
 interface TestCase {
@@ -17,29 +16,35 @@ interface TestCase {
 }
 
 const testCases: TestCase[] = [
-  { inputGrossIncome: -1, inputType: "Plan 1", expected: 0 },
-  { inputGrossIncome: 0, inputType: "Plan 1", expected: 0 },
-  { inputGrossIncome: 22015, inputType: "Plan 1", expected: 0 },
-  { inputGrossIncome: 22016, inputType: "Plan 1", expected: 0.09 },
-  { inputGrossIncome: 122015, inputType: "Plan 1", expected: 9000 },
+  { inputGrossIncome: -1, inputType: "plan1", expected: 0 },
+  { inputGrossIncome: 0, inputType: "plan1", expected: 0 },
+  { inputGrossIncome: 22015, inputType: "plan1", expected: 0 },
+  { inputGrossIncome: 22016, inputType: "plan1", expected: 0.09 },
+  { inputGrossIncome: 122015, inputType: "plan1", expected: 9000 },
 
-  { inputGrossIncome: -1, inputType: "Plan 2", expected: 0 },
-  { inputGrossIncome: 0, inputType: "Plan 2", expected: 0 },
-  { inputGrossIncome: 27295, inputType: "Plan 2", expected: 0 },
-  { inputGrossIncome: 27296, inputType: "Plan 2", expected: 0.09 },
-  { inputGrossIncome: 127295, inputType: "Plan 2", expected: 9000 },
+  { inputGrossIncome: -1, inputType: "plan2", expected: 0 },
+  { inputGrossIncome: 0, inputType: "plan2", expected: 0 },
+  { inputGrossIncome: 27295, inputType: "plan2", expected: 0 },
+  { inputGrossIncome: 27296, inputType: "plan2", expected: 0.09 },
+  { inputGrossIncome: 127295, inputType: "plan2", expected: 9000 },
 
-  { inputGrossIncome: 0, inputType: "Plan 4", expected: 0 },
-  { inputGrossIncome: -1, inputType: "Plan 4", expected: 0 },
-  { inputGrossIncome: 27660, inputType: "Plan 4", expected: 0 },
-  { inputGrossIncome: 27661, inputType: "Plan 4", expected: 0.09 },
-  { inputGrossIncome: 127660, inputType: "Plan 4", expected: 9000 },
+  { inputGrossIncome: 0, inputType: "plan4", expected: 0 },
+  { inputGrossIncome: -1, inputType: "plan4", expected: 0 },
+  { inputGrossIncome: 27660, inputType: "plan4", expected: 0 },
+  { inputGrossIncome: 27661, inputType: "plan4", expected: 0.09 },
+  { inputGrossIncome: 127660, inputType: "plan4", expected: 9000 },
 
-  { inputGrossIncome: 0, inputType: "Postgraduate", expected: 0 },
-  { inputGrossIncome: -1, inputType: "Postgraduate", expected: 0 },
-  { inputGrossIncome: 21000, inputType: "Postgraduate", expected: 0 },
-  { inputGrossIncome: 21001, inputType: "Postgraduate", expected: 0.06 },
-  { inputGrossIncome: 121000, inputType: "Postgraduate", expected: 6000 },
+  { inputGrossIncome: 0, inputType: "plan5", expected: 0 },
+  { inputGrossIncome: -1, inputType: "plan5", expected: 0 },
+  { inputGrossIncome: 25000, inputType: "plan5", expected: 0 },
+  { inputGrossIncome: 25001, inputType: "plan5", expected: 0.09 },
+  { inputGrossIncome: 125000, inputType: "plan5", expected: 9000 },
+
+  { inputGrossIncome: 0, inputType: "postgraduate", expected: 0 },
+  { inputGrossIncome: -1, inputType: "postgraduate", expected: 0 },
+  { inputGrossIncome: 21000, inputType: "postgraduate", expected: 0 },
+  { inputGrossIncome: 21001, inputType: "postgraduate", expected: 0.06 },
+  { inputGrossIncome: 121000, inputType: "postgraduate", expected: 6000 },
 ];
 
 describe("studentLoanRepaymentsPayable", () => {

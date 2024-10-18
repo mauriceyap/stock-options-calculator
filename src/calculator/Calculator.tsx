@@ -1,11 +1,13 @@
 import { AddCircle } from "@mui/icons-material";
-import { Button, Grid, Stack } from "@mui/material";
+import { Alert, Button, Grid, Stack, Typography } from "@mui/material";
 import { useMemo, useReducer } from "react";
 
 import { AllocationCard } from "./allocation";
 import { calculatorInputReducer } from "./calculatorInputReducer";
 import { CompanySection } from "./company";
 import { defaultValues } from "./defaultValues";
+import { OtherIncome } from "./otherIncome/OtherIncome";
+import { StudentLoanRepayments } from "./studentLoanRepayments/StudentLoanRepayments";
 import { CompanyInput } from "./types/inputs";
 
 export const Calculator = () => {
@@ -16,7 +18,7 @@ export const Calculator = () => {
   );
   return (
     <div>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid item xs={12} lg={8}>
           <Stack spacing={1}>
             {input.companies.map((company, companyIndex, companies) => (
@@ -96,7 +98,42 @@ export const Calculator = () => {
           </Stack>
         </Grid>
         <Grid item xs={12} lg={4}>
-          TODO: taxation config
+          <Typography variant="h4" gutterBottom>
+            Taxation configuration
+          </Typography>
+          <Typography paragraph>
+            Enter details of your expected financial situation at the point at
+            which you will exercise your vested share options.
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Alert severity="info">
+                These values will be used to used to calculate taxes and other
+                deductions from your gains.
+              </Alert>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={6}>
+              <OtherIncome
+                otherIncome={input.taxationConfig.otherIncome}
+                setOtherIncome={(otherIncome) => {
+                  dispatch({ type: "setOtherIncome", payload: otherIncome });
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={6}>
+              <StudentLoanRepayments
+                studentRepaymentLoanTypes={
+                  input.taxationConfig.studentRepaymentLoanTypes
+                }
+                setStudentRepaymentLoanTypes={(studentRepaymentLoanTypes) => {
+                  dispatch({
+                    type: "setStudentRepaymentLoanTypes",
+                    payload: studentRepaymentLoanTypes,
+                  });
+                }}
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </div>
