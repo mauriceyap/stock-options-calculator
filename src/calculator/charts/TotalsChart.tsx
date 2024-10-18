@@ -1,6 +1,7 @@
-import { debounce, LinearProgress, styled } from "@mui/material";
+import { LinearProgress, debounce, styled } from "@mui/material";
 import { BarChart, BarChartProps } from "@mui/x-charts";
 import { SeriesValueFormatter } from "@mui/x-charts/internals";
+import { useEffect, useMemo, useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
 import { remToPx } from "../../common/remToPx";
@@ -16,7 +17,6 @@ import {
   NET_GAIN_DEFAULT_COLOUR,
   STUDENT_LOAN_REPAYMENTS_COLOUR,
 } from "./chartColours";
-import { useEffect, useMemo, useState } from "react";
 import { LOADING_DEBOUNCE_MS } from "./display";
 
 const ChartOuterContainer = styled("div")({

@@ -1,40 +1,31 @@
 import { AllocationInput, CalculatorInput, CompanyInput } from "./types/inputs";
 
-const now = new Date();
+export const now = new Date();
 
 export const defaultCompanyLeavingDate = now;
 
-const defaultDateInPast = new Date(
-  now.getFullYear() - 1,
-  now.getMonth(),
-  now.getDate()
-);
-const defaultDateInFuture = new Date(
-  now.getFullYear() + 2,
-  now.getMonth(),
-  now.getDate()
-);
+export const defaultAllocationVestingCliffMonths = 12;
 
 export const defaultAllocationInputValues: AllocationInput = {
-  vestingCommencement: defaultDateInPast,
+  vestingCommencement: new Date(now.getFullYear() - 1, now.getMonth(), 1),
   totalOptions: 100,
-  expiry: defaultDateInFuture,
+  expiry: new Date(now.getFullYear() + 9, now.getMonth(), 1),
   optionsImmediateVesting: 0,
   optionsVestingAtExit: 0,
-  vestingPeriodMonths: 24,
-  vestingCliffMonths: 12,
+  vestingPeriodMonths: 48,
+  vestingCliffMonths: defaultAllocationVestingCliffMonths,
   strikePrice: 0.02,
   shareScheme: "none",
 };
 
 export const defaultCompanyInputValues: CompanyInput = {
-  name: "",
+  name: "Your company",
   allocations: [defaultAllocationInputValues],
   leavingDate: null,
-  predictedExitEventDate: defaultDateInFuture,
-  predictedExitEventSharePriceLow: 0,
-  predictedExitEventSharePriceMedium: 0,
-  predictedExitEventSharePriceHigh: 0,
+  predictedExitEventDate: new Date(now.getFullYear() + 5, now.getMonth(), 1),
+  predictedExitEventSharePriceLow: 2,
+  predictedExitEventSharePriceMedium: 3.5,
+  predictedExitEventSharePriceHigh: 5,
 };
 
 export const defaultValues: CalculatorInput = {

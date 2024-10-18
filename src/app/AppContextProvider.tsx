@@ -1,10 +1,14 @@
 import "dayjs/locale/en-gb";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import { ReactNode, useMemo } from "react";
 
 import { ColourModeProvider } from "../contexts/colourMode/ColourModeProvider";
 
+const DAY_JS_LOCALE = "en-gb";
+
+dayjs.locale(DAY_JS_LOCALE);
 interface ProviderProps {
   children: ReactNode;
 }
@@ -12,7 +16,10 @@ interface ProviderProps {
 const providers = [
   ColourModeProvider,
   ({ children }: ProviderProps) => (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+    <LocalizationProvider
+      dateAdapter={AdapterDayjs}
+      adapterLocale={DAY_JS_LOCALE}
+    >
       {children}
     </LocalizationProvider>
   ),
