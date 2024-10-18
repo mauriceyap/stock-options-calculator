@@ -1,4 +1,4 @@
-import { StudentLoanRepaymentType } from "../config/tax";
+import { StudentLoanRepaymentType, TaxYear } from "../config/tax";
 
 import { ShareScheme } from "./shareSchemes";
 import { GainType, PredictionLevel } from "./types";
@@ -28,4 +28,9 @@ export const STUDENT_LOAN_REPAYMENT_TYPE_DISPLAY_NAMES: Record<
   plan4: "Plan 4 (Scotland only)",
   plan5: "Plan 5",
   postgraduate: "Postgraduate Loan",
+};
+
+export const TAX_YEAR_DISPLAY_NAMES: Record<TaxYear, string> = {
+  "2022/23": "2022/23",
+  "2023/24": "2023/24",
 };

@@ -8,6 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import {
@@ -20,7 +21,6 @@ import { TaxationConfigInput } from "../types/inputs";
 
 import { studentRepaymentLoanTypesInputSchema } from "./schema";
 
-
 export interface StudentLoanRepaymentsProps {
   studentRepaymentLoanTypes: Record<StudentLoanRepaymentType, boolean>;
   setStudentRepaymentLoanTypes: (
@@ -32,13 +32,23 @@ export const StudentLoanRepayments = ({
   studentRepaymentLoanTypes,
   setStudentRepaymentLoanTypes,
 }: StudentLoanRepaymentsProps) => {
-  const { control } = useForm<
-    Pick<TaxationConfigInput, "studentRepaymentLoanTypes">
-  >({
+  const {
+    control,
+    watch,
+    formState: { isValid, isValidating },
+  } = useForm<Pick<TaxationConfigInput, "studentRepaymentLoanTypes">>({
     values: { studentRepaymentLoanTypes: studentRepaymentLoanTypes },
-    mode: "onSubmit",
+    mode: "onChange",
     resolver: yupResolver(studentRepaymentLoanTypesInputSchema),
   });
+
+  const data = watch();
+
+  useEffect(() => {
+    if (isValid && !isValidating) {
+      setStudentRepaymentLoanTypes(data.studentRepaymentLoanTypes);
+    }
+  }, [data, isValid, isValidating, setStudentRepaymentLoanTypes]);
 
   return (
     <Stack spacing={1}>
@@ -59,12 +69,12 @@ export const StudentLoanRepayments = ({
                 <FormControlLabel
                   key={repaymentType}
                   control={<Checkbox checked={field.value[repaymentType]} />}
-                  onChange={(_, checked) =>
-                    { setStudentRepaymentLoanTypes({
+                  onChange={(_, checked) => {
+                    field.onChange({
                       ...field.value,
                       [repaymentType]: checked,
-                    }); }
-                  }
+                    });
+                  }}
                   label={
                     STUDENT_LOAN_REPAYMENT_TYPE_DISPLAY_NAMES[repaymentType]
                   }

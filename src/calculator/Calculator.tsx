@@ -8,6 +8,7 @@ import { CompanySection } from "./company";
 import { defaultValues } from "./defaultValues";
 import { OtherIncome } from "./otherIncome/OtherIncome";
 import { StudentLoanRepayments } from "./studentLoanRepayments/StudentLoanRepayments";
+import { TaxRates } from "./taxRates/TaxRates";
 import { CompanyInput } from "./types/inputs";
 
 export const Calculator = () => {
@@ -112,7 +113,18 @@ export const Calculator = () => {
                 deductions from your gains.
               </Alert>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={6}>
+            <Grid item xs={12} md={4} lg={12}>
+              <TaxRates
+                taxYear={input.taxationConfig.taxYear}
+                setTaxYear={(taxYear) => {
+                  dispatch({
+                    type: "setTaxYear",
+                    payload: taxYear,
+                  });
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={7} xl={6}>
               <OtherIncome
                 otherIncome={input.taxationConfig.otherIncome}
                 setOtherIncome={(otherIncome) => {
@@ -120,7 +132,7 @@ export const Calculator = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={6}>
+            <Grid item xs={12} sm={6} md={4} lg={5} xl={6}>
               <StudentLoanRepayments
                 studentRepaymentLoanTypes={
                   input.taxationConfig.studentRepaymentLoanTypes
