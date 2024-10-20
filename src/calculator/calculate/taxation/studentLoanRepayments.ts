@@ -1,17 +1,11 @@
-import {
-  StudentLoanRepaymentType,
-  TAX_YEAR_CONFIGS,
-  TaxYear,
-} from "../../../config/tax";
-
+import { StudentLoanRepaymentType, TaxYearConfig } from "../../../config/tax";
 
 export const studentLoanRepaymentsPayable = (
   grossIncome: number,
   type: StudentLoanRepaymentType,
-  taxYear: TaxYear
+  taxYearConfig: TaxYearConfig
 ) => {
-  const { studentLoanRepayments: studentLoanRepaymentsConfig } =
-    TAX_YEAR_CONFIGS[taxYear];
+  const { studentLoanRepayments: studentLoanRepaymentsConfig } = taxYearConfig;
   const { threshold, rate } = studentLoanRepaymentsConfig[type];
 
   return Math.max(0, grossIncome - threshold) * rate;

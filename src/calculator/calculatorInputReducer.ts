@@ -57,8 +57,8 @@ type CalculatorInputAction =
       payload: TaxationConfigInput["studentRepaymentLoanTypes"];
     }
   | {
-      type: "setTaxYear";
-      payload: TaxationConfigInput["taxYear"];
+      type: "setTaxYearConfig";
+      payload: TaxationConfigInput["taxYearConfig"];
     };
 
 const setCompanyDetails = (
@@ -243,12 +243,12 @@ export const calculatorInputReducer: Reducer<
         },
       };
     }
-    case "setTaxYear": {
+    case "setTaxYearConfig": {
       return {
         ...prevState,
         taxationConfig: {
           ...prevState.taxationConfig,
-          taxYear: action.payload,
+          taxYearConfig: action.payload,
         },
       };
     }

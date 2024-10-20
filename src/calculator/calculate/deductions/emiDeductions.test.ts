@@ -1,7 +1,10 @@
 import { describe, expect, test } from "vitest";
 
 import { formatGBP } from "../../../common/formatGBP";
-import { StudentLoanRepaymentType } from "../../../config/tax";
+import {
+  StudentLoanRepaymentType,
+  TAX_YEAR_CONFIGS,
+} from "../../../config/tax";
 
 import { roundToDP } from "../utils";
 
@@ -173,7 +176,7 @@ describe("calculateEMIDeductions", () => {
         inputOtherIncome
       )} in tax year 2023/24`, () => {
         const result = calculateEMIDeductions(inputGrossGain, {
-          taxYear: "2023/24",
+          taxYearConfig: TAX_YEAR_CONFIGS["2023/24"],
           otherIncome: inputOtherIncome,
           studentRepaymentLoanTypes: inputStudentRepaymentLoanTypes,
         });

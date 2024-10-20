@@ -1,7 +1,10 @@
 import { describe, expect, test } from "vitest";
 
 import { formatGBP } from "../../../common/formatGBP";
-import { StudentLoanRepaymentType } from "../../../config/tax";
+import {
+  StudentLoanRepaymentType,
+  TAX_YEAR_CONFIGS,
+} from "../../../config/tax";
 
 import { roundToDP } from "../utils";
 
@@ -54,7 +57,11 @@ describe("studentLoanRepaymentsPayable", () => {
     )} for loan type ${inputType} in tax year 2023/24`, () => {
       expect(
         roundToDP(
-          studentLoanRepaymentsPayable(inputGrossIncome, inputType, "2023/24"),
+          studentLoanRepaymentsPayable(
+            inputGrossIncome,
+            inputType,
+            TAX_YEAR_CONFIGS["2023/24"]
+          ),
           COMPARISON_DECIMAL_PLACES
         )
       ).toEqual(expected);

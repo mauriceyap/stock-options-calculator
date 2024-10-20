@@ -1,3 +1,5 @@
+import { TAX_YEAR_CONFIGS, TaxYear, TaxYearConfig } from "../config/tax";
+
 import { AllocationInput, CalculatorInput, CompanyInput } from "./types/inputs";
 
 export const now = new Date();
@@ -28,6 +30,8 @@ export const defaultCompanyInputValues: CompanyInput = {
   predictedExitEventSharePriceHigh: 5,
 };
 
+export const defaultTaxYear: TaxYear = "2023/24";
+
 export const defaultValues: CalculatorInput = {
   companies: [defaultCompanyInputValues],
   taxationConfig: {
@@ -39,6 +43,54 @@ export const defaultValues: CalculatorInput = {
       plan5: false,
       postgraduate: false,
     },
-    taxYear: "2023/24",
+    taxYearConfig: TAX_YEAR_CONFIGS[defaultTaxYear],
+  },
+};
+
+export const defaultCustomTaxYearConfig: TaxYearConfig = {
+  incomeTax: {
+    personalAllowance: 15000,
+    personalAllowanceReductionThreshold: 150000,
+    personalAllowanceReductionRate: 1.5,
+    basicRate: 0.21,
+    basicRateLimit: 42500,
+    higherRate: 0.4,
+    higherRateLimit: 160000,
+    additionalRate: 0.42,
+  },
+  employeeNationalInsurance: {
+    primaryThreshold: 150000,
+    primaryRate: 0.08,
+    upperEarningsLimit: 57500,
+    reducedRate: 0.025,
+  },
+  capitalGainsTax: {
+    exemptAmountLimit: 1000,
+    lowerRate: 0.15,
+    higherRate: 0.42,
+    businessAssetDisposalReliefRate: 0.2,
+    businessAssetDisposalReliefLimit: 1500000,
+  },
+  studentLoanRepayments: {
+    plan1: {
+      threshold: 25000,
+      rate: 0.1,
+    },
+    plan2: {
+      threshold: 25000,
+      rate: 0.08,
+    },
+    plan4: {
+      threshold: 25000,
+      rate: 0.08,
+    },
+    plan5: {
+      threshold: 28000,
+      rate: 0.08,
+    },
+    postgraduate: {
+      threshold: 31000,
+      rate: 0.1,
+    },
   },
 };

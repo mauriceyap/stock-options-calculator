@@ -16,14 +16,14 @@ export const calculateEMIDeductions = (
   grossGain: number,
   taxationConfig: TaxationConfigInput
 ): Deductions => {
-  const { otherIncome, taxYear } = taxationConfig;
+  const { otherIncome, taxYearConfig } = taxationConfig;
   return {
     incomeTaxPayable: 0,
     employeeNationalInsurancePayable: 0,
     capitalGainsTaxPayable: badrCapitalGainsTaxPayable(
       grossGain,
       otherIncome,
-      taxYear
+      taxYearConfig
     ),
     studentLoanRepaymentsPayable: 0,
   };

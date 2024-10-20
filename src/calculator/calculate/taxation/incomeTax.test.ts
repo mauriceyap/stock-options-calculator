@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { formatGBP } from "../../../common/formatGBP";
+import { TAX_YEAR_CONFIGS } from "../../../config/tax";
 
 import { roundToDP } from "../utils";
 
@@ -32,7 +33,10 @@ describe("incomeTaxPayable", () => {
   testCases.forEach(({ input, expected }) => {
     test(`gross income of ${formatGBP(input)} in tax year 2023/24`, () => {
       expect(
-        roundToDP(incomeTaxPayable(input, "2023/24"), COMPARISON_DECIMAL_PLACES)
+        roundToDP(
+          incomeTaxPayable(input, TAX_YEAR_CONFIGS["2023/24"]),
+          COMPARISON_DECIMAL_PLACES
+        )
       ).toEqual(expected);
     });
   });

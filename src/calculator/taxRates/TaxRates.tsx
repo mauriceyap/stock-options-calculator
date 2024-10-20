@@ -11,25 +11,35 @@ import {
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { TAX_YEARS, TaxYear } from "../../config/tax";
+import { TAX_YEARS, TaxYearConfig } from "../../config/tax";
 
 import { TAX_YEAR_DISPLAY_NAMES } from "../displayNames";
-import { TaxationConfigInput } from "../types/inputs";
 
 import { taxRatesInputSchema } from "./schema";
+import { TaxRatesInput, TaxYearInput } from "./taxRatesInput";
 
 export interface TaxRatesProps {
-  taxYear: TaxYear;
-  setTaxYear: (taxYear: TaxYear) => void;
+  taxYearInput: TaxYearInput;
+  customTaxYearConfig: TaxYearConfig;
+  setTaxYearInput: (taxYearInput: TaxYearInput) => void;
+  setCustomTaxYearConfig: (
+    customTaxYearConfig: TaxRatesInput["customTaxYearConfig"]
+  ) => void;
 }
 
-export const TaxRates = ({ taxYear, setTaxYear }: TaxRatesProps) => {
+export const TaxRates = ({
+  taxYearInput,
+  customTaxYearConfig,
+  setTaxYearInput,
+}: // TODO: custom tax year config input
+// setCustomTaxYearConfig,
+TaxRatesProps) => {
   const {
     control,
     watch,
     formState: { isValid, isValidating },
-  } = useForm<Pick<TaxationConfigInput, "taxYear">>({
-    values: { taxYear },
+  } = useForm<TaxRatesInput>({
+    values: { taxYearInput, customTaxYearConfig },
     mode: "onChange",
     resolver: yupResolver(taxRatesInputSchema),
   });
@@ -38,9 +48,9 @@ export const TaxRates = ({ taxYear, setTaxYear }: TaxRatesProps) => {
 
   useEffect(() => {
     if (isValid && !isValidating) {
-      setTaxYear(data.taxYear);
+      setTaxYearInput(data.taxYearInput);
     }
-  }, [data, isValid, isValidating, setTaxYear]);
+  }, [data, isValid, isValidating, setTaxYearInput]);
 
   return (
     <Stack spacing={1}>
@@ -53,15 +63,15 @@ export const TaxRates = ({ taxYear, setTaxYear }: TaxRatesProps) => {
         year, or enter your own custom rates and thresholds.
       </Typography>
       <Controller
-        name="taxYear"
+        name="taxYearInput"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <div>
             <FormControl error={Boolean(error)} fullWidth margin="normal">
-              <InputLabel id="taxYear-label">Tax year</InputLabel>
-              <Select<TaxYear>
+              <InputLabel id="taxYearInput-label">Tax year</InputLabel>
+              <Select<TaxYearInput>
                 {...field}
-                labelId="taxYear-label"
+                labelId="taxYearInput-label"
                 label="Tax year"
               >
                 {TAX_YEARS.map((taxYear) => (
@@ -69,6 +79,7 @@ export const TaxRates = ({ taxYear, setTaxYear }: TaxRatesProps) => {
                     {TAX_YEAR_DISPLAY_NAMES[taxYear]}
                   </MenuItem>
                 ))}
+                <MenuItem value="custom">Custom</MenuItem>
               </Select>
               {error?.message && (
                 <FormHelperText>{error.message}</FormHelperText>

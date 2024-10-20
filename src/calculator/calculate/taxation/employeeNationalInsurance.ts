@@ -1,11 +1,11 @@
-import { TAX_YEAR_CONFIGS, TaxYear } from "../../../config/tax";
+import { TaxYearConfig } from "../../../config/tax";
 
 export const employeeNationalInsurancePayable = (
   grossIncome: number,
-  taxYear: TaxYear
+  taxYearConfig: TaxYearConfig
 ) => {
   const { employeeNationalInsurance: employeeNationalInsuranceConfig } =
-    TAX_YEAR_CONFIGS[taxYear];
+    taxYearConfig;
 
   const payableAtPrimaryRate = Math.max(
     0,

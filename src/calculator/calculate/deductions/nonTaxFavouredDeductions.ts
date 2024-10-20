@@ -12,14 +12,19 @@ export const calculateNonTaxFavouredDeductions = (
   grossGain: number,
   taxationConfig: TaxationConfigInput
 ): Deductions => {
-  const { otherIncome, taxYear, studentRepaymentLoanTypes } = taxationConfig;
+  const { otherIncome, taxYearConfig, studentRepaymentLoanTypes } =
+    taxationConfig;
 
   const totalStudentLoanRepaymentsPayable = (grossIncome: number) =>
     STUDENT_LOAN_REPAYMENT_TYPES.reduce(
       (acc, repaymentType) =>
         studentRepaymentLoanTypes[repaymentType]
           ? acc +
-            studentLoanRepaymentsPayable(grossIncome, repaymentType, taxYear)
+            studentLoanRepaymentsPayable(
+              grossIncome,
+              repaymentType,
+              taxYearConfig
+            )
           : acc,
       0
     );
@@ -29,11 +34,11 @@ export const calculateNonTaxFavouredDeductions = (
     capitalGainsTaxPayable: 0,
 
     incomeTaxPayable:
-      incomeTaxPayable(otherIncome + grossGain, taxYear) -
-      incomeTaxPayable(otherIncome, taxYear),
+      incomeTaxPayable(otherIncome + grossGain, taxYearConfig) -
+      incomeTaxPayable(otherIncome, taxYearConfig),
     employeeNationalInsurancePayable:
-      employeeNationalInsurancePayable(otherIncome + grossGain, taxYear) -
-      employeeNationalInsurancePayable(otherIncome, taxYear),
+      employeeNationalInsurancePayable(otherIncome + grossGain, taxYearConfig) -
+      employeeNationalInsurancePayable(otherIncome, taxYearConfig),
     studentLoanRepaymentsPayable:
       totalStudentLoanRepaymentsPayable(otherIncome + grossGain) -
       totalStudentLoanRepaymentsPayable(otherIncome),

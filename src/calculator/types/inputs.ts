@@ -1,4 +1,4 @@
-import { StudentLoanRepaymentType, TaxYear } from "../../config/tax";
+import { StudentLoanRepaymentType, TaxYearConfig } from "../../config/tax";
 
 import { ShareScheme } from "../shareSchemes";
 
@@ -58,7 +58,7 @@ export interface TaxationConfigInput {
   studentRepaymentLoanTypes: Record<StudentLoanRepaymentType, boolean>;
   // The tax year for the rates to use for calculating deduction amounts and net
   // gains
-  taxYear: TaxYear;
+  taxYearConfig: TaxYearConfig;
 }
 
 export interface CalculatorInput {

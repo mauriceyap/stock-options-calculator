@@ -1,10 +1,12 @@
+import { TAX_YEAR_CONFIGS } from "../../config/tax";
+
 import { CalculatorInput } from "../types/inputs";
 import { CalculatorOutput } from "../types/outputs";
 
 export const singleAllocationInput: CalculatorInput = {
   taxationConfig: {
     otherIncome: 0,
-    taxYear: "2023/24",
+    taxYearConfig: TAX_YEAR_CONFIGS["2023/24"],
     studentRepaymentLoanTypes: {
       plan1: false,
       plan2: false,

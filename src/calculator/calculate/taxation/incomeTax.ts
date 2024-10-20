@@ -1,10 +1,10 @@
-import { TAX_YEAR_CONFIGS, TaxYear } from "../../../config/tax";
+import { TaxYearConfig } from "../../../config/tax";
 
 export const calculateTaxableIncome = (
   grossIncome: number,
-  taxYear: TaxYear
+  taxYearConfig: TaxYearConfig
 ) => {
-  const { incomeTax: incomeTaxConfig } = TAX_YEAR_CONFIGS[taxYear];
+  const { incomeTax: incomeTaxConfig } = taxYearConfig;
 
   const personalAllowance =
     grossIncome <= incomeTaxConfig.personalAllowanceReductionThreshold
@@ -19,10 +19,13 @@ export const calculateTaxableIncome = (
   return Math.max(0, grossIncome - personalAllowance);
 };
 
-export const incomeTaxPayable = (grossIncome: number, taxYear: TaxYear) => {
-  const { incomeTax: incomeTaxConfig } = TAX_YEAR_CONFIGS[taxYear];
+export const incomeTaxPayable = (
+  grossIncome: number,
+  taxYearConfig: TaxYearConfig
+) => {
+  const { incomeTax: incomeTaxConfig } = taxYearConfig;
 
-  const taxableIncome = calculateTaxableIncome(grossIncome, taxYear);
+  const taxableIncome = calculateTaxableIncome(grossIncome, taxYearConfig);
 
   const taxableAtBasicRate = Math.min(
     taxableIncome,

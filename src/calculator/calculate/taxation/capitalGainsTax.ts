@@ -1,14 +1,14 @@
-import { TAX_YEAR_CONFIGS, TaxYear } from "../../../config/tax";
+import { TaxYearConfig } from "../../../config/tax";
 
 import { calculateTaxableIncome } from "./incomeTax";
 
 const nonBADRCapitalGainsTaxPayableOnTaxableGain = (
   taxableGain: number,
   grossIncome: number,
-  taxYear: TaxYear
+  taxYearConfig: TaxYearConfig
 ) => {
   const { incomeTax: incomeTaxConfig, capitalGainsTax: capitalGainsTaxConfig } =
-    TAX_YEAR_CONFIGS[taxYear];
+    taxYearConfig;
 
   // Higher rate taxpayer
   if (grossIncome > incomeTaxConfig.basicRateLimit) {
@@ -16,7 +16,7 @@ const nonBADRCapitalGainsTaxPayableOnTaxableGain = (
   }
 
   // Basic rate taxpayer
-  const otherIncome = calculateTaxableIncome(grossIncome, taxYear);
+  const otherIncome = calculateTaxableIncome(grossIncome, taxYearConfig);
   const taxableIncomeAndGains = otherIncome + taxableGain;
   const gainsTaxableAtLowerRate =
     taxableGain -
@@ -36,9 +36,9 @@ const nonBADRCapitalGainsTaxPayableOnTaxableGain = (
 export const nonBADRCapitalGainsTaxPayable = (
   grossGain: number,
   grossIncome: number,
-  taxYear: TaxYear
+  taxYearConfig: TaxYearConfig
 ) => {
-  const { capitalGainsTax: capitalGainsTaxConfig } = TAX_YEAR_CONFIGS[taxYear];
+  const { capitalGainsTax: capitalGainsTaxConfig } = taxYearConfig;
 
   const taxableGain = Math.max(
     0,
@@ -48,16 +48,16 @@ export const nonBADRCapitalGainsTaxPayable = (
   return nonBADRCapitalGainsTaxPayableOnTaxableGain(
     taxableGain,
     grossIncome,
-    taxYear
+    taxYearConfig
   );
 };
 
 export const badrCapitalGainsTaxPayable = (
   grossGain: number,
   grossIncome: number,
-  taxYear: TaxYear
+  taxYearConfig: TaxYearConfig
 ) => {
-  const { capitalGainsTax: capitalGainsTaxConfig } = TAX_YEAR_CONFIGS[taxYear];
+  const { capitalGainsTax: capitalGainsTaxConfig } = taxYearConfig;
 
   const taxableGain = Math.max(
     0,
@@ -73,7 +73,7 @@ export const badrCapitalGainsTaxPayable = (
     nonBADRCapitalGainsTaxPayableOnTaxableGain(
       Math.max(0, taxableGain - gainTaxableUnderBADR),
       grossIncome,
-      taxYear
+      taxYearConfig
     );
 
   return (

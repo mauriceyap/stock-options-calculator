@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { formatGBP } from "../../../common/formatGBP";
+import { TAX_YEAR_CONFIGS } from "../../../config/tax";
 
 import { roundToDP } from "../utils";
 
@@ -40,7 +41,7 @@ describe("nonBADRCapitalGainsTaxPayable", () => {
           nonBADRCapitalGainsTaxPayable(
             inputGrossGain,
             inputGrossIncome,
-            "2023/24"
+            TAX_YEAR_CONFIGS["2023/24"]
           ),
           COMPARISON_DECIMAL_PLACES
         )
@@ -79,7 +80,7 @@ describe("badrCapitalGainsTaxPayable", () => {
           badrCapitalGainsTaxPayable(
             inputGrossGain,
             inputGrossIncome,
-            "2023/24"
+            TAX_YEAR_CONFIGS["2023/24"]
           ),
           COMPARISON_DECIMAL_PLACES
         )
