@@ -1,10 +1,10 @@
-import { LinearProgress, debounce, styled } from "@mui/material";
+import { LinearProgress, styled } from "@mui/material";
 import { BarChart, BarChartProps } from "@mui/x-charts";
 import { SeriesValueFormatter } from "@mui/x-charts/internals";
-import { useEffect, useMemo, useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
 import { remToPx } from "../../common/remToPx";
+import { WithLoading } from "../../common/withLoading";
 
 import { PREDICTION_LEVEL_DISPLAY_NAMES } from "../displayNames";
 import { PREDICTION_LEVELS } from "../types";
@@ -17,7 +17,6 @@ import {
   NET_GAIN_DEFAULT_COLOUR,
   STUDENT_LOAN_REPAYMENTS_COLOUR,
 } from "./chartColours";
-import { LOADING_DEBOUNCE_MS } from "./display";
 
 const ChartOuterContainer = styled("div")({
   display: "flex",
@@ -35,12 +34,48 @@ const ChartContainer = styled("div")({
 
 const stack = "";
 
-export interface TotalsChartProps {
-  loading: boolean;
+export type TotalsChartProps = WithLoading<{
   totals: CalculatedTotals;
-}
+}>;
 
 export const TotalsChart = ({ totals, loading }: TotalsChartProps) => {
+  if (loading) {
+    // TODO loading
+    return (
+      <ChartOuterContainer>
+        <ChartContainer>
+          <LinearProgress variant="indeterminate" />
+          <BarChart
+            dataset={[]}
+            margin={{ left: 80, top: remToPx(7) }}
+            xAxis={[
+              {
+                scaleType: "band",
+                dataKey: "displayNameTildeGrossGain",
+                valueFormatter: (displayNameTildeGrossGain, context) => {
+                  const [displayName, grossGain] = (
+                    displayNameTildeGrossGain as string
+                  ).split("~");
+                  return context.location === "tooltip"
+                    ? `${displayName} prediction - ${grossGain} gross gain`
+                    : `${displayName} prediction`;
+                },
+              },
+            ]}
+            yAxis={[
+              {
+                scaleType: "linear",
+                valueFormatter: (v: number) => formatGBP(v, true),
+              },
+            ]}
+            series={[]}
+          />
+          <LinearProgress variant="indeterminate" />
+        </ChartContainer>
+      </ChartOuterContainer>
+    );
+  }
+
   const dataset: BarChartProps["dataset"] = PREDICTION_LEVELS.map(
     (predictionLevel) => ({
       netGain: totals.netGain[predictionLevel],
@@ -59,15 +94,6 @@ export const TotalsChart = ({ totals, loading }: TotalsChartProps) => {
 
   const valueFormatter: SeriesValueFormatter<number | null> = (v) =>
     formatGBP(v ?? 0, true);
-
-  const [debouncedLoading, _setDebouncedLoading] = useState(loading);
-  const setDebouncedLoading = useMemo(
-    () => debounce(_setDebouncedLoading, LOADING_DEBOUNCE_MS),
-    []
-  );
-  useEffect(() => {
-    setDebouncedLoading(loading);
-  }, [setDebouncedLoading, loading]);
 
   const series: BarChartProps["series"] = [
     {
@@ -110,7 +136,6 @@ export const TotalsChart = ({ totals, loading }: TotalsChartProps) => {
   return (
     <ChartOuterContainer>
       <ChartContainer>
-        {debouncedLoading && <LinearProgress variant="indeterminate" />}
         <BarChart
           dataset={dataset}
           margin={{ left: 80, top: remToPx(7) }}
@@ -136,7 +161,6 @@ export const TotalsChart = ({ totals, loading }: TotalsChartProps) => {
           ]}
           series={series}
         />
-        {debouncedLoading && <LinearProgress variant="indeterminate" />}
       </ChartContainer>
     </ChartOuterContainer>
   );

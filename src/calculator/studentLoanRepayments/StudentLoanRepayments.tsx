@@ -32,23 +32,24 @@ export const StudentLoanRepayments = ({
   studentRepaymentLoanTypes,
   setStudentRepaymentLoanTypes,
 }: StudentLoanRepaymentsProps) => {
-  const {
-    control,
-    watch,
-    formState: { isValid, isValidating },
-  } = useForm<Pick<TaxationConfigInput, "studentRepaymentLoanTypes">>({
+  const { control, watch, handleSubmit } = useForm<
+    Pick<TaxationConfigInput, "studentRepaymentLoanTypes">
+  >({
     values: { studentRepaymentLoanTypes: studentRepaymentLoanTypes },
     mode: "onChange",
     resolver: yupResolver(studentRepaymentLoanTypesInputSchema),
   });
 
-  const data = watch();
-
   useEffect(() => {
-    if (isValid && !isValidating) {
-      setStudentRepaymentLoanTypes(data.studentRepaymentLoanTypes);
-    }
-  }, [data, isValid, isValidating, setStudentRepaymentLoanTypes]);
+    const subscription = watch(() => {
+      void handleSubmit((data) => {
+        setStudentRepaymentLoanTypes(data.studentRepaymentLoanTypes);
+      })();
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [handleSubmit, watch, setStudentRepaymentLoanTypes]);
 
   return (
     <Stack spacing={1}>
@@ -64,7 +65,7 @@ export const StudentLoanRepayments = ({
         control={control}
         render={({ field, fieldState: { error } }) => (
           <FormControl error={Boolean(error)}>
-            <FormGroup>
+            <FormGroup row>
               {STUDENT_LOAN_REPAYMENT_TYPES.map((repaymentType) => (
                 <FormControlLabel
                   key={repaymentType}

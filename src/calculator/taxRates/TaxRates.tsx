@@ -31,26 +31,26 @@ export const TaxRates = ({
   taxYearInput,
   customTaxYearConfig,
   setTaxYearInput,
+  setCustomTaxYearConfig,
 }: // TODO: custom tax year config input
-// setCustomTaxYearConfig,
 TaxRatesProps) => {
-  const {
-    control,
-    watch,
-    formState: { isValid, isValidating },
-  } = useForm<TaxRatesInput>({
+  const { control, watch, handleSubmit } = useForm<TaxRatesInput>({
     values: { taxYearInput, customTaxYearConfig },
     mode: "onChange",
     resolver: yupResolver(taxRatesInputSchema),
   });
 
-  const data = watch();
-
   useEffect(() => {
-    if (isValid && !isValidating) {
-      setTaxYearInput(data.taxYearInput);
-    }
-  }, [data, isValid, isValidating, setTaxYearInput]);
+    const subscription = watch(() => {
+      void handleSubmit((data) => {
+        setTaxYearInput(data.taxYearInput);
+        setCustomTaxYearConfig(data.customTaxYearConfig);
+      })();
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [handleSubmit, watch, setTaxYearInput, setCustomTaxYearConfig]);
 
   return (
     <Stack spacing={1}>
@@ -62,11 +62,11 @@ TaxRatesProps) => {
         from your gains. You can either use the values from a particular tax
         year, or enter your own custom rates and thresholds.
       </Typography>
-      <Controller
-        name="taxYearInput"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <div>
+      <div>
+        <Controller
+          name="taxYearInput"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
             <FormControl error={Boolean(error)} fullWidth margin="normal">
               <InputLabel id="taxYearInput-label">Tax year</InputLabel>
               <Select<TaxYearInput>
@@ -85,9 +85,9 @@ TaxRatesProps) => {
                 <FormHelperText>{error.message}</FormHelperText>
               )}
             </FormControl>
-          </div>
-        )}
-      />
+          )}
+        />
+      </div>
     </Stack>
   );
 };

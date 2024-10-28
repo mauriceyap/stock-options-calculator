@@ -1,23 +1,28 @@
 import { AddCircle } from "@mui/icons-material";
 import { Alert, Button, Grid, Stack, Typography } from "@mui/material";
-import { useEffect, useMemo, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 
 import { TAX_YEAR_CONFIGS } from "../config/tax";
 
 import { AllocationCard } from "./allocation";
 import { calculatorInputReducer } from "./calculatorInputReducer";
+import { TotalsChart } from "./charts/TotalsChart";
 import { CompanySection } from "./company";
 import {
   defaultCustomTaxYearConfig,
   defaultTaxYear,
   defaultValues,
 } from "./defaultValues";
-import { OtherIncome } from "./otherIncome/OtherIncome";
-import { StudentLoanRepayments } from "./studentLoanRepayments/StudentLoanRepayments";
-import { TaxRates } from "./taxRates/TaxRates";
+import { OtherIncome, OtherIncomeProps } from "./otherIncome/OtherIncome";
+import {
+  StudentLoanRepayments,
+  StudentLoanRepaymentsProps,
+} from "./studentLoanRepayments/StudentLoanRepayments";
+import { TaxRates, TaxRatesProps } from "./taxRates/TaxRates";
 import { TaxRatesInput } from "./taxRates/taxRatesInput";
 import { taxRatesInputReducer } from "./taxRatesInputReducer";
 import { CompanyInput } from "./types/inputs";
+import { useCalculateWebWorker } from "./useCalculateWebWorker";
 
 const defaultTaxRatesInputValue: TaxRatesInput = {
   taxYearInput: defaultTaxYear,
@@ -29,6 +34,12 @@ export const Calculator = () => {
     calculatorInputReducer,
     defaultValues
   );
+
+  const [executeCalculate, { result, loading }] = useCalculateWebWorker();
+
+  useEffect(() => {
+    executeCalculate(calculatorInput);
+  }, [executeCalculate, calculatorInput]);
 
   const [taxRatesInput, dispatchTaxRatesInput] = useReducer(
     taxRatesInputReducer,
@@ -53,6 +64,51 @@ export const Calculator = () => {
     () => calculatorInput.companies.map(({ name }) => name),
     [calculatorInput.companies]
   );
+
+  const setOtherIncome = useCallback<OtherIncomeProps["setOtherIncome"]>(
+    (otherIncome) => {
+      dispatchCalculatorInput({
+        type: "setOtherIncome",
+        payload: otherIncome,
+      });
+    },
+    [dispatchCalculatorInput]
+  );
+
+  const setStudentRepaymentLoanTypes = useCallback<
+    StudentLoanRepaymentsProps["setStudentRepaymentLoanTypes"]
+  >(
+    (studentRepaymentLoanTypes) => {
+      dispatchCalculatorInput({
+        type: "setStudentRepaymentLoanTypes",
+        payload: studentRepaymentLoanTypes,
+      });
+    },
+    [dispatchCalculatorInput]
+  );
+
+  const setTaxYearInput = useCallback<TaxRatesProps["setTaxYearInput"]>(
+    (taxYearInput) => {
+      dispatchTaxRatesInput({
+        type: "setTaxYearInput",
+        payload: taxYearInput,
+      });
+    },
+    [dispatchTaxRatesInput]
+  );
+
+  const setCustomTaxYearConfig = useCallback<
+    TaxRatesProps["setCustomTaxYearConfig"]
+  >(
+    (customTaxYearConfig) => {
+      dispatchTaxRatesInput({
+        type: "setCustomTaxYearConfig",
+        payload: customTaxYearConfig,
+      });
+    },
+    [dispatchTaxRatesInput]
+  );
+
   return (
     <div>
       <Grid container spacing={4}>
@@ -155,43 +211,45 @@ export const Calculator = () => {
               <TaxRates
                 taxYearInput={taxRatesInput.taxYearInput}
                 customTaxYearConfig={taxRatesInput.customTaxYearConfig}
-                setTaxYearInput={(taxYearInput) => {
-                  dispatchTaxRatesInput({
-                    type: "setTaxYearInput",
-                    payload: taxYearInput,
-                  });
-                }}
-                setCustomTaxYearConfig={(customTaxYearConfig) => {
-                  dispatchTaxRatesInput({
-                    type: "setCustomTaxYearConfig",
-                    payload: customTaxYearConfig,
-                  });
-                }}
+                setTaxYearInput={setTaxYearInput}
+                setCustomTaxYearConfig={setCustomTaxYearConfig}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={7} xl={6}>
+            <Grid item xs={12} sm={6} md={4} lg={12}>
               <OtherIncome
                 otherIncome={calculatorInput.taxationConfig.otherIncome}
-                setOtherIncome={(otherIncome) => {
-                  dispatchCalculatorInput({
-                    type: "setOtherIncome",
-                    payload: otherIncome,
-                  });
-                }}
+                setOtherIncome={setOtherIncome}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={5} xl={6}>
+            <Grid item xs={12} sm={6} md={4} lg={12}>
               <StudentLoanRepayments
                 studentRepaymentLoanTypes={
                   calculatorInput.taxationConfig.studentRepaymentLoanTypes
                 }
-                setStudentRepaymentLoanTypes={(studentRepaymentLoanTypes) => {
-                  dispatchCalculatorInput({
-                    type: "setStudentRepaymentLoanTypes",
-                    payload: studentRepaymentLoanTypes,
-                  });
-                }}
+                setStudentRepaymentLoanTypes={setStudentRepaymentLoanTypes}
               />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h3" gutterBottom>
+            Your prediction
+          </Typography>
+          <Grid container>
+            <Grid item xs={12} lg={6}>
+              <Typography variant="h4" gutterBottom>
+                Totals
+              </Typography>
+              {loading ? (
+                <TotalsChart loading />
+              ) : (
+                <TotalsChart loading={false} totals={result.totals} />
+              )}
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <Typography variant="h4" gutterBottom>
+                Gains over time
+              </Typography>
             </Grid>
           </Grid>
         </Grid>

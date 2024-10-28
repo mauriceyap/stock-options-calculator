@@ -9,7 +9,6 @@ import {
   LinearProgress,
   MenuItem,
   Select,
-  debounce,
   styled,
 } from "@mui/material";
 import {
@@ -25,7 +24,7 @@ import {
   axisClasses,
 } from "@mui/x-charts";
 import dayjs from "dayjs";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
 
@@ -49,7 +48,6 @@ import {
   INCOME_TAX_COLOUR,
   STUDENT_LOAN_REPAYMENTS_COLOUR,
 } from "./chartColours";
-import { LOADING_DEBOUNCE_MS } from "./display";
 
 const now = new Date();
 
@@ -216,15 +214,6 @@ export const TimeSeriesChart = ({
     showDeductionBreakdown,
   ]);
 
-  const [debouncedLoading, _setDebouncedLoading] = useState(loading);
-  const setDebouncedLoading = useMemo(
-    () => debounce(_setDebouncedLoading, LOADING_DEBOUNCE_MS),
-    []
-  );
-  useEffect(() => {
-    setDebouncedLoading(loading);
-  }, [setDebouncedLoading, loading]);
-
   return (
     <div>
       <InputsContainer>
@@ -301,7 +290,7 @@ export const TimeSeriesChart = ({
         </FormGroup>
       </InputsContainer>
       <ChartOuterContainer>
-        {debouncedLoading && <LinearProgress variant="indeterminate" />}
+        {loading && <LinearProgress variant="indeterminate" />}
         <StyledResponsiveChartContainer
           xAxis={[
             {
@@ -329,7 +318,7 @@ export const TimeSeriesChart = ({
           <ChartsYAxis position="left" label="Gain" axisId="gains" />
           <ChartsTooltip trigger="axis" />
         </StyledResponsiveChartContainer>
-        {debouncedLoading && <LinearProgress variant="indeterminate" />}
+        {loading && <LinearProgress variant="indeterminate" />}
       </ChartOuterContainer>
     </div>
   );

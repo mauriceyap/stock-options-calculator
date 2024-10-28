@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { WithLoading } from "../common/withLoading";
+
 // eslint-disable-next-line import/no-unresolved
 import CalculateWebWorker from "./calculateWebWorker?worker";
 import { CalculatorInput } from "./types/inputs";
@@ -17,19 +19,9 @@ const INITIAL_RESULT: CalculatorOutput = {
   },
 };
 
-export interface UseCalculateWebWorkerRunningResponse {
-  running: true;
-  result: undefined;
-}
-
-export interface UseCalculateWebWorkerCompleteResponse {
-  running: false;
+export type UseCalculateWebWorkerResponse = WithLoading<{
   result: CalculatorOutput;
-}
-
-export type UseCalculateWebWorkerResponse =
-  | UseCalculateWebWorkerRunningResponse
-  | UseCalculateWebWorkerCompleteResponse;
+}>;
 
 export const useCalculateWebWorker = (): [
   (input: CalculatorInput) => void,
@@ -38,14 +30,14 @@ export const useCalculateWebWorker = (): [
   const worker = useMemo(() => new CalculateWebWorker(), []);
 
   const [response, setResponse] = useState<UseCalculateWebWorkerResponse>({
-    running: false,
+    loading: false,
     result: INITIAL_RESULT,
   });
 
   const executeCalculate = useCallback(
     (data: CalculatorInput) => {
       setResponse({
-        running: true,
+        loading: true,
         result: undefined,
       });
       worker.postMessage(data);
@@ -56,7 +48,7 @@ export const useCalculateWebWorker = (): [
   useEffect(() => {
     const onMessage = (event: MessageEvent<CalculatorOutput>) => {
       setResponse({
-        running: false,
+        loading: false,
         result: event.data,
       });
     };
