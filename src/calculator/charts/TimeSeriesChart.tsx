@@ -6,7 +6,6 @@ import {
   FormHelperText,
   FormLabel,
   InputLabel,
-  LinearProgress,
   MenuItem,
   Select,
   styled,
@@ -23,10 +22,12 @@ import {
   ResponsiveChartContainer,
   axisClasses,
 } from "@mui/x-charts";
+import { ChartsLoadingOverlay } from "@mui/x-charts/ChartsOverlay";
 import dayjs from "dayjs";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
+import type { WithLoading } from "../../common/withLoading";
 
 import {
   GAIN_TYPE_DISPLAY_NAMES,
@@ -48,6 +49,7 @@ import {
   INCOME_TAX_COLOUR,
   STUDENT_LOAN_REPAYMENTS_COLOUR,
 } from "./chartColours";
+import { useDisplayLoading } from "./useDisplayLoading";
 
 const now = new Date();
 
@@ -94,10 +96,13 @@ const dataPointCumulativeDeductionColours: Record<
   cumulativeStudentLoanRepaymentsPayable: STUDENT_LOAN_REPAYMENTS_COLOUR,
 };
 
+const INITIAL_TIME_SERIES: CalculatedTimeSeries = [];
+
 const ChartOuterContainer = styled("div")({
+  display: "flex",
   width: "100%",
   minWidth: "600px",
-  height: "80vh",
+  height: "100%",
 });
 
 const InputsContainer = styled("div")(({ theme }) =>
@@ -111,6 +116,7 @@ const InputsContainer = styled("div")(({ theme }) =>
 const GainTypeSelect = styled(Select)({ minWidth: 130 });
 
 const StyledResponsiveChartContainer = styled(ResponsiveChartContainer)({
+  height: "30rem",
   [`& .${axisClasses.left} .${axisClasses.label}`]: {
     transform: "translateX(-30px)",
   },
@@ -118,15 +124,23 @@ const StyledResponsiveChartContainer = styled(ResponsiveChartContainer)({
 
 const currencyValueFormatter = (v: number | null) => formatGBP(v ?? 0, true);
 
-export interface TimeSeriesChartProps {
-  loading: boolean;
+export type TimeSeriesChartProps = WithLoading<{
   timeSeries: CalculatedTimeSeries;
-}
+}>;
 
 export const TimeSeriesChart = ({
   timeSeries,
   loading,
 }: TimeSeriesChartProps) => {
+  const prevTimeSeriesRef = useRef(INITIAL_TIME_SERIES);
+  useEffect(() => {
+    if (!loading) {
+      prevTimeSeriesRef.current = timeSeries;
+    }
+  });
+
+  const displayLoading = useDisplayLoading(loading);
+
   const [gainType, setGainType] = useState<GainType>("net");
   const [predictionLevelsToDisplay, setPredictionLevelsToDisplay] = useState<
     Record<PredictionLevel, boolean>
@@ -141,6 +155,10 @@ export const TimeSeriesChart = ({
     Object.values(predictionLevelsToDisplay).filter(Boolean).length === 1;
 
   const series = useMemo<LineSeriesType[]>(() => {
+    if (loading || displayLoading) {
+      return [];
+    }
+
     const results = [] as LineSeriesType[];
 
     results.push(
@@ -207,6 +225,8 @@ export const TimeSeriesChart = ({
 
     return results;
   }, [
+    loading,
+    displayLoading,
     timeSeries,
     gainType,
     predictionLevelsToDisplay,
@@ -217,7 +237,7 @@ export const TimeSeriesChart = ({
   return (
     <div>
       <InputsContainer>
-        <FormControl>
+        <FormControl disabled={displayLoading} margin="normal">
           <InputLabel id={GAIN_TYPE_SELECT_LABEL_ID}>
             {GAIN_TYPE_SELECT_LABEL}
           </InputLabel>
@@ -236,7 +256,11 @@ export const TimeSeriesChart = ({
             ))}
           </GainTypeSelect>
         </FormControl>
-        <FormControl component="fieldset" variant="standard">
+        <FormControl
+          component="fieldset"
+          variant="standard"
+          disabled={displayLoading}
+        >
           <FormLabel component="legend">Prediction levels to display</FormLabel>
           <FormGroup row>
             {ORDERED_PREDICTION_LEVELS.map((predictionLevel) => {
@@ -275,7 +299,7 @@ export const TimeSeriesChart = ({
                 onChange={({ target: { checked } }) => {
                   setShowDeductionBreakdown(checked);
                 }}
-                disabled={!deductionBreakdownEnabled}
+                disabled={displayLoading || !deductionBreakdownEnabled}
                 size="small"
               />
             }
@@ -290,12 +314,11 @@ export const TimeSeriesChart = ({
         </FormGroup>
       </InputsContainer>
       <ChartOuterContainer>
-        {loading && <LinearProgress variant="indeterminate" />}
         <StyledResponsiveChartContainer
           xAxis={[
             {
               id: "time",
-              data: timeSeries.map(([date]) => date),
+              data: (timeSeries ?? INITIAL_TIME_SERIES).map(([date]) => date),
               scaleType: "time",
               valueFormatter: (t: Date) => dayjs(t).format("MMMM YYYY"),
             },
@@ -310,6 +333,7 @@ export const TimeSeriesChart = ({
           series={series}
           margin={{ left: 80 }}
         >
+          {displayLoading && <ChartsLoadingOverlay />}
           <AreaPlot />
           <LinePlot />
           <ChartsAxisHighlight x="line" />
@@ -318,7 +342,6 @@ export const TimeSeriesChart = ({
           <ChartsYAxis position="left" label="Gain" axisId="gains" />
           <ChartsTooltip trigger="axis" />
         </StyledResponsiveChartContainer>
-        {loading && <LinearProgress variant="indeterminate" />}
       </ChartOuterContainer>
     </div>
   );

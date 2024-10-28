@@ -134,6 +134,7 @@ export const CompanySection = ({
                 onClick={() => {
                   setEditDialogOpen(true);
                 }}
+                color="primary"
               >
                 <EditRounded />
               </IconButton>
@@ -175,7 +176,9 @@ export const CompanySection = ({
                 color="success"
                 variant="contained"
                 startIcon={<AddBox />}
-                onClick={() => { appendNewShareAllocation(); }}
+                onClick={() => {
+                  appendNewShareAllocation();
+                }}
                 size="small"
               >
                 Add a share allocation

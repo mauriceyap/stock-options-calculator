@@ -6,6 +6,7 @@ import { TAX_YEAR_CONFIGS } from "../config/tax";
 
 import { AllocationCard } from "./allocation";
 import { calculatorInputReducer } from "./calculatorInputReducer";
+import { TimeSeriesChart } from "./charts/TimeSeriesChart";
 import { TotalsChart } from "./charts/TotalsChart";
 import { CompanySection } from "./company";
 import {
@@ -236,7 +237,7 @@ export const Calculator = () => {
             Your prediction
           </Typography>
           <Grid container>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={4}>
               <Typography variant="h4" gutterBottom>
                 Totals
               </Typography>
@@ -246,10 +247,18 @@ export const Calculator = () => {
                 <TotalsChart loading={false} totals={result.totals} />
               )}
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} lg={8}>
               <Typography variant="h4" gutterBottom>
                 Gains over time
               </Typography>
+              {loading ? (
+                <TimeSeriesChart loading />
+              ) : (
+                <TimeSeriesChart
+                  loading={false}
+                  timeSeries={result.timeSeries}
+                />
+              )}
             </Grid>
           </Grid>
         </Grid>

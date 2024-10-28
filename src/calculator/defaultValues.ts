@@ -51,7 +51,7 @@ export const defaultCustomTaxYearConfig: TaxYearConfig = {
   incomeTax: {
     personalAllowance: 15000,
     personalAllowanceReductionThreshold: 150000,
-    personalAllowanceReductionRate: 1.5,
+    personalAllowanceReductionRate: 1,
     basicRate: 0.21,
     basicRateLimit: 42500,
     higherRate: 0.4,
@@ -59,7 +59,7 @@ export const defaultCustomTaxYearConfig: TaxYearConfig = {
     additionalRate: 0.42,
   },
   employeeNationalInsurance: {
-    primaryThreshold: 150000,
+    primaryThreshold: 15000,
     primaryRate: 0.08,
     upperEarningsLimit: 57500,
     reducedRate: 0.025,

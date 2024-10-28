@@ -4,6 +4,7 @@ import {
   blueGrey,
   brown,
   cyan,
+  grey,
   pink,
   red,
   teal,
@@ -31,3 +32,5 @@ export const ANNUAL_GAIN_PREDICTION_LEVEL_COLOUR: Record<
   medium: blueGrey[500],
   high: blueGrey[900],
 };
+
+export const LOADING_COLOUR = grey[100];
