@@ -1,4 +1,9 @@
-import { TAX_YEAR_CONFIGS, TaxYear, TaxYearConfig } from "../config/tax";
+import {
+  TAX_YEARS,
+  TAX_YEAR_CONFIGS,
+  TaxYear,
+  TaxYearConfig,
+} from "../config/tax";
 
 import { AllocationInput, CalculatorInput, CompanyInput } from "./types/inputs";
 
@@ -30,7 +35,7 @@ export const defaultCompanyInputValues: CompanyInput = {
   predictedExitEventSharePriceHigh: 5,
 };
 
-export const defaultTaxYear: TaxYear = "2023/24";
+export const defaultTaxYear: TaxYear = TAX_YEARS[0];
 
 export const defaultValues: CalculatorInput = {
   companies: [defaultCompanyInputValues],

@@ -16,7 +16,7 @@ import { TaxationConfigInput } from "../types/inputs";
 
 import { otherIncomeInputSchema } from "./schema";
 
-export interface EditOtherIncomeDialog {
+export interface EditOtherIncomeDialogProps {
   open: boolean;
   onClose: () => void;
   onChange: (otherIncome: number) => void;
@@ -28,7 +28,7 @@ export const EditOtherIncomeDialog = ({
   onClose,
   onChange,
   existingValue,
-}: EditOtherIncomeDialog) => {
+}: EditOtherIncomeDialogProps) => {
   const { handleSubmit, control, reset } = useForm<
     Pick<TaxationConfigInput, "otherIncome">
   >({

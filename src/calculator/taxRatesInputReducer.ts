@@ -1,8 +1,10 @@
 import { Reducer } from "react";
 
-import { TaxYearConfig } from "../config/tax";
-
-import { TaxRatesInput, TaxYearInput } from "./taxRates/taxRatesInput";
+import {
+  CustomTaxYearConfigInput,
+  TaxRatesInput,
+  TaxYearInput,
+} from "./taxRates/taxRatesInput";
 
 type TaxRatesInputAction =
   | {
@@ -11,7 +13,7 @@ type TaxRatesInputAction =
     }
   | {
       type: "setCustomTaxYearConfig";
-      payload: TaxYearConfig;
+      payload: CustomTaxYearConfigInput;
     };
 
 export const taxRatesInputReducer: Reducer<

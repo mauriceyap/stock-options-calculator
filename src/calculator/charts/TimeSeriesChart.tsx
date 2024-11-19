@@ -101,7 +101,7 @@ const INITIAL_TIME_SERIES: CalculatedTimeSeries = [];
 const ChartOuterContainer = styled("div")({
   display: "flex",
   width: "100%",
-  minWidth: "600px",
+  minWidth: "300px",
   height: "100%",
 });
 

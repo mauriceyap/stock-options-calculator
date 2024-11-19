@@ -1,77 +1,84 @@
 import * as yup from "yup";
 
 import {
-  CapitalGainsTaxConfig,
   EmployeeNationalInsuranceConfig,
   IncomeTaxConfig,
   StudentLoanRepaymentTypeConfig,
   TAX_YEARS,
-  TaxYearConfig,
 } from "../../config/tax";
 
 import {
   MESSAGE_AT_LEAST_ZERO,
-  MESSAGE_NO_MORE_THAN_ONE,
+  MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT,
 } from "../validationMessages";
 
-import { TaxRatesInput, TaxYearInput } from "./taxRatesInput";
+import {
+  CustomCapitalGainsTaxConfigInput,
+  CustomEmployeeNationalInsuranceConfigInput,
+  CustomIncomeTaxConfigInput,
+  CustomStudentLoanRepaymentTypeConfigInput,
+  CustomTaxYearConfigInput,
+  TaxRatesInput,
+  TaxYearInput,
+} from "./taxRatesInput";
 
-const customIncomeTaxConfigSchema = yup.object<IncomeTaxConfig>().shape({
-  personalAllowance: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .required("You must enter the basic personal allowance."),
-  personalAllowanceReductionThreshold: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .required("You must enter the personal allowance reduction threshold."),
-  personalAllowanceReductionRate: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .max(1, MESSAGE_NO_MORE_THAN_ONE)
-    .required("You must enter the personal allowance reduction rate."),
-  basicRate: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .max(1, MESSAGE_NO_MORE_THAN_ONE)
-    .required("You must enter the basic rate."),
-  basicRateLimit: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .required("You must enter the basic rate limit."),
-  higherRate: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .max(1, MESSAGE_NO_MORE_THAN_ONE)
-    .required("You must enter the higher rate."),
-  higherRateLimit: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .required("You must enter the higher rate limit.")
-    .test(
-      "atLeastBasicRateLimit",
-      "This must be at least the basic rate limit.",
-      (value, context) =>
-        value >= (context.parent as IncomeTaxConfig).basicRateLimit
-    ),
-  additionalRate: yup
-    .number()
-    .min(0, MESSAGE_AT_LEAST_ZERO)
-    .max(1, MESSAGE_NO_MORE_THAN_ONE)
-    .required("You must enter the additional rate."),
-});
+const customIncomeTaxConfigSchema = yup
+  .object<CustomIncomeTaxConfigInput>()
+  .shape({
+    personalAllowance: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .required("You must enter the basic personal allowance."),
+    personalAllowanceReductionThreshold: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .required("You must enter the personal allowance reduction threshold."),
+    personalAllowanceReductionRate: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .required("You must enter the personal allowance reduction rate."),
+    basicRatePercentage: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
+      .required("You must enter the basic rate."),
+    basicRateLimit: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .required("You must enter the basic rate limit."),
+    higherRatePercentage: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
+      .required("You must enter the higher rate."),
+    higherRateLimit: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .required("You must enter the higher rate limit.")
+      .test(
+        "atLeastBasicRateLimit",
+        "This must be at least the basic rate limit.",
+        (value, context) =>
+          value >= (context.parent as IncomeTaxConfig).basicRateLimit
+      ),
+    additionalRatePercentage: yup
+      .number()
+      .min(0, MESSAGE_AT_LEAST_ZERO)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
+      .required("You must enter the additional rate."),
+  });
 
 const customEmployeeNationalInsuranceConfigSchema = yup
-  .object<EmployeeNationalInsuranceConfig>()
+  .object<CustomEmployeeNationalInsuranceConfigInput>()
   .shape({
     primaryThreshold: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
       .required("You must enter the primary threshold."),
-    primaryRate: yup
+    primaryRatePercentage: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
-      .max(1, MESSAGE_NO_MORE_THAN_ONE)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
       .required("You must enter the primary rate."),
     upperEarningsLimit: yup
       .number()
@@ -84,34 +91,34 @@ const customEmployeeNationalInsuranceConfigSchema = yup
           value >=
           (context.parent as EmployeeNationalInsuranceConfig).primaryThreshold
       ),
-    reducedRate: yup
+    reducedRatePercentage: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
-      .max(1, MESSAGE_NO_MORE_THAN_ONE)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
       .required("You must enter the reduced rate."),
   });
 
 const customCapitalGainsTaxConfigSchema = yup
-  .object<CapitalGainsTaxConfig>()
+  .object<CustomCapitalGainsTaxConfigInput>()
   .shape({
     exemptAmountLimit: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
       .required("You must enter the exempt amount limit."),
-    lowerRate: yup
+    lowerRatePercentage: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
-      .max(1, MESSAGE_NO_MORE_THAN_ONE)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
       .required("You must enter the lower rate."),
-    higherRate: yup
+    higherRatePercentage: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
-      .max(1, MESSAGE_NO_MORE_THAN_ONE)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
       .required("You must enter the higher rate."),
-    businessAssetDisposalReliefRate: yup
+    businessAssetDisposalReliefRatePercentage: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
-      .max(1, MESSAGE_NO_MORE_THAN_ONE)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
       .required("You must enter the Business Asset Disposal Relief rate."),
     businessAssetDisposalReliefLimit: yup
       .number()
@@ -120,16 +127,16 @@ const customCapitalGainsTaxConfigSchema = yup
   });
 
 const customStudentLoanRepaymentPlanConfigSchema = yup
-  .object<StudentLoanRepaymentTypeConfig>()
+  .object<CustomStudentLoanRepaymentTypeConfigInput>()
   .shape({
     threshold: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
       .required("You must enter the threshold."),
-    rate: yup
+    ratePercentage: yup
       .number()
       .min(0, MESSAGE_AT_LEAST_ZERO)
-      .max(1, MESSAGE_NO_MORE_THAN_ONE)
+      .max(100, MESSAGE_NO_MORE_THAN_ONE_HUNDRED_PERCENT)
       .required("You must enter the rate."),
   });
 
@@ -143,13 +150,16 @@ const customStudentLoanRepaymentTypeConfigSchema = yup
     postgraduate: customStudentLoanRepaymentPlanConfigSchema.required(),
   });
 
-export const customTaxYearConfigSchema = yup.object<TaxYearConfig>().shape({
-  incomeTax: customIncomeTaxConfigSchema.required(),
-  employeeNationalInsurance:
-    customEmployeeNationalInsuranceConfigSchema.required(),
-  capitalGainsTax: customCapitalGainsTaxConfigSchema.required(),
-  studentLoanRepayments: customStudentLoanRepaymentTypeConfigSchema.required(),
-});
+export const customTaxYearConfigSchema = yup
+  .object<CustomTaxYearConfigInput>()
+  .shape({
+    incomeTax: customIncomeTaxConfigSchema.required(),
+    employeeNationalInsurance:
+      customEmployeeNationalInsuranceConfigSchema.required(),
+    capitalGainsTax: customCapitalGainsTaxConfigSchema.required(),
+    studentLoanRepayments:
+      customStudentLoanRepaymentTypeConfigSchema.required(),
+  });
 
 export const taxRatesInputSchema = yup.object<TaxRatesInput>().shape({
   taxYearInput: yup

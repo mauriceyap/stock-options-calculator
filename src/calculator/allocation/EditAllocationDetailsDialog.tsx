@@ -218,43 +218,45 @@ export const EditAllocationDetailsDialog = ({
                       </li>
                     </ul>
                   </section>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={field.value !== 0}
-                          onChange={(event) => {
-                            field.onChange(
-                              event.target.checked
-                                ? existingValues.vestingCliffMonths ||
-                                    defaultAllocationVestingCliffMonths
-                                : 0
-                            );
-                          }}
-                        />
-                      }
-                      label="This allocation has a vesting cliff"
-                    />
-                  </FormGroup>
-                  {field.value !== 0 && (
+                  <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>
                     <FormGroup>
-                      <TextField
-                        {...field}
-                        label="Vesting cliff"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              months
-                            </InputAdornment>
-                          ),
-                        }}
-                        type="number"
-                        margin="normal"
-                        error={Boolean(error)}
-                        helperText={error?.message ?? null}
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={field.value !== 0}
+                            onChange={(event) => {
+                              field.onChange(
+                                event.target.checked
+                                  ? existingValues.vestingCliffMonths ||
+                                      defaultAllocationVestingCliffMonths
+                                  : 0
+                              );
+                            }}
+                          />
+                        }
+                        label="This allocation has a vesting cliff"
                       />
                     </FormGroup>
-                  )}
+                    {field.value !== 0 && (
+                      <FormGroup>
+                        <TextField
+                          {...field}
+                          label="Vesting cliff"
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                months
+                              </InputAdornment>
+                            ),
+                          }}
+                          type="number"
+                          margin="normal"
+                          error={Boolean(error)}
+                          helperText={error?.message ?? null}
+                        />
+                      </FormGroup>
+                    )}
+                  </Stack>
                 </Stack>
               )}
             />

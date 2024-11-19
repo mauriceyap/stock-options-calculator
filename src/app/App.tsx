@@ -1,10 +1,4 @@
-import {
-  Container,
-  ContainerProps,
-  CssBaseline,
-  Stack,
-  styled,
-} from "@mui/material";
+import { Container, ContainerProps, CssBaseline, styled } from "@mui/material";
 
 import { Calculator } from "../calculator";
 import { Footer } from "../footer/Footer";
@@ -30,9 +24,12 @@ const HeaderContainer = styled(Container)<ContainerProps>(({ theme }) =>
   })
 );
 
-const MainContainer = styled(Container)<ContainerProps>({
-  minHeight: "100vh",
-});
+const MainContainer = styled(Container)<ContainerProps>(({ theme }) =>
+  theme.unstable_sx({
+    minHeight: "100vh",
+    py: 4,
+  })
+);
 
 export const App = () => (
   <AppContextProvider>
@@ -44,9 +41,7 @@ export const App = () => (
       </HeaderContainer>
     </HeaderBackground>
     <MainContainer component="main" maxWidth="xl">
-      <Stack spacing={2} py={2}>
-        <Calculator />
-      </Stack>
+      <Calculator />
     </MainContainer>
     <Footer />
   </AppContextProvider>

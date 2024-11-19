@@ -5,7 +5,12 @@
  * TODO: support Scottish income tax parameters.
  */
 
-export const TAX_YEARS = ["2023/24", "2022/23"] as const;
+export const TAX_YEARS = [
+  "2024/25-from-2024-10-30",
+  "2024/25-until-2024-10-29",
+  "2023/24",
+  "2022/23",
+] as const;
 export type TaxYear = (typeof TAX_YEARS)[number];
 
 export const STUDENT_LOAN_REPAYMENT_TYPES = [
@@ -73,6 +78,110 @@ export interface TaxYearConfig {
 // https://www.gov.uk/government/publications/entrepreneurs-relief-hs275-self-assessment-helpsheet/hs275-business-asset-disposal-relief-2021
 // https://www.gov.uk/repaying-your-student-loan/what-you-pay
 export const TAX_YEAR_CONFIGS: Record<TaxYear, TaxYearConfig> = {
+  "2024/25-from-2024-10-30": {
+    incomeTax: {
+      personalAllowance: 12570,
+      personalAllowanceReductionThreshold: 100000,
+      personalAllowanceReductionRate: 2,
+
+      basicRate: 0.2,
+      basicRateLimit: 37700,
+
+      higherRate: 0.4,
+      higherRateLimit: 125140,
+
+      additionalRate: 0.45,
+    },
+    employeeNationalInsurance: {
+      primaryThreshold: 1048 * 12,
+      primaryRate: 0.08,
+
+      upperEarningsLimit: 4189 * 12,
+      reducedRate: 0.02,
+    },
+    capitalGainsTax: {
+      exemptAmountLimit: 3000,
+      lowerRate: 0.18,
+      higherRate: 0.24,
+      businessAssetDisposalReliefRate: 0.1,
+      businessAssetDisposalReliefLimit: 1000000,
+    },
+    studentLoanRepayments: {
+      plan1: {
+        threshold: 24990,
+        rate: 0.09,
+      },
+      plan2: {
+        threshold: 27295,
+        rate: 0.09,
+      },
+      plan4: {
+        threshold: 31395,
+        rate: 0.09,
+      },
+      plan5: {
+        threshold: 25000,
+        rate: 0.09,
+      },
+      postgraduate: {
+        threshold: 21000,
+        rate: 0.06,
+      },
+    },
+  },
+
+  "2024/25-until-2024-10-29": {
+    incomeTax: {
+      personalAllowance: 12570,
+      personalAllowanceReductionThreshold: 100000,
+      personalAllowanceReductionRate: 2,
+
+      basicRate: 0.2,
+      basicRateLimit: 37700,
+
+      higherRate: 0.4,
+      higherRateLimit: 125140,
+
+      additionalRate: 0.45,
+    },
+    employeeNationalInsurance: {
+      primaryThreshold: 1048 * 12,
+      primaryRate: 0.08,
+
+      upperEarningsLimit: 4189 * 12,
+      reducedRate: 0.02,
+    },
+    capitalGainsTax: {
+      exemptAmountLimit: 3000,
+      lowerRate: 0.1,
+      higherRate: 0.2,
+      businessAssetDisposalReliefRate: 0.1,
+      businessAssetDisposalReliefLimit: 1000000,
+    },
+    studentLoanRepayments: {
+      plan1: {
+        threshold: 24990,
+        rate: 0.09,
+      },
+      plan2: {
+        threshold: 27295,
+        rate: 0.09,
+      },
+      plan4: {
+        threshold: 31395,
+        rate: 0.09,
+      },
+      plan5: {
+        threshold: 25000,
+        rate: 0.09,
+      },
+      postgraduate: {
+        threshold: 21000,
+        rate: 0.06,
+      },
+    },
+  },
+
   "2023/24": {
     incomeTax: {
       personalAllowance: 12570,

@@ -20,14 +20,20 @@ import {
   StudentLoanRepaymentsProps,
 } from "./studentLoanRepayments/StudentLoanRepayments";
 import { TaxRates, TaxRatesProps } from "./taxRates/TaxRates";
-import { TaxRatesInput } from "./taxRates/taxRatesInput";
+import {
+  TaxRatesInput,
+  customTaxYearConfigInputToTaxYearConfig,
+  taxYearConfigInputToCustomTaxYearConfig,
+} from "./taxRates/taxRatesInput";
 import { taxRatesInputReducer } from "./taxRatesInputReducer";
 import { CompanyInput } from "./types/inputs";
 import { useCalculateWebWorker } from "./useCalculateWebWorker";
 
 const defaultTaxRatesInputValue: TaxRatesInput = {
   taxYearInput: defaultTaxYear,
-  customTaxYearConfig: defaultCustomTaxYearConfig,
+  customTaxYearConfig: taxYearConfigInputToCustomTaxYearConfig(
+    defaultCustomTaxYearConfig
+  ),
 };
 
 export const Calculator = () => {
@@ -52,7 +58,9 @@ export const Calculator = () => {
       taxRatesInput.taxYearInput === "custom"
         ? {
             type: "setTaxYearConfig",
-            payload: taxRatesInput.customTaxYearConfig,
+            payload: customTaxYearConfigInputToTaxYearConfig(
+              taxRatesInput.customTaxYearConfig
+            ),
           }
         : {
             type: "setTaxYearConfig",
@@ -112,8 +120,15 @@ export const Calculator = () => {
 
   return (
     <div>
-      <Grid container spacing={4}>
-        <Grid item xs={12} lg={8}>
+      <Grid container spacing={6}>
+        <Grid item xs={12} lg={6}>
+          <Typography variant="h4" gutterBottom>
+            Your share options
+          </Typography>
+          <Typography paragraph>
+            Enter details of your share option allocations and predictions about
+            the companies they are for.
+          </Typography>
           <Stack spacing={1}>
             {calculatorInput.companies.map(
               (company, companyIndex, companies) => (
@@ -193,9 +208,9 @@ export const Calculator = () => {
             </Button>
           </Stack>
         </Grid>
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} lg={6}>
           <Typography variant="h4" gutterBottom>
-            Taxation configuration
+            Your taxes and deductions
           </Typography>
           <Typography paragraph>
             Enter details of your expected financial situation at the point at
@@ -236,7 +251,7 @@ export const Calculator = () => {
           <Typography variant="h3" gutterBottom>
             Your prediction
           </Typography>
-          <Grid container>
+          <Grid container spacing={6}>
             <Grid item xs={12} lg={4}>
               <Typography variant="h4" gutterBottom>
                 Totals

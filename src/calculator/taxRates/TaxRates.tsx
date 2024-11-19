@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  Button,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -8,19 +9,24 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { TAX_YEARS, TaxYearConfig } from "../../config/tax";
+import { TAX_YEARS } from "../../config/tax";
 
 import { TAX_YEAR_DISPLAY_NAMES } from "../displayNames";
 
+import { EditCustomTaxYearConfigDialog } from "./EditCustomTaxYearConfigDialog";
 import { taxRatesInputSchema } from "./schema";
-import { TaxRatesInput, TaxYearInput } from "./taxRatesInput";
+import {
+  CustomTaxYearConfigInput,
+  TaxRatesInput,
+  TaxYearInput,
+} from "./taxRatesInput";
 
 export interface TaxRatesProps {
   taxYearInput: TaxYearInput;
-  customTaxYearConfig: TaxYearConfig;
+  customTaxYearConfig: CustomTaxYearConfigInput;
   setTaxYearInput: (taxYearInput: TaxYearInput) => void;
   setCustomTaxYearConfig: (
     customTaxYearConfig: TaxRatesInput["customTaxYearConfig"]
@@ -32,8 +38,12 @@ export const TaxRates = ({
   customTaxYearConfig,
   setTaxYearInput,
   setCustomTaxYearConfig,
-}: // TODO: custom tax year config input
-TaxRatesProps) => {
+}: TaxRatesProps) => {
+  const [
+    editCustomTaxYearConfigDialogOpen,
+    setEditCustomTaxYearConfigDialogOpen,
+  ] = useState(false);
+
   const { control, watch, handleSubmit } = useForm<TaxRatesInput>({
     values: { taxYearInput, customTaxYearConfig },
     mode: "onChange",
@@ -53,41 +63,68 @@ TaxRatesProps) => {
   }, [handleSubmit, watch, setTaxYearInput, setCustomTaxYearConfig]);
 
   return (
-    <Stack spacing={1}>
-      <Typography variant="h5" gutterBottom>
-        Tax and deduction rates
-      </Typography>
-      <Typography>
-        Choose the rates and thresholds to be used for calculating deductions
-        from your gains. You can either use the values from a particular tax
-        year, or enter your own custom rates and thresholds.
-      </Typography>
-      <div>
+    <>
+      <EditCustomTaxYearConfigDialog
+        open={editCustomTaxYearConfigDialogOpen}
+        onClose={() => {
+          setEditCustomTaxYearConfigDialogOpen(false);
+        }}
+        onChange={setCustomTaxYearConfig}
+        existingValue={customTaxYearConfig}
+      />
+      <Stack spacing={1}>
+        <Typography variant="h5" gutterBottom>
+          Tax and deduction rates
+        </Typography>
+        <Typography>
+          Choose the rates and thresholds to be used for calculating deductions
+          from your gains. You can either use the values from a particular tax
+          year, or enter your own custom rates and thresholds.
+        </Typography>
         <Controller
           name="taxYearInput"
           control={control}
           render={({ field, fieldState: { error } }) => (
-            <FormControl error={Boolean(error)} fullWidth margin="normal">
-              <InputLabel id="taxYearInput-label">Tax year</InputLabel>
-              <Select<TaxYearInput>
-                {...field}
-                labelId="taxYearInput-label"
-                label="Tax year"
-              >
-                {TAX_YEARS.map((taxYear) => (
-                  <MenuItem key={taxYear} value={taxYear}>
-                    {TAX_YEAR_DISPLAY_NAMES[taxYear]}
-                  </MenuItem>
-                ))}
-                <MenuItem value="custom">Custom</MenuItem>
-              </Select>
-              {error?.message && (
-                <FormHelperText>{error.message}</FormHelperText>
-              )}
-            </FormControl>
+            <section>
+              <FormControl error={Boolean(error)} fullWidth margin="normal">
+                <Stack spacing={1} direction="row">
+                  <div>
+                    <InputLabel id="taxYearInput-label">Tax year</InputLabel>
+                    <Select<TaxYearInput>
+                      {...field}
+                      labelId="taxYearInput-label"
+                      label="Tax year"
+                    >
+                      {TAX_YEARS.map((taxYear) => (
+                        <MenuItem key={taxYear} value={taxYear}>
+                          {TAX_YEAR_DISPLAY_NAMES[taxYear]}
+                        </MenuItem>
+                      ))}
+                      <MenuItem value="custom">Custom</MenuItem>
+                    </Select>
+                    {error?.message && (
+                      <FormHelperText>{error.message}</FormHelperText>
+                    )}
+                  </div>
+                  {field.value === "custom" && (
+                    <div>
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        onClick={() => {
+                          setEditCustomTaxYearConfigDialogOpen(true);
+                        }}
+                      >
+                        Set custom rates and thresholds
+                      </Button>
+                    </div>
+                  )}
+                </Stack>
+              </FormControl>
+            </section>
           )}
         />
-      </div>
-    </Stack>
+      </Stack>
+    </>
   );
 };

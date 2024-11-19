@@ -187,7 +187,7 @@ export const CompanySection = ({
             <div>
               <Grid container spacing={1}>
                 {Children.map(children, (child) => (
-                  <Grid item xs={12} sm={6} md={4} xl={3}>
+                  <Grid item xs={12} sm={6} md={4} lg={6} xl={4}>
                     {child}
                   </Grid>
                 ))}

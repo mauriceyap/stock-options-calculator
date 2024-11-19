@@ -34,7 +34,9 @@ export const OtherIncome = ({
     <>
       <EditOtherIncomeDialog
         open={editDialogOpen}
-        onClose={() => { setEditDialogOpen(false); }}
+        onClose={() => {
+          setEditDialogOpen(false);
+        }}
         onChange={setOtherIncome}
         existingValue={otherIncome}
       />
@@ -50,7 +52,9 @@ export const OtherIncome = ({
           <IconButton
             color="primary"
             size="small"
-            onClick={() => { setEditDialogOpen(true); }}
+            onClick={() => {
+              setEditDialogOpen(true);
+            }}
           >
             <EditRounded />
           </IconButton>
