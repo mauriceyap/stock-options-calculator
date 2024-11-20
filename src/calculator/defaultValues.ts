@@ -27,7 +27,7 @@ export const defaultAllocationInputValues: AllocationInput = {
 
 export const defaultCompanyInputValues: CompanyInput = {
   name: "Your company",
-  allocations: [defaultAllocationInputValues],
+  allocations: [],
   leavingDate: null,
   predictedExitEventDate: new Date(now.getFullYear() + 5, now.getMonth(), 1),
   predictedExitEventSharePriceLow: 2,
@@ -38,9 +38,9 @@ export const defaultCompanyInputValues: CompanyInput = {
 export const defaultTaxYear: TaxYear = TAX_YEARS[0];
 
 export const defaultValues: CalculatorInput = {
-  companies: [defaultCompanyInputValues],
+  companies: [],
   taxationConfig: {
-    otherIncome: 25000,
+    otherIncome: 0,
     studentRepaymentLoanTypes: {
       plan1: false,
       plan2: false,

@@ -1,6 +1,13 @@
 import { AddCircle } from "@mui/icons-material";
-import { Alert, Button, Grid, Stack, Typography } from "@mui/material";
-import { useCallback, useEffect, useMemo, useReducer } from "react";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 
 import { TAX_YEAR_CONFIGS } from "../config/tax";
 
@@ -118,6 +125,16 @@ export const Calculator = () => {
     [dispatchTaxRatesInput]
   );
 
+  const companyNamesWithNoShareAllocations = useMemo(
+    () =>
+      calculatorInput.companies
+        .filter(({ allocations }) => allocations.length === 0)
+        .map(({ name }) => name),
+    [calculatorInput.companies]
+  );
+
+  const [isOtherIncomeSet, setIsOtherIncomeSet] = useState(false);
+
   return (
     <div>
       <Grid container spacing={6}>
@@ -198,7 +215,11 @@ export const Calculator = () => {
               startIcon={<AddCircle />}
               fullWidth
               size="small"
-              variant="outlined"
+              variant={
+                calculatorInput.companies.length === 0
+                  ? "contained"
+                  : "outlined"
+              }
               color="success"
               onClick={() => {
                 dispatchCalculatorInput({ type: "appendNewCompany" });
@@ -235,6 +256,8 @@ export const Calculator = () => {
               <OtherIncome
                 otherIncome={calculatorInput.taxationConfig.otherIncome}
                 setOtherIncome={setOtherIncome}
+                isOtherIncomeSet={isOtherIncomeSet}
+                setIsOtherIncomeSet={setIsOtherIncomeSet}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={12}>
@@ -247,36 +270,61 @@ export const Calculator = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h3" gutterBottom>
-            Your prediction
-          </Typography>
-          <Grid container spacing={6}>
-            <Grid item xs={12} lg={4}>
-              <Typography variant="h4" gutterBottom>
-                Totals
-              </Typography>
-              {loading ? (
-                <TotalsChart loading />
-              ) : (
-                <TotalsChart loading={false} totals={result.totals} />
-              )}
-            </Grid>
-            <Grid item xs={12} lg={8}>
-              <Typography variant="h4" gutterBottom>
-                Gains over time
-              </Typography>
-              {loading ? (
-                <TimeSeriesChart loading />
-              ) : (
-                <TimeSeriesChart
-                  loading={false}
-                  timeSeries={result.timeSeries}
-                />
-              )}
+        {calculatorInput.companies.length === 0 || !isOtherIncomeSet ? (
+          <Grid item xs={12}>
+            <Alert severity="info" variant="filled">
+              <AlertTitle>
+                Please add the following information to see your calculation:
+              </AlertTitle>
+              <ul>
+                {calculatorInput.companies.length === 0 && (
+                  <li>
+                    Add a company from which you have received share options
+                  </li>
+                )}
+                {companyNamesWithNoShareAllocations.map((companyName) => (
+                  <li key={companyName}>
+                    Add a share allocation for {companyName}.
+                  </li>
+                ))}
+                {!isOtherIncomeSet && (
+                  <li>Set your expected taxable annual income.</li>
+                )}
+              </ul>
+            </Alert>
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <Typography variant="h3" gutterBottom>
+              Your prediction
+            </Typography>
+            <Grid container spacing={6}>
+              <Grid item xs={12} lg={4}>
+                <Typography variant="h4" gutterBottom>
+                  Totals
+                </Typography>
+                {loading ? (
+                  <TotalsChart loading />
+                ) : (
+                  <TotalsChart loading={false} totals={result.totals} />
+                )}
+              </Grid>
+              <Grid item xs={12} lg={8}>
+                <Typography variant="h4" gutterBottom>
+                  Gains over time
+                </Typography>
+                {loading ? (
+                  <TimeSeriesChart loading />
+                ) : (
+                  <TimeSeriesChart
+                    loading={false}
+                    timeSeries={result.timeSeries}
+                  />
+                )}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )}
       </Grid>
     </div>
   );

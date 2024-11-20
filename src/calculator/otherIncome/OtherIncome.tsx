@@ -1,5 +1,5 @@
 import { EditRounded } from "@mui/icons-material";
-import { IconButton, Stack, Typography, styled } from "@mui/material";
+import { Button, IconButton, Stack, Typography, styled } from "@mui/material";
 import { useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
@@ -22,11 +22,15 @@ const OtherIncomeTypography = styled(Typography)(({ theme }) => ({
 export interface OtherIncomeProps {
   otherIncome: number;
   setOtherIncome: (otherIncome: number) => void;
+  isOtherIncomeSet: boolean;
+  setIsOtherIncomeSet: (isOtherIncomeSet: boolean) => void;
 }
 
 export const OtherIncome = ({
   otherIncome,
   setOtherIncome,
+  isOtherIncomeSet,
+  setIsOtherIncomeSet,
 }: OtherIncomeProps) => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
@@ -37,7 +41,10 @@ export const OtherIncome = ({
         onClose={() => {
           setEditDialogOpen(false);
         }}
-        onChange={setOtherIncome}
+        onChange={(otherIncome) => {
+          setOtherIncome(otherIncome);
+          setIsOtherIncomeSet(true);
+        }}
         existingValue={otherIncome}
       />
       <Stack spacing={1}>
@@ -45,20 +52,34 @@ export const OtherIncome = ({
           Other income
         </Typography>
         <Typography>Your expected taxable annual income.</Typography>
-        <OtherIncomeValueContainer>
-          <OtherIncomeTypography component="div">
-            {formatGBP(otherIncome)}
-          </OtherIncomeTypography>
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={() => {
-              setEditDialogOpen(true);
-            }}
-          >
-            <EditRounded />
-          </IconButton>
-        </OtherIncomeValueContainer>
+        {isOtherIncomeSet ? (
+          <OtherIncomeValueContainer>
+            <OtherIncomeTypography component="div">
+              {formatGBP(otherIncome)}
+            </OtherIncomeTypography>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={() => {
+                setEditDialogOpen(true);
+              }}
+            >
+              <EditRounded />
+            </IconButton>
+          </OtherIncomeValueContainer>
+        ) : (
+          <div>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                setEditDialogOpen(true);
+              }}
+            >
+              Enter your expected income
+            </Button>
+          </div>
+        )}
       </Stack>
     </>
   );
