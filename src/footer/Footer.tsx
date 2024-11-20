@@ -18,7 +18,7 @@ export const Footer = () => (
       <div>
         <Typography paragraph color="text.secondary" variant="body2">
           Created by{" "}
-          <Link href="https://linked.in/in/mauriceyap">Maurice Yap</Link>.
+          <Link href="https://linkedin.com/in/mauriceyap">Maurice Yap</Link>.
         </Typography>
         {contributors.length > 0 && (
           <Typography paragraph color="text.secondary" variant="body2">
