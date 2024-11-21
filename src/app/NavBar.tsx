@@ -4,6 +4,7 @@ import {
   Container,
   ContainerProps,
   IconButton,
+  Tooltip,
   styled,
 } from "@mui/material";
 
@@ -32,14 +33,16 @@ export const NavBar = () => {
     <NavContainer component="nav" maxWidth="xl">
       {changesPresent && (
         <div>
-          <Button
-            startIcon={<Save fontSize="inherit" />}
-            variant="outlined"
-            size="small"
-            onClick={saveDataToLocalStorage}
-          >
-            Save your changes
-          </Button>
+          <Tooltip title="Save your calculation values to your browser's local storage">
+            <Button
+              startIcon={<Save fontSize="inherit" />}
+              variant="outlined"
+              size="small"
+              onClick={saveDataToLocalStorage}
+            >
+              Save your changes
+            </Button>
+          </Tooltip>
         </div>
       )}
       <IconButton
