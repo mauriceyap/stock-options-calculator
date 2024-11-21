@@ -21,11 +21,12 @@ import dayjs from "dayjs";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import { SPACING } from "../../common/spacing";
+
 import { defaultCompanyLeavingDate } from "../defaultValues";
 import { CompanyInput } from "../types/inputs";
 
 import { getCompanyDetailsSchema } from "./schema";
-import { SPACING } from "../../common/spacing";
 
 const StyledDatePicker = styled(DatePicker)({ minWidth: 160 });
 

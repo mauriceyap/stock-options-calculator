@@ -10,9 +10,9 @@ import {
 import { useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
+import { SPACING } from "../../common/spacing";
 
 import { EditOtherIncomeDialog } from "./EditOtherIncomeDialog";
-import { SPACING } from "../../common/spacing";
 
 const OtherIncomeValueContainer = styled("section")(({ theme }) =>
   theme.unstable_sx({

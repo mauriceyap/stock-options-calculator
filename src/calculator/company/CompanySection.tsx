@@ -23,6 +23,7 @@ import dayjs from "dayjs";
 import { Children, ReactNode, useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
+import { SPACING } from "../../common/spacing";
 
 import { EditAllocationDetailsDialog } from "../allocation/EditAllocationDetailsDialog";
 import { defaultAllocationInputValues, now } from "../defaultValues";
@@ -30,7 +31,6 @@ import { AllocationInput, CompanyInput } from "../types/inputs";
 
 import { EditCompanyDetailsDialog } from "./EditCompanyDetailsDialog";
 import { ExitEventPredictionValue } from "./ExitEventPredictionValue";
-import { SPACING } from "../../common/spacing";
 
 const CurrentCompanyChipContainer = styled("div")(({ theme }) =>
   theme.unstable_sx({

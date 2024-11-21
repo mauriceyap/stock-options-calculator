@@ -2,7 +2,9 @@ import { AddCircle } from "@mui/icons-material";
 import { Alert, Button, Grid, Stack, Typography } from "@mui/material";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 
+import { SPACING } from "../common/spacing";
 import { TAX_YEAR_CONFIGS } from "../config/tax";
+import { useSaveData } from "../contexts/saveData/useSaveData";
 
 import { AllocationCard } from "./allocation";
 import { calculatorInputReducer } from "./calculatorInputReducer";
@@ -28,9 +30,8 @@ import {
   taxYearConfigInputToCustomTaxYearConfig,
 } from "./taxRates/taxRatesInput";
 import { taxRatesInputReducer } from "./taxRatesInputReducer";
-import { AllocationInput, CompanyInput } from "./types/inputs";
+import { AllocationInput, CalculatorInput, CompanyInput } from "./types/inputs";
 import { useCalculateWebWorker } from "./useCalculateWebWorker";
-import { SPACING } from "../common/spacing";
 
 const defaultTaxRatesInputValue: TaxRatesInput = {
   taxYearInput: defaultTaxYear,
@@ -40,9 +41,25 @@ const defaultTaxRatesInputValue: TaxRatesInput = {
 };
 
 export const Calculator = () => {
+  const { calculatorInputJSON, setCalculatorInputJSON } = useSaveData();
+
+  const savedCalculatorInput = useMemo(() => {
+    if (calculatorInputJSON) {
+      try {
+        const calculatorInput = JSON.parse(
+          calculatorInputJSON
+        ) as CalculatorInput;
+        return calculatorInput;
+      } catch {
+        return defaultValues;
+      }
+    }
+    return defaultValues;
+  }, [calculatorInputJSON]);
+
   const [calculatorInput, dispatchCalculatorInput] = useReducer(
     calculatorInputReducer,
-    defaultValues
+    savedCalculatorInput
   );
 
   const [executeCalculate, { result, loading }] = useCalculateWebWorker();
@@ -50,6 +67,10 @@ export const Calculator = () => {
   useEffect(() => {
     executeCalculate(calculatorInput);
   }, [executeCalculate, calculatorInput]);
+
+  useEffect(() => {
+    setCalculatorInputJSON(JSON.stringify(calculatorInput));
+  }, [calculatorInput, setCalculatorInputJSON]);
 
   const [taxRatesInput, dispatchTaxRatesInput] = useReducer(
     taxRatesInputReducer,

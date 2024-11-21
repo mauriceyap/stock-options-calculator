@@ -11,6 +11,7 @@ import {
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import { SPACING } from "../../common/spacing";
 import {
   STUDENT_LOAN_REPAYMENT_TYPES,
   StudentLoanRepaymentType,
@@ -20,7 +21,6 @@ import { STUDENT_LOAN_REPAYMENT_TYPE_DISPLAY_NAMES } from "../displayNames";
 import { TaxationConfigInput } from "../types/inputs";
 
 import { studentRepaymentLoanTypesInputSchema } from "./schema";
-import { SPACING } from "../../common/spacing";
 
 export interface StudentLoanRepaymentsProps {
   studentRepaymentLoanTypes: Record<StudentLoanRepaymentType, boolean>;

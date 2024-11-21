@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import { SPACING } from "../../common/spacing";
 import { TAX_YEARS } from "../../config/tax";
 
 import { TAX_YEAR_DISPLAY_NAMES } from "../displayNames";
@@ -23,7 +24,6 @@ import {
   TaxRatesInput,
   TaxYearInput,
 } from "./taxRatesInput";
-import { SPACING } from "../../common/spacing";
 
 export interface TaxRatesProps {
   taxYearInput: TaxYearInput;

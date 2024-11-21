@@ -27,13 +27,14 @@ import dayjs from "dayjs";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import { SPACING } from "../../common/spacing";
+
 import { defaultAllocationVestingCliffMonths } from "../defaultValues";
 import { SHARE_SCHEME_DISPLAY_NAMES } from "../displayNames";
 import { SHARE_SCHEMES } from "../shareSchemes";
 import { AllocationInput } from "../types/inputs";
 
 import { allocationInputSchema } from "./schema";
-import { SPACING } from "../../common/spacing";
 
 const StyledDatePicker = styled(DatePicker)({ minWidth: 160 });
 

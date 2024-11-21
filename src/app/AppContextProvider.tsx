@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { ReactNode, useMemo } from "react";
 
 import { ColourModeProvider } from "../contexts/colourMode/ColourModeProvider";
+import { SaveDataProvider } from "../contexts/saveData/SaveDataProvider";
 
 const DAY_JS_LOCALE = "en-gb";
 
@@ -14,6 +15,7 @@ interface ProviderProps {
 }
 
 const providers = [
+  SaveDataProvider,
   ColourModeProvider,
   ({ children }: ProviderProps) => (
     <LocalizationProvider

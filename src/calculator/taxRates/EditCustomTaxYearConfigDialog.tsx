@@ -21,6 +21,7 @@ import {
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import { SPACING } from "../../common/spacing";
 import { StudentLoanRepaymentType, TAX_YEAR_CONFIGS } from "../../config/tax";
 
 import { STUDENT_LOAN_REPAYMENT_TYPE_DISPLAY_NAMES } from "../displayNames";
@@ -29,7 +30,6 @@ import { ResetCustomTaxYearValuesButtonGroup } from "./ResetCustomTaxYearValuesB
 import { customTaxYearConfigSchema } from "./schema";
 import { CustomTaxYearConfigInput } from "./taxRatesInput";
 import { taxYearConfigInputToCustomTaxYearConfig } from "./taxRatesInput";
-import { SPACING } from "../../common/spacing";
 
 const deductionTypeGridItemSizes: RegularBreakpoints = {
   xs: 12,
