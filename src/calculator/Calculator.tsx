@@ -125,14 +125,6 @@ export const Calculator = () => {
     [dispatchTaxRatesInput]
   );
 
-  const companyNamesWithNoShareAllocations = useMemo(
-    () =>
-      calculatorInput.companies
-        .filter(({ allocations }) => allocations.length === 0)
-        .map(({ name }) => name),
-    [calculatorInput.companies]
-  );
-
   const [isOtherIncomeSet, setIsOtherIncomeSet] = useState(false);
 
   return (
@@ -177,6 +169,14 @@ export const Calculator = () => {
                       payload: { companyIndex },
                     });
                   }}
+                  alert={
+                    company.allocations.length === 0 ? (
+                      <Alert variant="standard" severity="info">
+                        Add a share allocation from {company.name} to see your
+                        calculation.
+                      </Alert>
+                    ) : null
+                  }
                 >
                   {company.allocations.map(
                     (allocation, allocationIndex, allocations) => (
@@ -227,6 +227,12 @@ export const Calculator = () => {
             >
               Add a company
             </Button>
+            {calculatorInput.companies.length === 0 && (
+              <Alert variant="standard" severity="info">
+                Add a company from which you have received share options to see
+                your calculation.
+              </Alert>
+            )}
           </Stack>
         </Grid>
         <Grid item xs={12} lg={6}>
@@ -237,13 +243,11 @@ export const Calculator = () => {
             Enter details of your expected financial situation at the point at
             which you will exercise your vested share options.
           </Typography>
+          <Typography paragraph>
+            These values will be used to used to calculate taxes and other
+            deductions from your gains.
+          </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Alert severity="info">
-                These values will be used to used to calculate taxes and other
-                deductions from your gains.
-              </Alert>
-            </Grid>
             <Grid item xs={12} md={4} lg={12}>
               <TaxRates
                 taxYearInput={taxRatesInput.taxYearInput}
@@ -270,61 +274,42 @@ export const Calculator = () => {
             </Grid>
           </Grid>
         </Grid>
-        {calculatorInput.companies.length === 0 || !isOtherIncomeSet ? (
-          <Grid item xs={12}>
-            <Alert severity="info" variant="filled">
-              <AlertTitle>
-                Please add the following information to see your calculation:
-              </AlertTitle>
-              <ul>
-                {calculatorInput.companies.length === 0 && (
-                  <li>
-                    Add a company from which you have received share options
-                  </li>
-                )}
-                {companyNamesWithNoShareAllocations.map((companyName) => (
-                  <li key={companyName}>
-                    Add a share allocation for {companyName}.
-                  </li>
-                ))}
-                {!isOtherIncomeSet && (
-                  <li>Set your expected taxable annual income.</li>
-                )}
-              </ul>
-            </Alert>
-          </Grid>
-        ) : (
-          <Grid item xs={12}>
-            <Typography variant="h3" gutterBottom>
-              Your prediction
-            </Typography>
-            <Grid container spacing={6}>
-              <Grid item xs={12} lg={4}>
-                <Typography variant="h4" gutterBottom>
-                  Totals
-                </Typography>
-                {loading ? (
-                  <TotalsChart loading />
-                ) : (
-                  <TotalsChart loading={false} totals={result.totals} />
-                )}
-              </Grid>
-              <Grid item xs={12} lg={8}>
-                <Typography variant="h4" gutterBottom>
-                  Gains over time
-                </Typography>
-                {loading ? (
-                  <TimeSeriesChart loading />
-                ) : (
-                  <TimeSeriesChart
-                    loading={false}
-                    timeSeries={result.timeSeries}
-                  />
-                )}
+        {calculatorInput.companies.length > 0 &&
+          calculatorInput.companies.filter(
+            ({ allocations }) => allocations.length === 0
+          ).length === 0 &&
+          isOtherIncomeSet && (
+            <Grid item xs={12}>
+              <Typography variant="h3" gutterBottom>
+                Your prediction
+              </Typography>
+              <Grid container spacing={6}>
+                <Grid item xs={12} lg={4}>
+                  <Typography variant="h4" gutterBottom>
+                    Totals
+                  </Typography>
+                  {loading ? (
+                    <TotalsChart loading />
+                  ) : (
+                    <TotalsChart loading={false} totals={result.totals} />
+                  )}
+                </Grid>
+                <Grid item xs={12} lg={8}>
+                  <Typography variant="h4" gutterBottom>
+                    Gains over time
+                  </Typography>
+                  {loading ? (
+                    <TimeSeriesChart loading />
+                  ) : (
+                    <TimeSeriesChart
+                      loading={false}
+                      timeSeries={result.timeSeries}
+                    />
+                  )}
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        )}
+          )}
       </Grid>
     </div>
   );

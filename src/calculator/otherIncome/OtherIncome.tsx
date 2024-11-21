@@ -1,5 +1,12 @@
 import { EditRounded } from "@mui/icons-material";
-import { Button, IconButton, Stack, Typography, styled } from "@mui/material";
+import {
+  Alert,
+  Button,
+  IconButton,
+  Stack,
+  Typography,
+  styled,
+} from "@mui/material";
 import { useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
@@ -68,17 +75,22 @@ export const OtherIncome = ({
             </IconButton>
           </OtherIncomeValueContainer>
         ) : (
-          <div>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() => {
-                setEditDialogOpen(true);
-              }}
-            >
-              Enter your expected income
-            </Button>
-          </div>
+          <>
+            <div>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  setEditDialogOpen(true);
+                }}
+              >
+                Enter your expected income
+              </Button>
+            </div>
+            <Alert variant="standard" severity="info">
+              Enter your expected income to see your calculation.
+            </Alert>
+          </>
         )}
       </Stack>
     </>

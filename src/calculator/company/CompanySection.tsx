@@ -72,6 +72,7 @@ export interface CompanySectionProps {
   allCompanyNames: string[];
   deleteCompany: (() => void) | undefined;
   appendNewShareAllocation: () => void;
+  alert?: ReactNode;
   children: ReactNode | ReactNode[];
 }
 
@@ -81,6 +82,7 @@ export const CompanySection = ({
   setCompanyDetails,
   deleteCompany,
   appendNewShareAllocation,
+  alert,
   children,
 }: CompanySectionProps) => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -193,6 +195,7 @@ export const CompanySection = ({
                 ))}
               </Grid>
             </div>
+            {alert}
           </Stack>
         </StyledCardContent>
       </Card>
