@@ -1,9 +1,6 @@
 import { Reducer } from "react";
 
-import {
-  defaultAllocationInputValues,
-  defaultCompanyInputValues,
-} from "./defaultValues";
+import { defaultCompanyInputValues } from "./defaultValues";
 import {
   AllocationInput,
   CalculatorInput,
@@ -28,6 +25,7 @@ interface RemoveCompanyPayload {
 
 interface AppendNewCompanyAllocationPayload {
   companyIndex: number;
+  allocation: AllocationInput;
 }
 
 interface RemoveCompanyAllocationPayload {
@@ -38,7 +36,7 @@ interface RemoveCompanyAllocationPayload {
 type CalculatorInputAction =
   | { type: "setCompanyDetails"; payload: SetCompanyDetailsPayload }
   | { type: "setCompanyAllocation"; payload: SetCompanyAllocationPayload }
-  | { type: "appendNewCompany" }
+  | { type: "appendNewCompany"; payload: Omit<CompanyInput, "allocations"> }
   | {
       type: "appendNewCompanyAllocation";
       payload: AppendNewCompanyAllocationPayload;
@@ -147,25 +145,11 @@ export const calculatorInputReducer: Reducer<
       return setCompanyAllocation(prevState, action.payload);
     }
     case "appendNewCompany": {
-      const newCompanyName = (() => {
-        const allCompanyNamesSet = new Set(
-          prevState.companies.map(({ name }) => name)
-        );
-        let index = 1;
-        for (;;) {
-          const indexedName =
-            index === 1 ? "Your company" : `Your company ${index}`;
-          if (!allCompanyNamesSet.has(indexedName)) {
-            return indexedName;
-          }
-          index++;
-        }
-      })();
       return {
         ...prevState,
         companies: [
           ...prevState.companies,
-          { ...defaultCompanyInputValues, name: newCompanyName },
+          { ...action.payload, allocations: [] },
         ],
       };
     }
@@ -180,7 +164,7 @@ export const calculatorInputReducer: Reducer<
       };
     }
     case "appendNewCompanyAllocation": {
-      const { companyIndex } = action.payload;
+      const { companyIndex, allocation } = action.payload;
       const { companies: prevCompanies } = prevState;
       if (!prevCompanies[companyIndex]) {
         throw new Error(
@@ -196,7 +180,7 @@ export const calculatorInputReducer: Reducer<
             ...prevCompanies[companyIndex],
             allocations: [
               ...prevCompanies[companyIndex].allocations,
-              defaultAllocationInputValues,
+              allocation,
             ],
           },
           ...prevCompanies.slice(companyIndex + 1),

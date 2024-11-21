@@ -41,6 +41,7 @@ export interface EditAllocationDetailsDialogProps {
   onClose: () => void;
   onChange: (values: AllocationInput) => void;
   existingValues: AllocationInput;
+  addAllocation?: boolean;
 }
 
 export const EditAllocationDetailsDialog = ({
@@ -48,6 +49,7 @@ export const EditAllocationDetailsDialog = ({
   onClose,
   onChange,
   existingValues,
+  addAllocation,
 }: EditAllocationDetailsDialogProps) => {
   const { handleSubmit, control, reset } = useForm<AllocationInput>({
     values: existingValues,
@@ -61,7 +63,9 @@ export const EditAllocationDetailsDialog = ({
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>Edit share allocation</DialogTitle>
+      <DialogTitle>
+        {addAllocation ? "Add share allocation" : "Edit share allocation"}
+      </DialogTitle>
       <DialogContent>
         <Grid container columnSpacing={1} rowSpacing={2}>
           <Grid item xs={7}>
@@ -370,7 +374,7 @@ export const EditAllocationDetailsDialog = ({
             onClose();
           })}
         >
-          Make these changes
+          {addAllocation ? "Add this allocation" : "Make these changes"}
         </Button>
       </DialogActions>
     </Dialog>

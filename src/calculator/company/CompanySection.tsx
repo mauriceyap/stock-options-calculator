@@ -24,8 +24,9 @@ import { Children, ReactNode, useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
 
-import { now } from "../defaultValues";
-import { CompanyInput } from "../types/inputs";
+import { EditAllocationDetailsDialog } from "../allocation/EditAllocationDetailsDialog";
+import { defaultAllocationInputValues, now } from "../defaultValues";
+import { AllocationInput, CompanyInput } from "../types/inputs";
 
 import { EditCompanyDetailsDialog } from "./EditCompanyDetailsDialog";
 import { ExitEventPredictionValue } from "./ExitEventPredictionValue";
@@ -71,7 +72,7 @@ export interface CompanySectionProps {
   ) => void;
   allCompanyNames: string[];
   deleteCompany: (() => void) | undefined;
-  appendNewShareAllocation: () => void;
+  appendNewShareAllocation: (values: AllocationInput) => void;
   alert?: ReactNode;
   children: ReactNode | ReactNode[];
 }
@@ -85,7 +86,6 @@ export const CompanySection = ({
   alert,
   children,
 }: CompanySectionProps) => {
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const {
     name,
     leavingDate,
@@ -94,6 +94,8 @@ export const CompanySection = ({
     predictedExitEventSharePriceHigh,
     predictedExitEventDate,
   } = company;
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [addAllocationDialogOpen, setAddAllocationDialogOpen] = useState(false);
   return (
     <>
       <EditCompanyDetailsDialog
@@ -179,12 +181,23 @@ export const CompanySection = ({
                 variant="contained"
                 startIcon={<AddBox />}
                 onClick={() => {
-                  appendNewShareAllocation();
+                  setAddAllocationDialogOpen(true);
                 }}
                 size="small"
               >
                 Add a share allocation
               </Button>
+              <EditAllocationDetailsDialog
+                addAllocation
+                open={addAllocationDialogOpen}
+                onClose={() => {
+                  setAddAllocationDialogOpen(false);
+                }}
+                onChange={(values) => {
+                  appendNewShareAllocation(values);
+                }}
+                existingValues={defaultAllocationInputValues}
+              />
             </ShareAllocationsHeadingContainer>
             <div>
               <Grid container spacing={1}>

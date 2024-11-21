@@ -34,6 +34,7 @@ export interface EditCompanyDetailsDialogProps {
   onChange: (values: Omit<CompanyInput, "allocations">) => void;
   existingValues: Omit<CompanyInput, "allocations">;
   allCompanyNames: string[];
+  addCompany?: boolean;
 }
 
 export const EditCompanyDetailsDialog = ({
@@ -42,6 +43,7 @@ export const EditCompanyDetailsDialog = ({
   onChange,
   existingValues,
   allCompanyNames,
+  addCompany,
 }: EditCompanyDetailsDialogProps) => {
   const schema = useMemo(
     () =>
@@ -65,7 +67,7 @@ export const EditCompanyDetailsDialog = ({
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>Edit company</DialogTitle>
+      <DialogTitle>{addCompany ? "Add company" : "Edit company"}</DialogTitle>
       <DialogContent>
         <Grid container spacing={1}>
           <Grid item xs={12}>
@@ -246,7 +248,7 @@ export const EditCompanyDetailsDialog = ({
             onClose();
           })}
         >
-          Make these changes
+          {addCompany ? "Add this company" : "Make these changes"}
         </Button>
       </DialogActions>
     </Dialog>

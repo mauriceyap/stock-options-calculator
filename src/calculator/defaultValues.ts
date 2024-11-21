@@ -26,7 +26,7 @@ export const defaultAllocationInputValues: AllocationInput = {
 };
 
 export const defaultCompanyInputValues: CompanyInput = {
-  name: "Your company",
+  name: "",
   allocations: [],
   leavingDate: null,
   predictedExitEventDate: new Date(now.getFullYear() + 5, now.getMonth(), 1),

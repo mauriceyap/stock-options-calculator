@@ -1,12 +1,5 @@
 import { AddCircle } from "@mui/icons-material";
-import {
-  Alert,
-  AlertTitle,
-  Button,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Alert, Button, Grid, Stack, Typography } from "@mui/material";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 
 import { TAX_YEAR_CONFIGS } from "../config/tax";
@@ -16,7 +9,9 @@ import { calculatorInputReducer } from "./calculatorInputReducer";
 import { TimeSeriesChart } from "./charts/TimeSeriesChart";
 import { TotalsChart } from "./charts/TotalsChart";
 import { CompanySection } from "./company";
+import { EditCompanyDetailsDialog } from "./company/EditCompanyDetailsDialog";
 import {
+  defaultCompanyInputValues,
   defaultCustomTaxYearConfig,
   defaultTaxYear,
   defaultValues,
@@ -33,7 +28,7 @@ import {
   taxYearConfigInputToCustomTaxYearConfig,
 } from "./taxRates/taxRatesInput";
 import { taxRatesInputReducer } from "./taxRatesInputReducer";
-import { CompanyInput } from "./types/inputs";
+import { AllocationInput, CompanyInput } from "./types/inputs";
 import { useCalculateWebWorker } from "./useCalculateWebWorker";
 
 const defaultTaxRatesInputValue: TaxRatesInput = {
@@ -127,6 +122,8 @@ export const Calculator = () => {
 
   const [isOtherIncomeSet, setIsOtherIncomeSet] = useState(false);
 
+  const [addCompanyDialogOpen, setAddCompanyDialogOpen] = useState(false);
+
   return (
     <div>
       <Grid container spacing={6}>
@@ -163,10 +160,10 @@ export const Calculator = () => {
                   }}
                   company={company}
                   allCompanyNames={allCompanyNames}
-                  appendNewShareAllocation={() => {
+                  appendNewShareAllocation={(allocation: AllocationInput) => {
                     dispatchCalculatorInput({
                       type: "appendNewCompanyAllocation",
-                      payload: { companyIndex },
+                      payload: { companyIndex, allocation },
                     });
                   }}
                   alert={
@@ -222,11 +219,26 @@ export const Calculator = () => {
               }
               color="success"
               onClick={() => {
-                dispatchCalculatorInput({ type: "appendNewCompany" });
+                setAddCompanyDialogOpen(true);
               }}
             >
               Add a company
             </Button>
+            <EditCompanyDetailsDialog
+              addCompany
+              open={addCompanyDialogOpen}
+              onClose={() => { setAddCompanyDialogOpen(false); }}
+              onChange={(values) => {
+                dispatchCalculatorInput({
+                  type: "appendNewCompany",
+                  payload: values,
+                });
+              }}
+              existingValues={defaultCompanyInputValues}
+              allCompanyNames={calculatorInput.companies.map(
+                ({ name }) => name
+              )}
+            />
             {calculatorInput.companies.length === 0 && (
               <Alert variant="standard" severity="info">
                 Add a company from which you have received share options to see
