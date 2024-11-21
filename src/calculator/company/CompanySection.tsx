@@ -30,6 +30,7 @@ import { AllocationInput, CompanyInput } from "../types/inputs";
 
 import { EditCompanyDetailsDialog } from "./EditCompanyDetailsDialog";
 import { ExitEventPredictionValue } from "./ExitEventPredictionValue";
+import { SPACING } from "../../common/spacing";
 
 const CurrentCompanyChipContainer = styled("div")(({ theme }) =>
   theme.unstable_sx({
@@ -146,7 +147,7 @@ export const CompanySection = ({
           }
         />
         <StyledCardContent>
-          <Stack spacing={2}>
+          <Stack spacing={SPACING.md}>
             <div>
               <Typography variant="subtitle1">
                 Exit event predictions
@@ -200,7 +201,7 @@ export const CompanySection = ({
               />
             </ShareAllocationsHeadingContainer>
             <div>
-              <Grid container spacing={1}>
+              <Grid container spacing={SPACING.sm}>
                 {Children.map(children, (child) => (
                   <Grid item xs={12} sm={6} md={4} lg={6} xl={4}>
                     {child}

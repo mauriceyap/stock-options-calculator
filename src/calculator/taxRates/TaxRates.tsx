@@ -23,6 +23,7 @@ import {
   TaxRatesInput,
   TaxYearInput,
 } from "./taxRatesInput";
+import { SPACING } from "../../common/spacing";
 
 export interface TaxRatesProps {
   taxYearInput: TaxYearInput;
@@ -72,7 +73,7 @@ export const TaxRates = ({
         onChange={setCustomTaxYearConfig}
         existingValue={customTaxYearConfig}
       />
-      <Stack spacing={1}>
+      <Stack spacing={SPACING.sm}>
         <Typography variant="h5" gutterBottom>
           Tax and deduction rates
         </Typography>
@@ -87,7 +88,7 @@ export const TaxRates = ({
           render={({ field, fieldState: { error } }) => (
             <section>
               <FormControl error={Boolean(error)} fullWidth margin="normal">
-                <Stack spacing={1} direction="row">
+                <Stack spacing={SPACING.sm} direction="row">
                   <div>
                     <InputLabel id="taxYearInput-label">Tax year</InputLabel>
                     <Select<TaxYearInput>

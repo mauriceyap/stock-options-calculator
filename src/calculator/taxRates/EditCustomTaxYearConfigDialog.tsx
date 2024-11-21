@@ -29,6 +29,7 @@ import { ResetCustomTaxYearValuesButtonGroup } from "./ResetCustomTaxYearValuesB
 import { customTaxYearConfigSchema } from "./schema";
 import { CustomTaxYearConfigInput } from "./taxRatesInput";
 import { taxYearConfigInputToCustomTaxYearConfig } from "./taxRatesInput";
+import { SPACING } from "../../common/spacing";
 
 const deductionTypeGridItemSizes: RegularBreakpoints = {
   xs: 12,
@@ -74,7 +75,7 @@ export const EditCustomTaxYearConfigDialog = ({
     <Dialog open={open} onClose={onClose} maxWidth="xl">
       <DialogTitle>Set custom tax year configuration</DialogTitle>
       <DialogContent>
-        <Grid container spacing={2}>
+        <Grid container spacing={SPACING.md}>
           <Grid item xs={12}>
             <Typography paragraph>
               Enter your expected taxable income in the tax year during which
@@ -90,7 +91,7 @@ export const EditCustomTaxYearConfigDialog = ({
                 md: "column",
                 lg: "row",
               }}
-              spacing={1}
+              spacing={SPACING.sm}
             >
               <div>
                 <Controller
@@ -154,8 +155,11 @@ export const EditCustomTaxYearConfigDialog = ({
           </Grid>
           <Grid item {...deductionTypeGridItemSizes}>
             <FormLabel>Income tax: rates and limits</FormLabel>
-            <Stack spacing={1} direction={{ xs: "column", xl: "row" }}>
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
+            <Stack spacing={SPACING.sm} direction={{ xs: "column", xl: "row" }}>
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={SPACING.sm}
+              >
                 <div>
                   <Controller
                     name="incomeTax.basicRatePercentage"
@@ -199,7 +203,10 @@ export const EditCustomTaxYearConfigDialog = ({
                   />
                 </div>
               </Stack>
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={SPACING.sm}
+              >
                 <div>
                   <Controller
                     name="incomeTax.higherRatePercentage"
@@ -268,8 +275,11 @@ export const EditCustomTaxYearConfigDialog = ({
           </Grid>
           <Grid item {...deductionTypeGridItemSizes}>
             <FormLabel>Employee National Insurance contributions</FormLabel>
-            <Stack spacing={1} direction={{ xs: "column", lg: "row" }}>
-              <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>
+            <Stack spacing={SPACING.sm} direction={{ xs: "column", lg: "row" }}>
+              <Stack
+                spacing={SPACING.sm}
+                direction={{ xs: "column", sm: "row" }}
+              >
                 <div>
                   <Controller
                     name="employeeNationalInsurance.primaryThreshold"
@@ -313,7 +323,10 @@ export const EditCustomTaxYearConfigDialog = ({
                   />
                 </div>
               </Stack>
-              <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>
+              <Stack
+                spacing={SPACING.sm}
+                direction={{ xs: "column", sm: "row" }}
+              >
                 <div>
                   <Controller
                     name="employeeNationalInsurance.upperEarningsLimit"
@@ -364,9 +377,9 @@ export const EditCustomTaxYearConfigDialog = ({
               Capital Gains Tax and Business Asset Disposal Relief (BADR) rates
               and thresholds
             </FormLabel>
-            <Stack spacing={1} direction={{ xs: "column", xl: "row" }}>
+            <Stack spacing={SPACING.sm} direction={{ xs: "column", xl: "row" }}>
               <Stack
-                spacing={1}
+                spacing={SPACING.sm}
                 direction={{ xs: "column", sm: "row", md: "column", lg: "row" }}
               >
                 <div>
@@ -390,7 +403,10 @@ export const EditCustomTaxYearConfigDialog = ({
                     )}
                   />
                 </div>
-                <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>
+                <Stack
+                  spacing={SPACING.sm}
+                  direction={{ xs: "column", sm: "row" }}
+                >
                   <div>
                     <Controller
                       name="capitalGainsTax.lowerRatePercentage"
@@ -435,7 +451,10 @@ export const EditCustomTaxYearConfigDialog = ({
                   </div>
                 </Stack>
               </Stack>
-              <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>
+              <Stack
+                spacing={SPACING.sm}
+                direction={{ xs: "column", sm: "row" }}
+              >
                 <div>
                   <Controller
                     name="capitalGainsTax.businessAssetDisposalReliefRatePercentage"
@@ -557,11 +576,11 @@ export const EditCustomTaxYearConfigDialog = ({
       </DialogContent>
       <DialogActions>
         <ResetCustomTaxYearValuesButtonGroup
-          onReset={(taxYear) =>
-            { reset(
+          onReset={(taxYear) => {
+            reset(
               taxYearConfigInputToCustomTaxYearConfig(TAX_YEAR_CONFIGS[taxYear])
-            ); }
-          }
+            );
+          }}
         />
         <DialogActionButtonsSpacer />
         <Button onClick={onClose} variant="outlined">

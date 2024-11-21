@@ -25,6 +25,7 @@ import { defaultCompanyLeavingDate } from "../defaultValues";
 import { CompanyInput } from "../types/inputs";
 
 import { getCompanyDetailsSchema } from "./schema";
+import { SPACING } from "../../common/spacing";
 
 const StyledDatePicker = styled(DatePicker)({ minWidth: 160 });
 
@@ -69,7 +70,7 @@ export const EditCompanyDetailsDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>{addCompany ? "Add company" : "Edit company"}</DialogTitle>
       <DialogContent>
-        <Grid container spacing={1}>
+        <Grid container spacing={SPACING.sm}>
           <Grid item xs={12}>
             <Controller
               name="name"
@@ -93,7 +94,7 @@ export const EditCompanyDetailsDialog = ({
               name="leavingDate"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <Stack spacing={1}>
+                <Stack spacing={SPACING.sm}>
                   <FormGroup>
                     <FormControlLabel
                       control={

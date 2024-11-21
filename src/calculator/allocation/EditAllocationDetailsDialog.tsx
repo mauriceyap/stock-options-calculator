@@ -33,6 +33,7 @@ import { SHARE_SCHEMES } from "../shareSchemes";
 import { AllocationInput } from "../types/inputs";
 
 import { allocationInputSchema } from "./schema";
+import { SPACING } from "../../common/spacing";
 
 const StyledDatePicker = styled(DatePicker)({ minWidth: 160 });
 
@@ -192,7 +193,7 @@ export const EditAllocationDetailsDialog = ({
               name="vestingCliffMonths"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <Stack spacing={1}>
+                <Stack spacing={SPACING.sm}>
                   <section>
                     <FormLabel>Vesting cliff</FormLabel>
                     <FormHelperText>
@@ -222,7 +223,10 @@ export const EditAllocationDetailsDialog = ({
                       </li>
                     </ul>
                   </section>
-                  <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>
+                  <Stack
+                    spacing={SPACING.sm}
+                    direction={{ xs: "column", sm: "row" }}
+                  >
                     <FormGroup>
                       <FormControlLabel
                         control={
@@ -303,7 +307,7 @@ export const EditAllocationDetailsDialog = ({
             />
           </Grid>
           <Grid item xs={12}>
-            <Stack spacing={1}>
+            <Stack spacing={SPACING.sm}>
               <section>
                 <FormLabel>Share scheme</FormLabel>
                 <FormHelperText>

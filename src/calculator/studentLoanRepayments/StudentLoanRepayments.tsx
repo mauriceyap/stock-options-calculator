@@ -20,6 +20,7 @@ import { STUDENT_LOAN_REPAYMENT_TYPE_DISPLAY_NAMES } from "../displayNames";
 import { TaxationConfigInput } from "../types/inputs";
 
 import { studentRepaymentLoanTypesInputSchema } from "./schema";
+import { SPACING } from "../../common/spacing";
 
 export interface StudentLoanRepaymentsProps {
   studentRepaymentLoanTypes: Record<StudentLoanRepaymentType, boolean>;
@@ -52,7 +53,7 @@ export const StudentLoanRepayments = ({
   }, [handleSubmit, watch, setStudentRepaymentLoanTypes]);
 
   return (
-    <Stack spacing={1}>
+    <Stack spacing={SPACING.sm}>
       <Typography variant="h5" gutterBottom>
         Student loan repayments
       </Typography>

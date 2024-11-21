@@ -12,6 +12,7 @@ import { useState } from "react";
 import { formatGBP } from "../../common/formatGBP";
 
 import { EditOtherIncomeDialog } from "./EditOtherIncomeDialog";
+import { SPACING } from "../../common/spacing";
 
 const OtherIncomeValueContainer = styled("section")(({ theme }) =>
   theme.unstable_sx({
@@ -54,7 +55,7 @@ export const OtherIncome = ({
         }}
         existingValue={otherIncome}
       />
-      <Stack spacing={1}>
+      <Stack spacing={SPACING.sm}>
         <Typography variant="h5" gutterBottom>
           Other income
         </Typography>

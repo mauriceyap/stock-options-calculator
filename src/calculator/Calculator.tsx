@@ -30,6 +30,7 @@ import {
 import { taxRatesInputReducer } from "./taxRatesInputReducer";
 import { AllocationInput, CompanyInput } from "./types/inputs";
 import { useCalculateWebWorker } from "./useCalculateWebWorker";
+import { SPACING } from "../common/spacing";
 
 const defaultTaxRatesInputValue: TaxRatesInput = {
   taxYearInput: defaultTaxYear,
@@ -126,7 +127,7 @@ export const Calculator = () => {
 
   return (
     <div>
-      <Grid container spacing={6}>
+      <Grid container spacing={SPACING.xl}>
         <Grid item xs={12} lg={6}>
           <Typography variant="h4" gutterBottom>
             Your share options
@@ -135,7 +136,7 @@ export const Calculator = () => {
             Enter details of your share option allocations and predictions about
             the companies they are for.
           </Typography>
-          <Stack spacing={1}>
+          <Stack spacing={SPACING.sm}>
             {calculatorInput.companies.map(
               (company, companyIndex, companies) => (
                 <CompanySection
@@ -227,7 +228,9 @@ export const Calculator = () => {
             <EditCompanyDetailsDialog
               addCompany
               open={addCompanyDialogOpen}
-              onClose={() => { setAddCompanyDialogOpen(false); }}
+              onClose={() => {
+                setAddCompanyDialogOpen(false);
+              }}
               onChange={(values) => {
                 dispatchCalculatorInput({
                   type: "appendNewCompany",
@@ -259,7 +262,7 @@ export const Calculator = () => {
             These values will be used to used to calculate taxes and other
             deductions from your gains.
           </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={SPACING.md}>
             <Grid item xs={12} md={4} lg={12}>
               <TaxRates
                 taxYearInput={taxRatesInput.taxYearInput}
@@ -295,7 +298,7 @@ export const Calculator = () => {
               <Typography variant="h3" gutterBottom>
                 Your prediction
               </Typography>
-              <Grid container spacing={6}>
+              <Grid container spacing={SPACING.xl}>
                 <Grid item xs={12} lg={4}>
                   <Typography variant="h4" gutterBottom>
                     Totals
