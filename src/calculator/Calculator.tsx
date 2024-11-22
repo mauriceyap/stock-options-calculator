@@ -20,6 +20,10 @@ import {
 } from "./defaultValues";
 import { OtherIncome, OtherIncomeProps } from "./otherIncome/OtherIncome";
 import {
+  calculatorInputFromJSON,
+  calculatorInputToJSON,
+} from "./serialisation";
+import {
   StudentLoanRepayments,
   StudentLoanRepaymentsProps,
 } from "./studentLoanRepayments/StudentLoanRepayments";
@@ -30,7 +34,7 @@ import {
   taxYearConfigInputToCustomTaxYearConfig,
 } from "./taxRates/taxRatesInput";
 import { taxRatesInputReducer } from "./taxRatesInputReducer";
-import { AllocationInput, CalculatorInput, CompanyInput } from "./types/inputs";
+import { AllocationInput, CompanyInput } from "./types/inputs";
 import { useCalculateWebWorker } from "./useCalculateWebWorker";
 
 const defaultTaxRatesInputValue: TaxRatesInput = {
@@ -43,33 +47,31 @@ const defaultTaxRatesInputValue: TaxRatesInput = {
 export const Calculator = () => {
   const { calculatorInputJSON, setCalculatorInputJSON } = useSaveData();
 
-  const savedCalculatorInput = useMemo(() => {
-    if (calculatorInputJSON) {
-      try {
-        const calculatorInput = JSON.parse(
-          calculatorInputJSON
-        ) as CalculatorInput;
-        return calculatorInput;
-      } catch {
-        return defaultValues;
-      }
-    }
-    return defaultValues;
-  }, [calculatorInputJSON]);
+  const savedCalculatorInput = useMemo(
+    () => calculatorInputFromJSON(calculatorInputJSON),
+    [calculatorInputJSON]
+  );
 
   const [calculatorInput, dispatchCalculatorInput] = useReducer(
     calculatorInputReducer,
-    savedCalculatorInput
+    savedCalculatorInput ?? defaultValues
   );
 
   const [executeCalculate, { result, loading }] = useCalculateWebWorker();
 
   useEffect(() => {
-    executeCalculate(calculatorInput);
+    if (
+      calculatorInput.companies.length > 0 &&
+      calculatorInput.companies.map(
+        ({ allocations }) => allocations.length === 0
+      ).length > 0
+    ) {
+      executeCalculate(calculatorInput);
+    }
   }, [executeCalculate, calculatorInput]);
 
   useEffect(() => {
-    setCalculatorInputJSON(JSON.stringify(calculatorInput));
+    setCalculatorInputJSON(calculatorInputToJSON(calculatorInput));
   }, [calculatorInput, setCalculatorInputJSON]);
 
   const [taxRatesInput, dispatchTaxRatesInput] = useReducer(
@@ -142,7 +144,9 @@ export const Calculator = () => {
     [dispatchTaxRatesInput]
   );
 
-  const [isOtherIncomeSet, setIsOtherIncomeSet] = useState(false);
+  const [isOtherIncomeSet, setIsOtherIncomeSet] = useState(
+    Boolean(savedCalculatorInput)
+  );
 
   const [addCompanyDialogOpen, setAddCompanyDialogOpen] = useState(false);
 
