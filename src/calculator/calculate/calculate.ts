@@ -158,18 +158,17 @@ export const calculate = (
           },
           allocationIndex
         ) => {
-          const lowGrossGainPerOption = Math.max(
-            predictedExitEventSharePriceLow - strikePrice,
-            0
-          );
-          const mediumGrossGainPerOption = Math.max(
-            predictedExitEventSharePriceMedium - strikePrice,
-            0
-          );
-          const highGrossGainPerOption = Math.max(
-            predictedExitEventSharePriceHigh - strikePrice,
-            0
-          );
+          const expired = predictedExitEventDate > expiry;
+
+          const lowGrossGainPerOption = expired
+            ? 0
+            : Math.max(predictedExitEventSharePriceLow - strikePrice, 0);
+          const mediumGrossGainPerOption = expired
+            ? 0
+            : Math.max(predictedExitEventSharePriceMedium - strikePrice, 0);
+          const highGrossGainPerOption = expired
+            ? 0
+            : Math.max(predictedExitEventSharePriceHigh - strikePrice, 0);
 
           // Immediately-vesting options
           if (optionsImmediateVesting > 0) {
@@ -188,7 +187,6 @@ export const calculate = (
 
           // Options vesting at exit
           if (
-            predictedExitEventDate <= expiry &&
             (!leavingDate || predictedExitEventDate <= leavingDate) &&
             optionsVestingAtExit > 0
           ) {
