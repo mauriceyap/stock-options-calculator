@@ -4,6 +4,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Chip,
   Typography,
   styled,
 } from "@mui/material";
@@ -13,6 +14,7 @@ import { Fragment, ReactNode, useState } from "react";
 import { formatGBP } from "../../common/formatGBP";
 import { formatQuantity } from "../../common/formatQuantity";
 
+import { SHARE_SCHEME_DISPLAY_NAMES } from "../displayNames";
 import { AllocationInput } from "../types/inputs";
 
 import { EditAllocationDetailsDialog } from "./EditAllocationDetailsDialog";
@@ -51,6 +53,7 @@ export const AllocationCard = ({
     vestingCliffMonths,
     vestingPeriodMonths,
     expiry,
+    shareScheme,
   } = allocation;
 
   const tenureBasedVestingOptionsMessage = (() => {
@@ -130,9 +133,17 @@ export const AllocationCard = ({
             </Typography>{" "}
             strike price
           </Typography>
-          <Typography component="div" variant="body2">
+          <Typography component="div" variant="body2" gutterBottom>
             This allocation expires on {dayjs(expiry).format("ll")}.
           </Typography>
+          <div>
+            <Chip
+              label={SHARE_SCHEME_DISPLAY_NAMES[shareScheme]}
+              size="small"
+              color={shareScheme === "none" ? "default" : "secondary"}
+              variant={shareScheme === "none" ? "outlined" : "filled"}
+            />
+          </div>
         </CardContent>
         <CardActions>
           <Button
