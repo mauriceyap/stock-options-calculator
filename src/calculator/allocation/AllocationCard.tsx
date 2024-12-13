@@ -95,7 +95,7 @@ export const AllocationCard = ({
             Vesting from {dayjs(vestingCommencement).format("ll")}
           </Typography>
           <Typography component="div" gutterBottom>
-            <Typography paragraph align="center">
+            <Typography align="center">
               <TotalOptionsTypography>
                 {formatQuantity(totalOptions, totalOptions >= 10 * 1000 * 1000)}
               </TotalOptionsTypography>{" "}

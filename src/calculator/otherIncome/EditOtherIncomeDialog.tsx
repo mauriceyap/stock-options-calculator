@@ -45,7 +45,7 @@ export const EditOtherIncomeDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle>Edit other income</DialogTitle>
       <DialogContent>
-        <Typography paragraph>
+        <Typography>
           Enter your expected taxable income in the tax year during which you
           will exercise your vested share options.
         </Typography>
@@ -56,16 +56,18 @@ export const EditOtherIncomeDialog = ({
             <TextField
               {...field}
               label="Expected other income"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">£</InputAdornment>
-                ),
-              }}
               type="number"
               margin="normal"
               error={Boolean(error)}
               helperText={error?.message ?? null}
               fullWidth
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">£</InputAdornment>
+                  ),
+                },
+              }}
             />
           )}
         />

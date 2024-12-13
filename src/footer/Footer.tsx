@@ -16,12 +16,12 @@ export const Footer = () => (
   <Container maxWidth="lg" component="footer">
     <FooterContentContainer>
       <div>
-        <Typography paragraph color="text.secondary" variant="body2">
+        <Typography color="text.secondary" variant="body2">
           Created by{" "}
           <Link href="https://linkedin.com/in/mauriceyap">Maurice Yap</Link>.
         </Typography>
         {contributors.length > 0 && (
-          <Typography paragraph color="text.secondary" variant="body2">
+          <Typography color="text.secondary" variant="body2">
             Additional contributions by:
             <ul>
               {contributors.map(({ name, href }) => (
@@ -34,7 +34,7 @@ export const Footer = () => (
         )}
       </div>
       <div>
-        <Typography paragraph color="text.secondary" variant="body2">
+        <Typography color="text.secondary" variant="body2">
           <Link href="https://github.com/mauriceyap/stock-options-calculator">
             View and contribute to this project on GitHub
           </Link>{" "}

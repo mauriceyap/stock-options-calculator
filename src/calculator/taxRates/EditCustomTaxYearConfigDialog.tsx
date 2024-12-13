@@ -6,9 +6,9 @@ import {
   DialogContent,
   DialogTitle,
   FormLabel,
-  Grid,
+  Grid2,
+  Grid2Props,
   InputAdornment,
-  RegularBreakpoints,
   Stack,
   TableBody,
   TableCell,
@@ -31,7 +31,7 @@ import { customTaxYearConfigSchema } from "./schema";
 import { CustomTaxYearConfigInput } from "./taxRatesInput";
 import { taxYearConfigInputToCustomTaxYearConfig } from "./taxRatesInput";
 
-const deductionTypeGridItemSizes: RegularBreakpoints = {
+const deductionTypeGridItemSize: Grid2Props["size"] = {
   xs: 12,
   md: 6,
 };
@@ -75,14 +75,14 @@ export const EditCustomTaxYearConfigDialog = ({
     <Dialog open={open} onClose={onClose} maxWidth="xl">
       <DialogTitle>Set custom tax year configuration</DialogTitle>
       <DialogContent>
-        <Grid container spacing={SPACING.md}>
-          <Grid item xs={12}>
-            <Typography paragraph>
+        <Grid2 container spacing={SPACING.md}>
+          <Grid2 size={12}>
+            <Typography>
               Enter your expected taxable income in the tax year during which
               you will exercise your vested share options.
             </Typography>
-          </Grid>
-          <Grid item {...deductionTypeGridItemSizes}>
+          </Grid2>
+          <Grid2 size={deductionTypeGridItemSize}>
             <FormLabel>Income tax: personal allowance (PA)</FormLabel>
             <Stack
               direction={{
@@ -101,15 +101,17 @@ export const EditCustomTaxYearConfigDialog = ({
                     <TextField
                       {...field}
                       label="Personal allowance"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">£</InputAdornment>
-                        ),
-                      }}
                       type="number"
                       margin="normal"
                       error={Boolean(error)}
                       helperText={error?.message ?? null}
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">£</InputAdornment>
+                          ),
+                        },
+                      }}
                     />
                   )}
                 />
@@ -122,15 +124,17 @@ export const EditCustomTaxYearConfigDialog = ({
                     <TextField
                       {...field}
                       label="PA reduction threshold"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">£</InputAdornment>
-                        ),
-                      }}
                       type="number"
                       margin="normal"
                       error={Boolean(error)}
                       helperText={error?.message ?? null}
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position="start">£</InputAdornment>
+                          ),
+                        },
+                      }}
                     />
                   )}
                 />
@@ -152,8 +156,8 @@ export const EditCustomTaxYearConfigDialog = ({
                 />
               </div>
             </Stack>
-          </Grid>
-          <Grid item {...deductionTypeGridItemSizes}>
+          </Grid2>
+          <Grid2 {...deductionTypeGridItemSize}>
             <FormLabel>Income tax: rates and limits</FormLabel>
             <Stack spacing={SPACING.sm} direction={{ xs: "column", xl: "row" }}>
               <Stack
@@ -168,15 +172,17 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Basic rate"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end">%</InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -189,15 +195,19 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Basic rate limit"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">£</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                £
+                              </InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -215,15 +225,17 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Higher rate"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end">%</InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -236,15 +248,19 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Higher rate limit"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">£</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                £
+                              </InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -258,22 +274,24 @@ export const EditCustomTaxYearConfigDialog = ({
                     <TextField
                       {...field}
                       label="Additional rate"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">%</InputAdornment>
-                        ),
-                      }}
                       type="number"
                       margin="normal"
                       error={Boolean(error)}
                       helperText={error?.message ?? null}
+                      slotProps={{
+                        input: {
+                          endAdornment: (
+                            <InputAdornment position="end">%</InputAdornment>
+                          ),
+                        },
+                      }}
                     />
                   )}
                 />
               </div>
             </Stack>
-          </Grid>
-          <Grid item {...deductionTypeGridItemSizes}>
+          </Grid2>
+          <Grid2 {...deductionTypeGridItemSize}>
             <FormLabel>Employee National Insurance contributions</FormLabel>
             <Stack spacing={SPACING.sm} direction={{ xs: "column", lg: "row" }}>
               <Stack
@@ -288,15 +306,19 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Primary threshold"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">£</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                £
+                              </InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -309,15 +331,17 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Primary rate"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end">%</InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -335,15 +359,19 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Upper earnings limit"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">£</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                £
+                              </InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -356,23 +384,25 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Reduced rate"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end">%</InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
                 </div>
               </Stack>
             </Stack>
-          </Grid>
-          <Grid item {...deductionTypeGridItemSizes}>
+          </Grid2>
+          <Grid2 {...deductionTypeGridItemSize}>
             <FormLabel>
               Capital Gains Tax and Business Asset Disposal Relief (BADR) rates
               and thresholds
@@ -390,15 +420,19 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="Tax-free allowance"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">£</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                £
+                              </InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -415,15 +449,19 @@ export const EditCustomTaxYearConfigDialog = ({
                         <TextField
                           {...field}
                           label="Lower rate"
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">%</InputAdornment>
-                            ),
-                          }}
                           type="number"
                           margin="normal"
                           error={Boolean(error)}
                           helperText={error?.message ?? null}
+                          slotProps={{
+                            input: {
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  %
+                                </InputAdornment>
+                              ),
+                            },
+                          }}
                         />
                       )}
                     />
@@ -436,15 +474,19 @@ export const EditCustomTaxYearConfigDialog = ({
                         <TextField
                           {...field}
                           label="Higher rate"
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">%</InputAdornment>
-                            ),
-                          }}
                           type="number"
                           margin="normal"
                           error={Boolean(error)}
                           helperText={error?.message ?? null}
+                          slotProps={{
+                            input: {
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  %
+                                </InputAdornment>
+                              ),
+                            },
+                          }}
                         />
                       )}
                     />
@@ -463,15 +505,17 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="BADR rate"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">%</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end">%</InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
@@ -484,23 +528,27 @@ export const EditCustomTaxYearConfigDialog = ({
                       <TextField
                         {...field}
                         label="BADR limit"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">£</InputAdornment>
-                          ),
-                        }}
                         type="number"
                         margin="normal"
                         error={Boolean(error)}
                         helperText={error?.message ?? null}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                £
+                              </InputAdornment>
+                            ),
+                          },
+                        }}
                       />
                     )}
                   />
                 </div>
               </Stack>
             </Stack>
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={12}>
             <FormLabel>Student loan repayment rates and thresholds</FormLabel>
             <TableContainer>
               <StudentLoanRepaymentsThresholdTable size="small" padding="none">
@@ -523,17 +571,19 @@ export const EditCustomTaxYearConfigDialog = ({
                               <TextField
                                 {...field}
                                 label="Threshold"
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      £
-                                    </InputAdornment>
-                                  ),
-                                }}
                                 type="number"
                                 margin="dense"
                                 error={Boolean(error)}
                                 helperText={error?.message ?? null}
+                                slotProps={{
+                                  input: {
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        £
+                                      </InputAdornment>
+                                    ),
+                                  },
+                                }}
                               />
                             )}
                           />
@@ -550,17 +600,19 @@ export const EditCustomTaxYearConfigDialog = ({
                               <TextField
                                 {...field}
                                 label="Rate"
-                                InputProps={{
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      %
-                                    </InputAdornment>
-                                  ),
-                                }}
                                 type="number"
                                 margin="dense"
                                 error={Boolean(error)}
                                 helperText={error?.message ?? null}
+                                slotProps={{
+                                  input: {
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        %
+                                      </InputAdornment>
+                                    ),
+                                  },
+                                }}
                               />
                             )}
                           />
@@ -571,8 +623,8 @@ export const EditCustomTaxYearConfigDialog = ({
                 </TableBody>
               </StudentLoanRepaymentsThresholdTable>
             </TableContainer>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
       <DialogActions>
         <ResetCustomTaxYearValuesButtonGroup

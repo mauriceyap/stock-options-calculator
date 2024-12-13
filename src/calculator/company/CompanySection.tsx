@@ -13,7 +13,7 @@ import {
   CardContent,
   CardHeader,
   Chip,
-  Grid,
+  Grid2,
   IconButton,
   Stack,
   Typography,
@@ -201,13 +201,13 @@ export const CompanySection = ({
               />
             </ShareAllocationsHeadingContainer>
             <div>
-              <Grid container spacing={SPACING.sm}>
+              <Grid2 container spacing={SPACING.sm}>
                 {Children.map(children, (child) => (
-                  <Grid item xs={12} sm={6} md={4} lg={6} xl={4}>
+                  <Grid2 size={{ xs: 12, sm: 6, md: 4, lg: 6, xl: 4 }}>
                     {child}
-                  </Grid>
+                  </Grid2>
                 ))}
-              </Grid>
+              </Grid2>
             </div>
             {alert}
           </Stack>

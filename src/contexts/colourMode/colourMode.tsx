@@ -1,7 +1,6 @@
 import { createContext } from "react";
 
-const COLOUR_MODES = ["dark", "light"] as const;
-export type ColourMode = (typeof COLOUR_MODES)[number];
+export type ColourMode = "dark" | "light";
 
 export interface ColourModeState {
   colourMode: ColourMode;

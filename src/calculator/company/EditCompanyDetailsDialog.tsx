@@ -10,7 +10,7 @@ import {
   FormGroup,
   FormHelperText,
   FormLabel,
-  Grid,
+  Grid2,
   InputAdornment,
   Stack,
   TextField,
@@ -71,8 +71,8 @@ export const EditCompanyDetailsDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>{addCompany ? "Add company" : "Edit company"}</DialogTitle>
       <DialogContent>
-        <Grid container spacing={SPACING.sm}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={SPACING.sm}>
+          <Grid2 size={12}>
             <Controller
               name="name"
               control={control}
@@ -89,8 +89,8 @@ export const EditCompanyDetailsDialog = ({
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={12}>
             <Controller
               name="leavingDate"
               control={control}
@@ -137,15 +137,15 @@ export const EditCompanyDetailsDialog = ({
                 </Stack>
               )}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={12}>
             <FormLabel>Exit event predictions</FormLabel>
             <FormHelperText>
               Provide estimates for the share price of this company when an exit
               event (e.g. IPO or buyout) occurs, and the date of this event.
             </FormHelperText>
-          </Grid>
-          <Grid item xs={12} sm={4} lg={3}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 4, lg: 3 }}>
             <Controller
               name="predictedExitEventSharePriceLow"
               control={control}
@@ -154,21 +154,23 @@ export const EditCompanyDetailsDialog = ({
                   <TextField
                     {...field}
                     label="Low share price"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">£</InputAdornment>
-                      ),
-                    }}
                     type="number"
                     margin="normal"
                     error={Boolean(error)}
                     helperText={error?.message ?? null}
+                    slotProps={{
+                      input: {
+                        startAdornment: (
+                          <InputAdornment position="start">£</InputAdornment>
+                        ),
+                      },
+                    }}
                   />
                 );
               }}
             />
-          </Grid>
-          <Grid item xs={12} sm={4} lg={3}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 4, lg: 3 }}>
             <Controller
               name="predictedExitEventSharePriceMedium"
               control={control}
@@ -176,20 +178,22 @@ export const EditCompanyDetailsDialog = ({
                 <TextField
                   {...field}
                   label="Medium share price"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">£</InputAdornment>
-                    ),
-                  }}
                   type="number"
                   margin="normal"
                   error={Boolean(error)}
                   helperText={error?.message ?? null}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">£</InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={12} sm={4} lg={3}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 4, lg: 3 }}>
             <Controller
               name="predictedExitEventSharePriceHigh"
               control={control}
@@ -197,20 +201,22 @@ export const EditCompanyDetailsDialog = ({
                 <TextField
                   {...field}
                   label="High share price"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">£</InputAdornment>
-                    ),
-                  }}
                   type="number"
                   margin="normal"
                   error={Boolean(error)}
                   helperText={error?.message ?? null}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">£</InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={12} lg={3}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, lg: 3 }}>
             <Controller
               name="predictedExitEventDate"
               control={control}
@@ -235,8 +241,8 @@ export const EditCompanyDetailsDialog = ({
                 </FormGroup>
               )}
             />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} variant="outlined">

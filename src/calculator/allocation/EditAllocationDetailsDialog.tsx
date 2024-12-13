@@ -12,7 +12,7 @@ import {
   FormGroup,
   FormHelperText,
   FormLabel,
-  Grid,
+  Grid2,
   InputAdornment,
   InputLabel,
   Link,
@@ -69,8 +69,8 @@ export const EditAllocationDetailsDialog = ({
         {addAllocation ? "Add share allocation" : "Edit share allocation"}
       </DialogTitle>
       <DialogContent>
-        <Grid container columnSpacing={1} rowSpacing={2}>
-          <Grid item xs={7}>
+        <Grid2 container columnSpacing={1} rowSpacing={2}>
+          <Grid2 size={7}>
             <Controller
               name="totalOptions"
               control={control}
@@ -78,21 +78,23 @@ export const EditAllocationDetailsDialog = ({
                 <TextField
                   {...field}
                   label="Total options"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">shares</InputAdornment>
-                    ),
-                  }}
                   type="number"
                   margin="normal"
                   error={Boolean(error)}
                   helperText={error?.message ?? null}
                   fullWidth
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">shares</InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={5}>
+          </Grid2>
+          <Grid2 size={5}>
             <Controller
               name="strikePrice"
               control={control}
@@ -100,21 +102,23 @@ export const EditAllocationDetailsDialog = ({
                 <TextField
                   {...field}
                   label="Strike price"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">£</InputAdornment>
-                    ),
-                  }}
                   type="number"
                   margin="normal"
                   error={Boolean(error)}
                   helperText={error?.message ?? null}
                   fullWidth
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">£</InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 4 }}>
             <Controller
               name="vestingCommencement"
               control={control}
@@ -139,8 +143,8 @@ export const EditAllocationDetailsDialog = ({
                 </FormGroup>
               )}
             />
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 4 }}>
             <Controller
               name="expiry"
               control={control}
@@ -165,8 +169,8 @@ export const EditAllocationDetailsDialog = ({
                 </FormGroup>
               )}
             />
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 4 }}>
             <Controller
               name="vestingPeriodMonths"
               control={control}
@@ -174,22 +178,24 @@ export const EditAllocationDetailsDialog = ({
                 <TextField
                   {...field}
                   label="Vesting period"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">months</InputAdornment>
-                    ),
-                  }}
                   type="number"
                   margin="normal"
                   error={Boolean(error)}
                   helperText={error?.message ?? null}
                   fullWidth
+                  slotProps={{
+                    input: {
+                      endAdornment: (
+                        <InputAdornment position="end">months</InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={6} md={0} />
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={{ xs: 6, md: 0 }} />
+          <Grid2 size={12}>
             <Controller
               name="vestingCliffMonths"
               control={control}
@@ -251,17 +257,19 @@ export const EditAllocationDetailsDialog = ({
                         <TextField
                           {...field}
                           label="Vesting cliff"
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                months
-                              </InputAdornment>
-                            ),
-                          }}
                           type="number"
                           margin="normal"
                           error={Boolean(error)}
                           helperText={error?.message ?? null}
+                          slotProps={{
+                            input: {
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  months
+                                </InputAdornment>
+                              ),
+                            },
+                          }}
                         />
                       </FormGroup>
                     )}
@@ -269,11 +277,11 @@ export const EditAllocationDetailsDialog = ({
                 </Stack>
               )}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={12}>
             <FormLabel>Other vesting events</FormLabel>
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
             <Controller
               name="optionsImmediateVesting"
               control={control}
@@ -289,8 +297,8 @@ export const EditAllocationDetailsDialog = ({
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
             <Controller
               name="optionsVestingAtExit"
               control={control}
@@ -306,8 +314,8 @@ export const EditAllocationDetailsDialog = ({
                 />
               )}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </Grid2>
+          <Grid2 size={12}>
             <Stack spacing={SPACING.sm}>
               <section>
                 <FormLabel>Share scheme</FormLabel>
@@ -364,8 +372,8 @@ export const EditAllocationDetailsDialog = ({
                 />
               </div>
             </Stack>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} variant="outlined">
