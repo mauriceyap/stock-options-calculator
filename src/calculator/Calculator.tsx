@@ -20,10 +20,6 @@ import {
 } from "./defaultValues";
 import { OtherIncome, OtherIncomeProps } from "./otherIncome/OtherIncome";
 import {
-  calculatorInputFromJSON,
-  calculatorInputToJSON,
-} from "./serialisation";
-import {
   StudentLoanRepayments,
   StudentLoanRepaymentsProps,
 } from "./studentLoanRepayments/StudentLoanRepayments";
@@ -45,16 +41,11 @@ const defaultTaxRatesInputValue: TaxRatesInput = {
 };
 
 export const Calculator = () => {
-  const { calculatorInputJSON, setCalculatorInputJSON } = useSaveData();
-
-  const savedCalculatorInput = useMemo(
-    () => calculatorInputFromJSON(calculatorInputJSON),
-    [calculatorInputJSON]
-  );
+  const { initialSavedCalculatorInput, saveCalculatorInput } = useSaveData();
 
   const [calculatorInput, dispatchCalculatorInput] = useReducer(
     calculatorInputReducer,
-    savedCalculatorInput ?? defaultValues
+    initialSavedCalculatorInput ?? defaultValues
   );
 
   const [executeCalculate, { result, loading }] = useCalculateWebWorker();
@@ -71,8 +62,8 @@ export const Calculator = () => {
   }, [executeCalculate, calculatorInput]);
 
   useEffect(() => {
-    setCalculatorInputJSON(calculatorInputToJSON(calculatorInput));
-  }, [calculatorInput, setCalculatorInputJSON]);
+    saveCalculatorInput(calculatorInput);
+  }, [calculatorInput, saveCalculatorInput]);
 
   const [taxRatesInput, dispatchTaxRatesInput] = useReducer(
     taxRatesInputReducer,
@@ -145,7 +136,7 @@ export const Calculator = () => {
   );
 
   const [isOtherIncomeSet, setIsOtherIncomeSet] = useState(
-    Boolean(savedCalculatorInput)
+    Boolean(initialSavedCalculatorInput)
   );
 
   const [addCompanyDialogOpen, setAddCompanyDialogOpen] = useState(false);

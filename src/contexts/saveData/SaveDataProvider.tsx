@@ -1,46 +1,65 @@
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+
+import {
+  calculatorInputFromJSON,
+  calculatorInputToJSON,
+} from "../../calculator/serialisation";
+import { CalculatorInput } from "../../calculator/types/inputs";
+import { LOCAL_STORAGE_KEYS } from "../../common/localStorageKeys";
 
 import { SaveDataContext, SaveDataContextValue } from "./saveData";
-
-const LOCAL_STORAGE_KEYS = {
-  CALCULATOR_INPUT_JSON: "CALCULATOR_INPUT_JSON",
-} as const;
 
 interface SaveDataProviderProps {
   children: ReactNode;
 }
 
 export const SaveDataProvider = ({ children }: SaveDataProviderProps) => {
-  const [calculatorInputJSONState, setCalculatorInputJSONState] = useState(
-    localStorage.getItem(LOCAL_STORAGE_KEYS.CALCULATOR_INPUT_JSON) ?? ""
-  );
+  const initialSavedCalculatorInput = useMemo(() => {
+    const savedCalculatorInputJSON =
+      localStorage.getItem(LOCAL_STORAGE_KEYS.CALCULATOR_INPUT_JSON) ?? "";
+    return calculatorInputFromJSON(savedCalculatorInputJSON);
+  }, []);
 
-  const [changesPresent, setChangesPresent] = useState(false);
-
-  const saveDataToLocalStorage = useCallback(() => {
-    localStorage.setItem(
-      LOCAL_STORAGE_KEYS.CALCULATOR_INPUT_JSON,
-      calculatorInputJSONState
-    );
-    setChangesPresent(false);
-  }, [calculatorInputJSONState]);
-
-  const setCalculatorInputJSON = useCallback(
-    (calculatorInputJSON: string) => {
-      setCalculatorInputJSONState(calculatorInputJSON);
-      setChangesPresent(
-        localStorage.getItem(LOCAL_STORAGE_KEYS.CALCULATOR_INPUT_JSON) !==
-          calculatorInputJSONState
+  const [autosaveEnabled, setAutosaveEnabledState] = useState(true);
+  useEffect(() => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const autosaveEnabledJSON = JSON.parse(
+        localStorage.getItem(LOCAL_STORAGE_KEYS.AUTOSAVE_ENABLED_JSON) ?? ""
       );
+      if (typeof autosaveEnabledJSON === "boolean") {
+        setAutosaveEnabledState(autosaveEnabledJSON);
+      }
+    } catch {
+      /* empty */
+    }
+  }, []);
+
+  const setAutosaveEnabled = useCallback((enabled: boolean) => {
+    localStorage.setItem(
+      LOCAL_STORAGE_KEYS.AUTOSAVE_ENABLED_JSON,
+      JSON.stringify(enabled)
+    );
+    setAutosaveEnabledState(enabled);
+  }, []);
+
+  const saveCalculatorInput = useCallback(
+    (calculatorInput: CalculatorInput) => {
+      if (autosaveEnabled) {
+        localStorage.setItem(
+          LOCAL_STORAGE_KEYS.CALCULATOR_INPUT_JSON,
+          calculatorInputToJSON(calculatorInput)
+        );
+      }
     },
-    [calculatorInputJSONState]
+    [autosaveEnabled]
   );
 
   const contextValue: SaveDataContextValue = {
-    calculatorInputJSON: calculatorInputJSONState,
-    setCalculatorInputJSON,
-    changesPresent,
-    saveDataToLocalStorage,
+    initialSavedCalculatorInput,
+    saveCalculatorInput,
+    autosaveEnabled,
+    setAutosaveEnabled,
   };
 
   return (

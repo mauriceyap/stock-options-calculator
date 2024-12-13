@@ -1,11 +1,13 @@
 import { createContext } from "react";
 
-export interface SaveDataContextValue {
-  calculatorInputJSON: string;
-  setCalculatorInputJSON: (calculatorInputJSON: string) => void;
+import { CalculatorInput } from "../../calculator/types/inputs";
 
-  changesPresent: boolean;
-  saveDataToLocalStorage: () => void;
+export interface SaveDataContextValue {
+  initialSavedCalculatorInput: CalculatorInput | null;
+  saveCalculatorInput: (calculatorInput: CalculatorInput) => void;
+
+  autosaveEnabled: boolean;
+  setAutosaveEnabled: (enabled: boolean) => void;
 }
 
 export const SaveDataContext = createContext<SaveDataContextValue | undefined>(
