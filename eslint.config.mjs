@@ -58,7 +58,7 @@ export default [
           "./tsconfig.node.json",
           "./tsconfig.app.json",
         ],
-        tsconfigRootDir: "/Users/mauriceyap/stock-options-calculator",
+        tsconfigRootDir: ".",
       },
     },
 
