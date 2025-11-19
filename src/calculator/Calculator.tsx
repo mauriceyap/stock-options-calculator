@@ -1,5 +1,11 @@
 import { AddCircle } from "@mui/icons-material";
-import { Alert, Button, Grid2, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Button as MuiButton,
+  Grid2,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 
 import { SPACING } from "../common/spacing";
@@ -32,6 +38,7 @@ import {
 import { taxRatesInputReducer } from "./taxRatesInputReducer";
 import { AllocationInput, CompanyInput } from "./types/inputs";
 import { useCalculateWebWorker } from "./useCalculateWebWorker";
+import { Button } from "@/components/ui/button";
 
 const defaultTaxRatesInputValue: TaxRatesInput = {
   taxYearInput: defaultTaxYear,
@@ -227,20 +234,23 @@ export const Calculator = () => {
                 )
               )}
               <Button
-                startIcon={<AddCircle />}
-                fullWidth
-                size="small"
-                variant={
-                  calculatorInput.companies.length === 0
-                    ? "contained"
-                    : "outlined"
-                }
+                // startIcon={<AddCircle />}
+                // fullWidth
+                // size="small"
+                // variant={
+                //   calculatorInput.companies.length === 0
+                //     ? "contained"
+                //     : "outlined"
+                // }
+
+                size="default"
+                variant="additive"
                 color="success"
                 onClick={() => {
                   setAddCompanyDialogOpen(true);
                 }}
               >
-                Add a company
+                <AddCircle fontSize="inherit" /> Add a company
               </Button>
               <EditCompanyDetailsDialog
                 addCompany
