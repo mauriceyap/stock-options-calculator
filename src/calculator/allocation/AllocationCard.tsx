@@ -1,6 +1,6 @@
 import { DeleteRounded, EditRounded } from "@mui/icons-material";
+import { Button } from "@/components/ui/button";
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -147,24 +147,22 @@ export const AllocationCard = ({
         </CardContent>
         <CardActions>
           <Button
-            size="small"
-            color="primary"
-            startIcon={<EditRounded />}
-            variant="outlined"
+            size="sm"
+            variant="secondary"
             onClick={() => {
               setEditDialogOpen(true);
             }}
           >
-            Edit
+            <EditRounded fontSize="inherit" /> Edit
           </Button>
           {deleteAllocation && (
             <Button
-              size="small"
+              size="sm"
+              variant="destructive"
               color="error"
-              startIcon={<DeleteRounded />}
               onClick={deleteAllocation}
             >
-              Remove
+              <DeleteRounded fontSize="inherit" /> Remove
             </Button>
           )}
         </CardActions>

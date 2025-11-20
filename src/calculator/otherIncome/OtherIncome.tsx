@@ -1,12 +1,6 @@
 import { EditRounded } from "@mui/icons-material";
-import {
-  Alert,
-  Button,
-  IconButton,
-  Stack,
-  Typography,
-  styled,
-} from "@mui/material";
+import { Button } from "@/components/ui/button";
+import { Alert, IconButton, Stack, Typography, styled } from "@mui/material";
 import { useState } from "react";
 
 import { formatGBP } from "../../common/formatGBP";
@@ -79,7 +73,7 @@ export const OtherIncome = ({
           <>
             <div>
               <Button
-                variant="contained"
+                variant="default"
                 color="success"
                 onClick={() => {
                   setEditDialogOpen(true);

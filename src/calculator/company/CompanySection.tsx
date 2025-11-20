@@ -8,7 +8,6 @@ import {
   TrendingUp,
 } from "@mui/icons-material";
 import {
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -19,6 +18,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { Button } from "@/components/ui/button";
 import dayjs from "dayjs";
 import { Children, ReactNode, useState } from "react";
 
@@ -178,15 +178,13 @@ export const CompanySection = ({
             <ShareAllocationsHeadingContainer>
               <Typography variant="h6">Share allocations</Typography>
               <Button
-                color="success"
-                variant="contained"
-                startIcon={<AddBox />}
+                variant="additive"
                 onClick={() => {
                   setAddAllocationDialogOpen(true);
                 }}
-                size="small"
+                size="sm"
               >
-                Add a share allocation
+                <AddBox fontSize="inherit" /> Add a share allocation
               </Button>
               <EditAllocationDetailsDialog
                 addAllocation

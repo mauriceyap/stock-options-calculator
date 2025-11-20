@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@/components/ui/button";
 import {
-  Button,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -110,8 +110,7 @@ export const TaxRates = ({
                   {field.value === "custom" && (
                     <div>
                       <Button
-                        fullWidth
-                        variant="outlined"
+                        variant="default"
                         onClick={() => {
                           setEditCustomTaxYearConfigDialogOpen(true);
                         }}

@@ -1,11 +1,5 @@
 import { AddCircle } from "@mui/icons-material";
-import {
-  Alert,
-  Button as MuiButton,
-  Grid2,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Alert, Grid2, Stack, Typography } from "@mui/material";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 
 import { SPACING } from "../common/spacing";
@@ -234,18 +228,8 @@ export const Calculator = () => {
                 )
               )}
               <Button
-                // startIcon={<AddCircle />}
-                // fullWidth
-                // size="small"
-                // variant={
-                //   calculatorInput.companies.length === 0
-                //     ? "contained"
-                //     : "outlined"
-                // }
-
                 size="default"
                 variant="additive"
-                color="success"
                 onClick={() => {
                   setAddCompanyDialogOpen(true);
                 }}

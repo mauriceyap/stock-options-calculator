@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@/components/ui/button";
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -73,11 +73,11 @@ export const EditOtherIncomeDialog = ({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} variant="outlined">
+        <Button onClick={onClose} variant="outline">
           Cancel
         </Button>
         <Button
-          variant="contained"
+          variant="default"
           type="submit"
           onClick={handleSubmit((values) => {
             onChange(values.otherIncome);

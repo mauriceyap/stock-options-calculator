@@ -1,7 +1,7 @@
 import { ArrowDropDown } from "@mui/icons-material";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Button } from "@/components/ui/button";
 import {
-  Button,
-  ButtonGroup,
   ClickAwayListener,
   ClickAwayListenerProps,
   Grow,
@@ -84,8 +84,10 @@ export const ResetCustomTaxYearValuesButtonGroup = ({
           </Grow>
         )}
       </TaxYearOptionsPopper>
-      <ButtonGroup variant="outlined" color="secondary" ref={anchorRef}>
+      <ButtonGroup ref={anchorRef}>
         <Button
+          size="sm"
+          variant="outline"
           onClick={() => {
             onReset(taxYearValuesToReset);
           }}
@@ -94,7 +96,8 @@ export const ResetCustomTaxYearValuesButtonGroup = ({
           year
         </Button>
         <Button
-          size="small"
+          variant="outline"
+          size="sm"
           onClick={() => {
             setOpen((prev) => !prev);
           }}
